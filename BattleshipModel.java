@@ -18,13 +18,13 @@ public interface Battleship {
 
     public void resetGame();
 
-    public String getPlayerBoard(int player);
+    public Board getPlayerBoard(Player player);
 
-    public boolean placeShip(int player, ShipInterface ship, Location head, Location tail);
+    public boolean placeShip(Player player, ShipInterface ship, Location head, Location tail);
 
-    public Location getShip(int player, ShipType ship);
+    public Location getShip(Player player, ShipType ship);
 
-    public ShotResult makeShot(int player, Location target);
+    public ShotResult makeShot(Player player, Location target);
 
 }
 
@@ -36,6 +36,7 @@ class Location {
 
 class Board {
     ShipInterface[] getShips;
+}
 
 class Player {
     Board getBoard();
@@ -44,8 +45,6 @@ class Player {
 class ShotResult {
     Status shotResult;
     ShipType hitShip;
-}
-
 }
 
 interface ShipInterface {
@@ -60,7 +59,10 @@ enum PlayMode {
     SETUP_MODE,
     PLAY_MODE
 }
-// @Todo Jessie - Add comments
+
+// @Todo Jesse - Add comments
+
+// Enumeration of ship types supported by the game.
 enum ShipType {
     AIRCRAFT_CARRIER,
     DESTROYER,
@@ -68,12 +70,7 @@ enum ShipType {
     CRUISER
 }
 
-enum Orientation {
-    HORIZONTAL,
-    VERTICAL,
-    DIAGONAL
-}
-
+// Enumeration of the possible statuses of an attempted shot.
 enum Status {
     MISS,
     HIT,
