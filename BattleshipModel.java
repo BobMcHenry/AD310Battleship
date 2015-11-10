@@ -7,6 +7,7 @@
  * @author Mario Rodriguez
  **/
 
+// @TODO Mario - Add Javadoc
 public interface Battleship {
 
     public PlayMode getPlayMode();
@@ -27,22 +28,24 @@ public interface Battleship {
 
 }
 
+// @Todo Chris - Add Comments
 class Location {
     char row;
     int column;
 }
 
+class Board {
+    ShipInterface[] getShips;
+
+class Player {
+    Board getBoard();
+}
+ // @Todo Bob - Add Comment
 class ShotResult {
     Status shotResult;
     ShipType hitShip;
 }
 
-class Player {
-    Board getBoard();
-}
-
-class Board {
-    ShipInterface[] getShips;
 }
 
 interface ShipInterface {
@@ -57,7 +60,7 @@ enum PlayMode {
     SETUP_MODE,
     PLAY_MODE
 }
-
+// @Todo Jessie - Add comments
 enum ShipType {
     AIRCRAFT_CARRIER,
     DESTROYER,
