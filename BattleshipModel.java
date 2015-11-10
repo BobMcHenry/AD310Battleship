@@ -74,6 +74,6 @@ enum ShipType {
 enum Status {
     MISS,
     HIT,
-    SUNK
+    INVALID
 }
 
