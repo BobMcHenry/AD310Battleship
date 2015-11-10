@@ -12,14 +12,14 @@ public interface Battleship {
     public PlayMode getPlayMode();
     public PlayMode setPlayMode(PlayMode playMode);
 
-    public int getActivePlayer();
-    public void setActivePlayer(int playerNum);
+    public Player getActivePlayer();
+    public void setActivePlayer(Player player);
 
     public void resetGame();
 
     public String getPlayerBoard(int player);
 
-    public boolean placeShip(int player, ShipType ship, Location location, Orientation orientation);
+    public boolean placeShip(int player, ShipInterface ship, Location head, Location tail);
 
     public Location getShip(int player, ShipType ship);
 
@@ -37,12 +37,20 @@ class ShotResult {
     ShipType hitShip;
 }
 
-class Board{
-
+class Player {
+    Board getBoard();
 }
 
-class Ship {
-    ShipType type;
+class Board {
+    ShipInterface[] getShips;
+}
+
+interface ShipInterface {
+    ShipType getShipType();
+    Location[] getLocation();
+    boolean isSunk();
+    int getSize();
+    String toString();
 }
 
 enum PlayMode {
