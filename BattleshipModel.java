@@ -8,7 +8,7 @@
  **/
 
 // @TODO Mario - Add Javadoc
-public interface Battleship {
+public interface BattleshipModel {
 
     public PlayMode getPlayMode();
     public PlayMode setPlayMode(PlayMode playMode);
@@ -20,12 +20,13 @@ public interface Battleship {
 
     public Board getPlayerBoard(Player player);
 
-    public boolean placeShip(Player player, ShipInterface ship, Location head, Location tail);
+    public boolean placeShip(Player player, Ship ship, Location head, Location tail);
 
     public Location getShip(Player player, ShipType ship);
 
     public ShotResult makeShot(Player player, Location target);
-
+    
+    public Player getWinner();
 }
 
 // @Todo Chris - Add Comments
@@ -38,6 +39,7 @@ class Location {
     //fields to store in location array
     char row;
     int column;
+    Status state;
 }
 
 /**
@@ -45,27 +47,33 @@ class Location {
  * location array of ships, status of sunken ships, size of ship, and toString override. 
  */
 class Board {
-    ShipInterface[] getShips;
+     Ship[] getShips;
 }
 
 /**
  * Player class to store the players board object and retrieve all previous state information from the above hierarchy
  */
-class Player {
-    Board getBoard();
+abstract class Player {
+    abstract Board getBoard();
 }
  // @Todo Bob - Add Comment
+/**
+ * 
+ */
 class ShotResult {
     Status shotResult;
     ShipType hitShip;
 }
 
-interface ShipInterface {
-    ShipType getShipType();
-    Location[] getLocation();
-    boolean isSunk();
-    int getSize();
-    String toString();
+abstract class Ship {
+    int size;
+    Location[] placement;
+    
+    abstract ShipType getShipType();
+    abstract Location[] getLocation();
+    abstract boolean isSunk();
+    abstract int getSize();
+    
 }
 
 enum PlayMode {
