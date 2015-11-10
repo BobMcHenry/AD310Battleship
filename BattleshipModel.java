@@ -1,3 +1,5 @@
+package AD310Battleship;
+
 /**
  * Interface for Battleship Model
  *
@@ -137,7 +139,7 @@ abstract class ShotResult {
 }
 
 /**
- * Ship class stub. 
+ * Ship class, to be extended to individual ship classes. 
  */
 abstract class Ship {
     // Type of ship being created
