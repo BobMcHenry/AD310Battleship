@@ -59,7 +59,7 @@ public interface BattleshipModel {
     *@return true if the ship is succefully placed
     *@throws IllegalArgumentException if ship placement is not legal. 
     */
-    public boolean placeShip(Player player, Ship ship, Location head, Location tail);
+    public boolean placeShip(Player player,Ship ship,Location head,Location tail);
 
     /**
     *Returns an array of Locations currently occupied by the ship. 
@@ -70,10 +70,12 @@ public interface BattleshipModel {
     public Location[] getShipLocations(Player player, ShipType ship);
 
     /**
-    *Returns the result of the shot fired by the specified player, i.e. hit or miss
+    *Returns the result of the shot fired by the specified player, i.e. hit or 
+    *miss
     *@param player Player firing shot
     *@param target Location of attack
-    *@return the resuld of the shot fired by the specified player at the specified location
+    *@return the resuld of the shot fired by the specified player at the 
+    *specified location
     */
     public ShotResult makeShot(Player player, Location target);
     
@@ -92,7 +94,7 @@ public interface BattleshipModel {
 }
 
 /**
- *Location class. Will be used to store inside the ShipInterface Location array.
+ *Location class. Will be used to store inside the Ship Location array.
  * Stores row/column values for checking state of Board objects for
  * ship placement, shot placement, and state of sunken ships.
  */
@@ -104,15 +106,18 @@ class Location {
 }
 
 /**
- * Board class, stores an array of ShipInterfaces for updating model state for ship types stored,
- * location array of ships, status of sunken ships, size of ship, and toString override. 
+ * Board class, stores an array of Ship objects for updating model state for 
+ * ship types stored,
+ * location array of ships, status of sunken ships, size of ship, and toString 
+ * override. 
  */
 class Board {
      Ship[] shipArr;
 }
 
 /**
- * Player class to store the players board object and retrieve all previous state information from the above hierarchy
+ * Player class to store the players board object and retrieve all previous 
+ * state information from the above hierarchy
  */
 abstract class Player {
     abstract Board getBoard();
@@ -120,8 +125,8 @@ abstract class Player {
 
 
 /**
- * Shot record class for each shot. Stores reference to player who made the shot, 
- * shot coordinates, and type of ship if applicable. 
+ * Shot record class for each shot. Stores reference to player who made the 
+ * shot. shot coordinates, and type of ship if applicable. 
  */
 abstract class ShotResult {
     Player shootingPlayer;
