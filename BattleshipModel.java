@@ -1,5 +1,3 @@
-package AD310Battleship;
-
 /**
  * Interface for Battleship Model
  *
