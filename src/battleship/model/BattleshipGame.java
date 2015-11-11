@@ -1,6 +1,6 @@
 package battleship.model;
 
-public class BattleshipGameimplements BattleshipModel{
+public class BattleshipGame implements BattleshipModel{
 
     Player p1;
     Player p2;
