@@ -19,7 +19,7 @@ public interface BattleshipModel {
     * @param playMode The Playmode enum value being assigned.
     * @return the play mode that was implemented
     */
-    public PlayMode setPlayMode(PlayMode playMode);
+    public void setPlayMode(PlayMode playMode);
     
     /**
     * Returns the player that is currently on the offensive
