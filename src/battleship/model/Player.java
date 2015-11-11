@@ -15,6 +15,5 @@ class Player{
 
     String getName(){
         return name;
-    }
-
+    }   
 }

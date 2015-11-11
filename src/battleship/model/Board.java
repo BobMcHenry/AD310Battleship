@@ -8,8 +8,8 @@ class Board{
         return ships;
      }
 
-    ShotResults[] getShots{
-        return shots;
-    }
+    ShotResults[] getShots(){
+        return shotReport;
+    }    
 
 }
