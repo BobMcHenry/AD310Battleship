@@ -1,7 +1,6 @@
 #Battleship Model package
 
-##Add package battleship.model to each class file and make sure all files marked in this package 
-live in the src/battleship/model directory. 
+##Add package battleship.model to each class file and make sure all files marked in this package live in the src/battleship/model directory. 
 
 ###Our design is as follows. 
 * BattleshipModel - public interface
