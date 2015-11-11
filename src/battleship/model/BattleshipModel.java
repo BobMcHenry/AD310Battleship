@@ -28,11 +28,6 @@ public interface BattleshipModel {
     public Player getActivePlayer();
     
     /**
-     * 
-     * @return true is game is in setup mode, false in playmode. 
-     */
-    public boolean isSetupMode();
-    /**
     * Sets the specified player for offensive play
     * @param player Player being set to offense.
     */
