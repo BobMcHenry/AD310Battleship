@@ -1,4 +1,4 @@
-package battlehip.model;
+package battleship.model;
 
 enum Status {
     MISS,

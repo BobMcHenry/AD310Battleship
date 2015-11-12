@@ -2,13 +2,13 @@ package battleship.model;
 
 class Board{
     Ship[] ships;
-    ShotResults[] shotReport;
+    ShotResult[] shotReport;
     
     Ship[] getShips(){
         return ships;
      }
 
-    ShotResults[] getShots(){
+    ShotResult[] getShots(){
         return shotReport;
     }    
 

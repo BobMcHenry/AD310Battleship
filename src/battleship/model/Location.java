@@ -1,11 +1,11 @@
 package battleship.model;
 
 public class Location {
-	Char row;
+	char row;
 	int column;
 	Status state;
 	
-	Location(Char r, int c) {
+	Location(char r, int c) {
 		this.row = r;
 		this.column = c;
 	}	

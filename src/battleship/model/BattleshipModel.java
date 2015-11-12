@@ -156,7 +156,7 @@ abstract class Ship {
 // Enum states for Setup and Playmode. 
 enum PlayMode {
     SETUP_MODE,
-    PLAY_MODE
+    PLAY_MODE;
 }
 
 
@@ -165,13 +165,13 @@ enum ShipType {
     AIRCRAFT_CARRIER,
     DESTROYER,
     BATTLESHIP,
-    CRUISER
+    CRUISER;
 }
 
 // Enumeration of the possible statuses of an attempted shot.
 enum Status {
     MISS,
     HIT,
-    INVALID
+    INVALID;
 }
 
