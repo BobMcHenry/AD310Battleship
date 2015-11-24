@@ -10,7 +10,9 @@ P2Board.java
 
 MainVC is the main method. MainVC instantiates a ViewCon class. The ViewCon class is our communication
 class between the model and the View/Controller.
-It will be responsible for querying the model during setup to verify the ships placement positions, 
+
+It will be responsible for instantiating a BattleShipGame class, and from then on
+querying the model during setup to verify the ships placement positions, 
 and will be responsible for telling the model to exit setup mode and enter game mode.
 
 Steps:
