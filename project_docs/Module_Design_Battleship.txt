@@ -1,17 +1,23 @@
 The Three Beards
 BattleShip
-Software Design Description (SDD)
+Version 1.0
+Software Design Document (SDD)
 
-Bob McHenry
-Chris Wilson
-Jesse Bernoudy
-Mario Rodriguez
+AD310 Exam 2: Dsign Document
 
-November 19, 2015
+Authors:
+	Bob McHenry
+	Chris Wilson
+	Jesse Bernoudy
+	Mario Rodriguez
 
+Date:
+	November 19, 2015
 
 
 1. Introduction
+
+	
 	1.1 Purpose
 	
 		This SDD describes the architecture and system design of the Battleship
@@ -20,41 +26,43 @@ November 19, 2015
 		
 	1.2 Scope
 	
-		The scope of this project is to initiate a Battleship game between two players, and
-		see the game to its conclusion, i.e. the victory of one player over the other.  We 
-		intend for this game to be fun, and enjoyable for anyone, ages 8+.  This implementation 
+		The scope of the Battleship project is to initiate a Battleship game between two players and
+		carry out the game to its conclusion, i.e. the victory of one player over the other.  We 
+		intend for this game to be fun and enjoyable for anyone, ages 8+.  This implementation 
 		of Battleship will be carried out in a degital frame.
 		
 	1.3 Overview
 	
-		This document will cover the primary design of this implementation of Battleship, as its
-		authors envision the game procedures and the user interfaces. The document is organized in 
-		the following way. First we have a system overview will be presented, followed by the system 
-		architecture, where the various components of the game will be laid out.  The system architecture
-		will be followed by the user interface and concluded with the user interface.
+		This document covers the primary design of this implementation of Battleship, as it is
+		envisioned byt the authors of the program being built. The document is organized by first 
+		providing a system overview followed by the system architecture, data design, precedural design
+		human interface design, requirements matrix and work plan.
 		
 	1.4 Reference Material
 	
-		This implementation of Battleship is inspired by the .pdf game which can be found at 
+		This implementation of Battleship is inspired by the paper based game which can be found at 
 		http://funorama.com/files/battleships.pdf.  The game will be conducted as described in
-		the instruction of that implementation
+		the instruction of that implementation, but in a digital frame.
 		
 	1.5 Definitions and Acronyms
 		The Board - A 10x10 grid of positions/units
 		Ships :
 			Aircraft Carrier - five units in length
 			Battleship - four units in length
-			Cruiser - Three units in length
+			Cruiser - Three units in length	
 			Destroyers - Two units in length
 	
 2. System Overview
 	
-	This program is an implementation of the Battleship game in a digital format.  This implementation 
-	attempts to capture the analog version of the game using digital interfaces.  The game will consist of
-	two players, setting up five(5) ships each, as described in the Definitions 1.5, on a board that is 10x10 
-	square units.  Once the ships have been set the players will take turns attempting to sink the opposing 
-	player ships; the first player to accomplish the sinking of his enemie's ships will be crowned the king of 
-	everything! Good luck and god speed!
+	This program is an implementation of the Battleship game in a digital format.  This 	
+	implementation attempts to capture the analog 	version of the game using digital interfaces and model.  
+	The game will consist of two players, setting up five(5) ships each, as described in the 
+	Definitions 1.5, on unique player boards. Players are allowed to place theirs ships in any manner
+	on their respective boards, with the exception of overlapping ships and within bounds of the board.
+	This will be the setup game phase of the system. Once the ships have been set, the battle phase of the sytem will
+	begin. The players will take turns attempting to sink the opposing player ships. The system will be updated
+	as necessary to keep track of the shots fired, whether a ship as been hit and the current active player.  The
+	game will declare a winner when a player has sunk his opponent's ships.
 	
 3. System Architecture
 
@@ -62,28 +70,36 @@ November 19, 2015
 	
 		BattleshipModel - Public Interface.
 			Base for all games of Battleship with this implementation
+
 		BattleshipGame - Public class implementing the model.
 			Game instantiation for this implementation of Battleship
+
 		Player - Package private helper class.
 			Class that defines the player(s), two to be instantiated once game begins,
 			creating the to opposing players.
+
 		Board - Package private helper class.
 			Class which stores and array of ship objects for updating modle state for 
 			ship types stored
+
 		Ship - Package private helper class
 			Class that will be used to instantiate the respective ships. Each ship will
 			keep track of it's state and will relay that information to the BattleshipGame
 			as required.
+
 		Location - Package private helper class
 			Class that represents the status of one square on the playing board. 
 			Uses a char, int pair as the coordinate system where char maps to the row,
 			and int maps to the column.  The column numberrs increase as you move left, 
 			thhe rows decreaase with J being the bottom most row.
+
 		ShotResult - Package private helper class
 			Class to record shots, this class stores the player who made the shot, shot coordinates,
 			and type of ship if applicable
+
 		ShipType - Package private helper class
 			Enumeration of ship types supported by the game.
+
 		PlayMode - Package private helper class
 			Enumeration for Setup and Playmode.
 		
@@ -101,6 +117,7 @@ November 19, 2015
 		states (hit, or not).
 	
 4. Data Design
+
 	4.1 Data Description
 	
 		The instantiation of a game object will be initiated by the Controler/View (CV) component of the
@@ -195,3 +212,5 @@ November 19, 2015
 	6.3 Screen objects and Actions //
 	
 7. Requrements Matrix
+
+	Add a synopsis of our requirements
