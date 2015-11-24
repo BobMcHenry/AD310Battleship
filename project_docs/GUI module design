@@ -1,0 +1,51 @@
+Battleship
+View/Controller Initialization and GUI design
+
+Classes:
+MainVC.java
+ViewCon.java
+PreBoard.java
+P1Board.java
+P2Board.java
+
+MainVC is the main method. MainVC instantiates a ViewCon class. The ViewCon class is our communication
+class between the model and the View/Controller.
+It will be responsible for querying the model during setup to verify the ships placement positions, 
+and will be responsible for telling the model to exit setup mode and enter game mode.
+
+Steps:
+ViewCon will create 3 instances: A PreBoard, P1Board, and P2Board. The PreBoard is responsible for getting the username 
+from both player1 and player2. After PreBoard has done its work it will close and be forgotten.
+
+ViewCon will then call the start method on the PreBoard, P1Board, and P2Board. After all boards have been set and 
+verified, PreBoard will be closed, and the game will officially leave setup mode and enter game mode.
+
+For the rest of the game, when the user makes inputs, the ViewCon	 will pass user input to the model, which will 
+validate and process input, and send a query back to the view/controller to update the game view. 
+
+Visuals:
+The user setup window will pop up upon instantiation of the main call. It will demand the user type a name. If the 
+user leaves the name field blank, the players name will default to “Player1”. After the submit button is clicked on 
+the setup window, the first players game setup board will show. The window will ask the user to pick a ship from a 
+choice of 5 buttons. After the ship is picked, all buttons will disable to prevent the user from clicking any other 
+ships until the first ship is verified by the model and placed. After the first ship is placed, the corresponding 
+button will disappear and the remaining buttons will re-enable, asking the user to pick their second ship for 
+placement. This will go on until everything has been validated, and all classes have been instantiated and set on the
+model side. At this point, the player setup board will hide, which will then show the user setup window for a second 
+time. This time, the user setup window will act as it did above, however it will save the username for player 2, and 
+open up player 2’s setup board. The player2 setup board will behave in the same way as above, until all of player 2’s 
+ships have been validated and placed. At this point in time, the view/controller will notify the model to exit setup 
+mode and enter game mode.
+
+Game Mode:
+By default, Player 1’s board will show first, and it will be player 1’s turn for the first offensive move. The user 
+will click on any of the buttons on the 100 button grid, and the view/controller will query the model with a 
+corresponding location. If the model returns a hit, the corresponding grid background image will change to the “hit” 
+image. If the model returns a miss, the corresponding grid background image will change to the “miss” image. As soon as
+the player sinks an enemy ship, there will be a sub window on the right side of the offensive player’s board that will
+update and keep track of enemy ships sunk. There will be no graphics here, just a list of the name of the enemy ship 
+sunk. Once a player successfully sinks all the enemy ships, the game will immediately suspend, and the winning player’s 
+board will display a notification stating that they have won, whilst the defensive player will receive a notification 
+stating that they have lost. Either player will be able to click a button to either reset and start a new game, or to
+close the application.
+
