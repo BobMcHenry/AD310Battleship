@@ -1,0 +1,505 @@
+The Three Beards
+BattleShip
+Version 1.0
+Software Design Document (SDD)
+
+AD310 Exam 2: Design Document
+
+Authors:
+	Bob McHenry
+	Chris Wilson
+	Jesse Bernoudy
+	Mario Rodriguez
+
+Date:
+	November 24, 2015
+
+
+1. Introduction
+
+	
+	1.1 Purpose
+	
+		This SDD describes the architecture and system design of the Battleship
+		game implementation reuquired for AD310 Software Lifecycles final 
+		project. This SDD will highlight the overall design of our 
+		implementation.
+		
+	1.2 Scope
+	
+		The scope of the Battleship project is to initiate a Battleship game 
+		between two players and carry out the game to its conclusion, i.e. the 
+		victory of one player over the other.  We intend for this game to be 
+		fun and enjoyable for anyone, ages 8+.  This implementation of 
+		Battleship will be carried out in a digital frame.
+
+		
+	1.3 Overview
+	
+		This document covers the primary design of this implementation of 
+		Battleship, as it is envisioned by the authors of the program being 
+		built. The document is organized by first providing a system overview 
+		followed by the system architecture, data design, procedural design 
+		human interface design, requirements matrix and work plan.
+		
+	1.4 Reference Material
+	
+		This implementation of Battleship is inspired by the paper based game 
+		which can be found at http://funorama.com/files/battleships.pdf.  The 
+		game will be conducted as described in the instruction of that 
+		implementation, but in a digital frame.
+		
+	1.5 Definitions and Acronyms
+		The Board - A 10x10 grid of positions/units
+		Ships :
+			Aircraft Carrier - five units in length
+			Battleship - four units in length
+			Cruiser - Three units in length	
+			Destroyers - Two units in length
+	
+2. System Overview
+	
+	This program is an implementation of the Battleship game in a digital 
+	format.  This implementation attempts to capture the analog 	version of 
+	the game using digital interfaces and model.  
+	The game will consist of two players, setting up five(5) ships each, as 
+	described in the Definitions 1.5, on unique player boards. Players are 
+	allowed to place theirs ships in any manner on their respective boards, 
+	with the exception of overlapping ships and within bounds of the board. 
+	This will be the setup game phase of the system. Once the ships have been 
+	set, the battle phase of the sytem will begin. The players will take turns 
+	attempting to sink the opposing player ships. The system will be updated 
+	as necessary to keep track of the shots fired, whether a ship as been hit 
+	and the current active player. The game will declare a winner when a 
+	player has sunk his opponent's ships.
+	
+3. System Architecture
+
+	3.1 Architectural Design.
+	
+		BattleshipModel - Public Interface.
+			Base for all games of Battleship with this implementation
+
+		BattleshipGame - Public class implementing the model.
+			Game instantiation for this implementation of Battleship
+
+		Player - Package private helper class.
+			Class that defines the player(s), two to be instantiated once game 
+			begins, creating the two opposing players.
+
+		Board - Package private helper class.
+			Class which stores and array of ship objects for updating model 
+			state for ship types stored
+
+		Ship - Package private helper class
+			Class that will be used to instantiate the respective ships. Each 
+			ship will keep track of it's state and will relay that 
+			information to the BattleshipGame as required.
+
+		Location - Package private helper class
+			Class that represents the status of one square on the playing 
+			board. Uses a char, int pair as the coordinate system where char 
+			maps to the row, and int maps to the column.  The column numberrs 
+			increase as you move left, the rows decreaase with J being the 
+			bottom most row.
+
+		ShotResult - Package private helper class
+			Class to record shots, this class stores the player who made the 
+			shot, shot coordinates, and type of ship if applicable
+
+		ShipType - Package private helper class
+			Enumeration of ship types supported by the game.
+
+		PlayMode - Package private helper class
+			Enumeration for Setup and Playmode.
+		
+		
+	3.2 Design Rationale
+	
+		By breaking up the major components for the game action, objects, and 
+		state we felt that the implementation of the game is much simpler, 
+		i.e. every object keeps track of its state and reports it as needed as 
+		opposed to having one main class do all of the heavy lifting. In 
+		simpler terms the idea was that a player has a board, a board has the 
+		ships, the ships have states (hit, or not).
+	
+4. Data Design
+
+	4.1 Data Description
+	
+		The instantiation of a game object will be initiated by the Controler/
+		View (CV) component of the Battleship package. From initiation to game 
+		setup each class will instantiate the next class, i.e. the 
+		BattleshipGame will create two players, each player will create their 
+		boards that will create ships.  The ships will keep track of their 
+		state and report up the chain to update the game Model as needed.  The 
+		board will keep track of ship position and shots.  Each player will 
+		have a board that will keep track of their play. All states will be 
+		held by their respective object in private fields, no database or 
+		duplicate fields higher up on the chain are utilized or allowed.
+				
+	4.2 Data Dictionary
+	
+		BattleshipGame:
+			Fields
+				Player p1;
+				Player p2;
+				Player activePlayer;
+				
+			Methods
+				getPlayMode();
+				setPlayMode(PlayMode value);
+				getActivePlayer();
+				setActivePlayer(Player p);
+				resetGame();
+				getPlayerBoard(Player p);
+				placeShip(Player p, Ship s, Location head, Location tail);
+				getShipLocations(Player p, ShipType st);
+				makeShot(Player p, Location target);
+				getWinner();
+				isGameOver();
+		Board(s):
+			Fields
+				Ship[] ships;
+				ShotResult[] shotReport;
+			
+			Methods
+				getShip();
+				getShots();
+				
+		Location
+			Fields
+				String VALID_ROWS = "AaBbCcDcEeFeGgHhJj";
+				char row;
+				int column;
+				Status state;
+				
+			Methods
+				getRow();
+				getColumn();
+				getStatus();
+				setStatus();
+		Player
+			Fields
+				String name;
+				Board pBoard;
+				
+			Methods
+				getBoard();
+				getName();
+				
+		Ship
+			Fields
+				ShipType type;
+				
+			Methods
+				getShipType();
+				getLocation();
+				isSunk();
+				getSize();
+				getCoords();
+				
+		ShotResults
+			Fields
+				Player shootingPlayer;
+				Location shotCoords:
+				ShipType hitShip;
+				
+			Methods
+				getShootingPlayer();
+				getShotCoords;
+				get hitShip();
+		
+	
+5. Procedural Design
+	
+	5.1 Ship
+
+		Creates a new ship. The ship will take the head and tail information 
+		and make an array of locations for the squares it occupies.
+		Ship(ShipType shipType, Location head, Location tail)
+
+		Checks every location against the other ships location to ensure no 
+		overlap
+		boolean ovelaps (ship other)
+
+		Checks every location against the other ships location to ensure no 
+		overlap
+		boolean intersects (ship other)
+
+		Gets the number of squares this ship occupies
+		static int getSize(ShipType)
+
+	5.2 Board
+
+		Checks a location to make sure it is on the board
+		boolean contains(Location[] location)
+
+	5.3 Player
+
+		Gets a list of unplaced ships in the player's inventory
+		ShipType[] getUnplacedShips();
+
+		Gets player designation (i.e. 1 or 2 for a 2 player game)
+		int getDesignation()
+
+	5.4 Game
+
+		Creates a new player
+		Player createPlayer(String name);
+
+		Attempts to move an already placed ship, does the same checks as place 
+		ship
+		boolean moveShip(place shipType, head tail)
+
+		Trys to place a new ship on the board and adds it to the player
+		boolean placeShip(Player player, ShipType ship, Location head, 
+		Location tail)
+
+
+	5.5 Flow
+
+		Create game.
+		Create players.
+		Start setup mode
+		For each unplaced ship of player one attempt to place it.
+		  Check ship placement is valid
+		  Make sure the head and tail do not make the ship larger than it's 
+		  size
+		  Make sure the new ship is contained on the board
+		  Make sure the ship does not overlap an already placed ship
+		  Make sure the ship does not intersect an already placed ship
+		Return true if the ship is placed successfully,
+
+6. Human Interface Design
+	
+	6.1 Overview of User Interface
+		**User interface design with javafx package. 
+		
+		6.1.1 Classes
+			MainVC.java
+			ViewCon.java
+			PreBoard.java
+			P1Board.java
+			P2Board.java
+
+			MainVC is the main method. MainVC instantiates a ViewCon class. 
+			The ViewCon class is our communication class between the model and 
+			the View/Controller.
+
+			It will be responsible for instantiating a BattleShipGame class, 
+			and from then on querying the model during setup to verify the 
+			ships placement positions, and will be responsible for telling the 
+			model to exit setup mode and enter game mode.
+
+		6.1.2 Steps
+			ViewCon will create 3 instances: A PreBoard, P1Board, and P2Board. 
+			The PreBoard is responsible for getting the username from both 
+			player1 and player2. After PreBoard has done its work it will 
+			close and be forgotten.
+
+			ViewCon will then call the start method on the PreBoard, P1Board, 
+			and P2Board. After all boards have been set and verified, PreBoard 
+			will be closed, and the game will officially leave setup mode and 
+			enter game mode.
+
+			For the rest of the game, when the user makes inputs, the ViewCon
+			will pass user input to the model, which will validate and process 
+			input, and send a query back to the view/controller to update the 
+			game view. 
+
+	6.2 Screen objects and Actions
+
+		6.2.1 Visuals
+			The user setup window will pop up upon instantiation of the main 
+			call. It will demand the user type a name. If the user leaves the 
+			name field blank, the players name will default to “Player1”. 
+			After the submit button is clicked on the setup window, the first 
+			players game setup board will show. The window will ask the user 
+			to pick a ship from a choice of 5 buttons. After the ship is 
+			picked, all buttons will disable to prevent the user from clicking 
+			any other ships until the first ship is verified by the model and 
+			placed. After the first ship is placed, the corresponding button 
+			will disappear and the remaining buttons will re-enable, asking 
+			the user to pick their second ship for placement. This will go on 
+			until everything has been validated, and all classes have been 
+			instantiated and set on the model side. At this point, the player 
+			setup board will hide, which will then show the user setup window 
+			for a second time. This time, the user setup window will act as it 
+			did above, however it will save the username for player 2, and 
+			open up player 2’s setup board. The player2 setup board will 
+			behave in the same way as above, until all of player 2’s ships 
+			have been validated and placed. At this point in time, the 
+			view/controller will notify the model to exit setup mode and enter 
+			game mode.
+
+		6.2.2 Game Mode:
+			
+			By default, Player 1’s board will show first, and it will be 
+			player 1’s turn for the first offensive move. The user will click 
+			on any of the buttons on the 100 button grid, and the 
+			view/controller will query the model with a corresponding 
+			location. If the model returns a hit, the corresponding grid 
+			background image will change to the “hit” image. If the model 
+			returns a miss, the corresponding grid background image will 
+			change to the “miss” image. As soon as the player sinks an enemy 
+			ship, there will be a sub window on the right side of the 
+			offensive player’s board that will update and keep track of enemy 
+			ships sunk. There will be no graphics here, just a list of the 
+			name of the enemy ship sunk. Once a player successfully sinks all 
+			the enemy ships, the game will immediately suspend, and the 
+			winning player’s board will display a notification stating that 
+			they have won, whilst the defensive player will receive a 
+			notification stating that they have lost. Either player will be 
+			able to click a button to either reset and start a new game, or to
+			close the application.
+	
+7. Requirements Matrix
+
+	7.1 General Requirements and Test Cases
+		7.1.1 There shall always be two players
+		7.1.2 Each player shall have one offensive grid
+		7.1.3 Each player shall have one defensive grid
+		7.1.4 Each grid shall be made up of 10 rows and 10 columns
+		7.1.5 Grid rows shall be labeled as contiguous letters from A to J
+		7.1.6 Row A shall be the top most row
+		7.1.7 Grid columns shall be labeled as contiguous integers from 1 to 10
+		7.1.8 Grid 1 shall be the left most column
+		7.1.9 Players shall never be allowed to see the other player's grids.
+		7.1.10 Aircraft carriers shall cover 5 grid spaces
+		7.1.11 Battleships shall cover 4 grid spaces
+		7.1.12 Cruisers cover shall 3 grid spaces
+		7.1.13 Destroyers shall cover 2 grid spaces
+	7.2 Setup Requirements
+		7.2.1 During setup the only legal move is to place your ships.
+		7.2.2 Players shall place their ships on their own defensive grid.
+		7.2.3 Each player shall have one aircraft carrier
+		7.2.4 Each player shall have one battleship
+		7.2.5 Each player shall have one cruiser
+		7.2.6 Each player shall have two destroyers
+		7.2.7 Ships shall not be placed in a manner where they overlap
+		7.2.8 Ships shall not be placed in a manner where they intersect
+		7.2.9 Ships shall not be placed in a manner that leaves any part of 
+		the ship off the board.
+		7.2.10 Ships may not be moved once setup mode ends.
+		7.2.11 Once all ships are placed setup mode shall end
+	7.3 Gameplay Requirements
+		7.3.1 A turn begins with one player being designated on offense, and 
+		the other on defense.
+		7.3.2 The offensive player shall identify a target square on the grid 
+		using row, column notation.
+		7.3.3 A square may only be targeted if the offensive player has not 
+		targeted it before.
+		7.3.4 The offensive player may not target a square not represented by 
+		the grid.
+		7.3.5 The defensive player shall identify if the targeted square was a 
+		hit with the response "Hit".
+		7.3.6 The defensive player shall identify if the targeted square was a 
+		hit with the response "Miss".
+		7.3.7 If all squares that a single ship resides in have been hit, that 
+		shall be indicated with the statement "you sunk my X" where X 
+		represents the type of ship.
+		7.3.8 The offensive player shall mark the targeted square with a 
+		distinct token representing the outcome on their offensive grid.
+		7.3.9 The defensive player shall mark the targeted square with a 
+		distinct token representing the outcome on their defensive grid.
+		7.3.10 The token for a hit shall be unique and unambiguous from the 
+		token for a miss.
+		7.3.11 If the player on the offensive scores a hit, then their turn 
+		shall continue.
+		7.3.12 If the player on the offensive does not score a hit, then their 
+		turn shall end.
+		7.3.13 The roles of offensive and defensive player shall be switched 
+		at the end of a turn.
+		7.3.14 The game shall end when one player has sunk all the ships on 
+		the other player's defensive grid.
+		7.3.15 The player who sunk all of their opponent's ships shall be 
+		declared the winner.
+
+8. Test Cases
+	8.1 General
+		8.1.1 Verify a game cannot be started with less than two players.
+		8.1.2 Verify a game cannot be created with more than two players
+		8.1.3 Verify there is only one offensive grid per player
+		8.1.4 Verify there is only one defensive grids per player
+		8.1.5 Try to make a grid with more than 10 rows
+		8.1.6 Try to make a grid with more than 10 columns
+		8.1.7 Try to make a grid with less than 10 rows
+		8.1.8 Try to make a grid with less than 10 columns
+		8.1.9 Try to make a grid with a non-equal number of row and columns
+		8.1.10 Verify you cannot access a row labeled K or higher
+		8.1.11 Verify you cannot access a row with a number
+		8.1.12 Verify you cannot access a row with a symbol
+		8.1.13 Verify you cannot re-order rows so that they are not contiguous 
+		letters
+		8.1.14 Verify you cannot reverse the order of rows so that row A is the
+		bottom most row
+		8.1.15 Verify you cannot access a column with a number less than 1
+		8.1.16 Verify you cannot access a columns with a number greater than 10
+		8.1.17 Verify you cannot access a column with a symbol
+		8.1.18 Verify you cannot access a column with a letter
+		8.1.19 Verify you cannot re-order the columns so the numbers are not 
+		contiguous 
+		8.1.20 Verify you cannot reverse the order of columns so that 1 is the 
+		right-most column
+		8.1.21 Attempt to access the other players grids
+		8.1.22 Attempt to place an aircraft carrier with less than 5 available 
+		squares
+		8.1.23 Attempt to place a battleship with less than 4 available squares
+		8.1.24 Attempt to place a cruiser with less than 3 available squares
+		8.1.25 Attempt to place a destroyer with less than 2 available squares
+	
+	8.2 Setup
+		8.2.1 Attempt to make an offensive move during setup
+		8.2.2 Attempt to place a ship on an opponent's grid
+		8.2.3 Attempt to place more than one aircraft carrier
+		8.2.4 Attempt to place more than one battleship 
+		8.2.5 Attempt to place more than once cruiser
+		8.2.6 Attempt to place more than two destroyers
+		8.2.7 Attempt to place two ships so they overlap
+		8.2.8 Attempt to place two ships so they cross diagonally
+		8.2.9 Attempt to place two ships so they cross perpendicularly
+		8.2.10 Attempt to place a ship so that part or all of it is off the 
+		board.
+		8.2.11 Attempt to move a ship after setup has ended
+		8.2.12 Attempt to go back to setup mode after all ships are placed
+		8.2.13 Print the defensive boards out at the end of Setup and the end 
+		of Play to make sure they are the same.
+
+	8.3 Gameplay
+		8.3.1 Attempt to change offensive and defensive players without taking 
+		a turn
+		8.3.2 Attempt to identify a square with column, row notation
+		8.3.3 Attempt to identify a square with only a column
+		8.3.4 Attempt to identify a square with only a row
+		8.3.5 Attempt to identify a square that has already been targeted
+		8.3.6 Attempt to identify a square with a row greater than J
+		8.3.7 Attempt to identify a square with a column greater than 10
+		8.3.8 Attempt to identify a square with a column less than 1
+		8.3.9 Attempt to identify a square with a symbol instead of letters 
+		and numbers
+		8.3.10 Target a known occupied square and verify that the defensive 
+		player replies "Hit"
+		8.3.11 Target a known unoccupied square and verify that the defensive 
+		player replies "Miss"
+		8.3.12 Target a known occupied square that contains the final piece of 
+		a ship and verify that the defensive player replies "you sunk my X"
+		8.3.13 Verify that X is the expected ship type.
+		8.3.14 Make a good shot and verify it is marked as a hit on the 
+		offensive players offense grid
+		8.3.15 Make a missed shot and verify it is marked as a miss on the 
+		offensive players offense grid
+		8.3.16 Make a good shot and verify it is marked as a hit on the 
+		defensive players defense grid
+		8.3.17 Make a missed shot and verify it is marked as a miss on the 
+		defensive players defense grid 
+		8.3.18 Compare the Hit token to the Miss token to ensure they are not 
+		ambiguous 
+		8.3.19 Verify that a good shot does not cause a turn to end
+		8.3.20 Verify that a missed shot causes a turn to end
+		8.3.21 Cause a turn to end with a missed shot and verify that the 
+		player roles are swapped.
+		8.3.22 Verify that the game ends after one player has had all ships 
+		sunk
+		8.3.23 Verify that the correct player is identified as the winner 
+		after sinking all opponents ships
