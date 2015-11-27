@@ -1,0 +1,52 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 15, 2015, 9:07:37 PM
+    Author     : c-dub
+*/
+
+.root {
+    -fx-background-image: url("../img/battleship-logo.jpg");
+}
+
+.label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #cccccc;
+    -fx-effect: dropshadow(gaussian, rgba(255, 153, 0, 0.5), 0, 0, 0, 1);
+}
+
+#setup-text {
+    -fx-font-size: 25px;
+    -fx-font-family: "Arial Black";
+    -fx-fill: #000000;
+    -fx-effect: innershadow(three-pass-box, rgba(255, 153, 0, 0.7), 6, 0.0, 0, 2);
+}
+
+#user-name {
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(255, 153, 0, 0.5), 0, 0, 0, 1);
+}
+
+#text-field {
+    -fx-background-color: #cccccc;
+    -fx-font-family: "Arial Black";
+    -fx-font-color: #000000;
+}
+
+.button {
+    -fx-text-fill: #000000;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(255, 153, 0 ,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
