@@ -7,10 +7,17 @@ package battleship.model;
 class Player {
     String name;
     Board pBoard;
+    int turnCount;
 
-    Player(String playerName, Board playerBoard) {
+    Ship[] ships;
+    int shipIndex;
+    
+    ShotResult[] shotReport;
+
+    Player(String playerName) {
         this.name = playerName;
         this.pBoard = playerBoard;
+        turnCount = 0;
     }
 
     Board getBoard() {
@@ -20,4 +27,24 @@ class Player {
     String getName() {
         return name;
     }
+
+    Ship[] getShips() {
+        return ships;
+    }
+
+    ShotResult[] getShots() {
+        return shotReport;
+    }
+
+    void setShip(Ship s){
+        if (shipIndex < ships.length)
+            ships[shipIndex++] = s;
+        else throw new IllegalArgumentException();
+
+    }
+
+    void addShot(ShotResult sr){
+        shotReport[turnCount++] = sr;
+    }
+
 }
