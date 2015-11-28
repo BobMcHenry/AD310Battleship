@@ -63,18 +63,26 @@ public class BattleshipGame
     }
 
     public Location[] getShipLocations(Player p, ShipType st){
+        //Store all players ships in a local reference
         Ship[] playerShips = p.getShips();
 
+        //seperate index counter variable since using for-each loop
         int index = 0;
+        // Initialise empty Location array to store all ship locations in. 
         Location[] loc = new Location[16];
 
+        // For each ship in chosen players ship array, get location array
         for ( Ship s : playerShips() ){
+            //store each ships location array
             shipLoc = s.getLocation();
+   
+            // For each Location in each ships Loc array, dump to loc and 
+            // increment index
             for ( Location l : shipLoc ){
                 loc[index++] = l;
             }
         }
-
+        // Return locations occupied by all of chosen players ships. 
         return loc;
     }
 
@@ -90,8 +98,16 @@ public class BattleshipGame
     public Player getP1(){ 
         return p1; 
     }
-    
+
+    public String getP1Name(){
+        return p1.getName();
+    }
+
     public Player getP2(){ 
         return p2; 
+    }
+
+    public String getP2Name(){
+        return p2.getName();
     }
 }
