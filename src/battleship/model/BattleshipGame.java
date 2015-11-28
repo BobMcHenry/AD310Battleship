@@ -6,9 +6,10 @@ public class BattleshipGame implements BattleshipModel {
     public Player p2;
     public Player activePlayer;
    
-    BattleshipGame(Player p1, Player p2){
-       this.p1 = p1;
-       this.p2 = p2;
+    BattleshipGame(String player1Name, String player2Name){
+       this.p1 = new Player(player1Name);
+       this.p2 = new Player(player1Name);
+       activePlayer = p1;
     }
    
     public Player getActivePlayer(){
@@ -24,8 +25,24 @@ public class BattleshipGame implements BattleshipModel {
         // method stub
     }
     
-    public boolean placeShip(Player p, Ship s, Location head, Location tail){
-        activePlayer
+    public boolean placeShip( Sting s, int strR, int strC, int endR, int endC ){
+        //convert s (string to ship type)
+
+        //head gets strR and strC only if the location is available
+        //run loop through all player ships
+
+        //tail same as head 
+
+        //if tail or head not empty return false;
+
+        //if headR == tailR we are horizotnal
+        //if headC == tailC we are vert
+        //if tailC-HeadC != shipSize return false
+            //else begin validation
+
+       //we use the m=slpe formula to find if the ship is diagonal
+        //validate 
+ 
         return true; //STUB
     }
 
