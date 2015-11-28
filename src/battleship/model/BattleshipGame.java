@@ -1,4 +1,4 @@
-
+package battleship.model;
 
 public class BattleshipGame 
 {
@@ -28,11 +28,11 @@ public class BattleshipGame
     
     public boolean placeShip( String s, int strR, int strC, int endR, int endC ){
 
-        Location[] loc = new Location[];
+        Location[] loc = new Location[0];
 
         int size;
 
-        ShipType s;
+        ShipType st;
         
 
         //use if to find ship type if ship matches type set to true
@@ -72,9 +72,9 @@ public class BattleshipGame
         Location[] loc = new Location[16];
 
         // For each ship in chosen players ship array, get location array
-        for ( Ship s : playerShips() ){
+        for ( Ship s : playerShips ){
             //store each ships location array
-            shipLoc = s.getLocation();
+            Location[] shipLoc = s.getLocation();
    
             // For each Location in each ships Loc array, dump to loc and 
             // increment index
@@ -87,12 +87,11 @@ public class BattleshipGame
     }
 
     public ShotResult makeShot(Location target){
-           
+           return null;
     }
 
     public boolean isGameOver(){
-        if
-        return 
+        return true;
     }
 
     public Player getP1(){ 
@@ -103,11 +102,19 @@ public class BattleshipGame
         return p1.getName();
     }
 
+    public ShotResult[] getP1Shots(){
+            return new ShotResult[1];
+    }
+
     public Player getP2(){ 
         return p2; 
     }
 
     public String getP2Name(){
         return p2.getName();
+    }
+
+    public ShotResult[] getP2Shots(){
+        return new ShotResult[1];
     }
 }

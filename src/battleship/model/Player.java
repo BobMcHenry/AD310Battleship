@@ -23,10 +23,6 @@ class Player {
 
     }
 
-    Board getBoard() {
-        return pBoard;
-    }
-
     String getName() {
         return name;
     }

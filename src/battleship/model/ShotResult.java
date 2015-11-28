@@ -17,12 +17,12 @@ class ShotResult {
 
         switch(type){
 
-        	Case MISS:
-        	type = "Miss";
+        	case MISS:
+        	type = Status.MISS;
         	break;
 
-        	Case HIT;
-        	type = "Hit";
+        	case HIT:
+        	type = Status.HIT;
         	break;
 
     	}
