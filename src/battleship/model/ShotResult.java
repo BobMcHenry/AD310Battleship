@@ -8,12 +8,23 @@ package battleship.model;
 class ShotResult {
     Player shootingPlayer;
     Location shotCoords;
-    ShipType hitShip;
+    Status type;
 
-    ShotResult(Player p, Location coords, ShipType hit) {
+    ShotResult(Player p, Location coords, Status shot) {
         this.shootingPlayer = p;
         this.shotCoords = coords;
-        //this.hitShip = hit.getShipType(coords);
-    }
+        type = shot;
 
+        switch(type){
+
+        	case MISS:
+        	type = Status.MISS;
+        	break;
+
+        	case HIT:
+        	type = Status.HIT;
+        	break;
+
+    	}
+    }
 }

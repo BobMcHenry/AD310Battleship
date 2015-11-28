@@ -6,8 +6,7 @@ package battleship.model;
  * The column numbers increase as you move left, the rows decrease with J being the bottom most row.
  */
 class Location {
-    private static final String VALID_ROWS = "AaBbCcDdEeFfGgHhIiJj";
-    private final char row;
+    private final int row;
     private final int column;
     private Status state;
 
@@ -17,14 +16,14 @@ class Location {
      * @param c The column of this location, valid values are 1 - 10.
      * @throws IllegalArgumentException if either r or c are out of range.
      */
-    Location(char r, int c) {
-        if (!VALID_ROWS.contains(Character.toString(r))) {
+    Location(int r, int c) {
+        if (r < 0 || r > 9) {
             throw new IllegalArgumentException(
-                "Row out of range: " + r + ", expected range A through J ");
+                "Row out of range: " + r + ", expected range 0 through 9 ");
         }
-        if (c < 1 || c > 10) {
+        if (c < 0 || c > 9) {
             throw new IllegalArgumentException(
-                "Column out of range: " + c + ", expected range 1 through 10 ");
+                "Column out of range: " + c + ", expected range 0 through 9 ");
         }
         this.row = r;
         this.column = c;
@@ -33,7 +32,7 @@ class Location {
     /*
      * Returns the Row of this location.
      */
-    char getRow() {
+    int getRow() {
         return row;
     }
 
