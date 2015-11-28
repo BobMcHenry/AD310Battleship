@@ -1,6 +1,7 @@
 
 
-public class BattleshipGame implements BattleshipModel {
+public class BattleshipGame 
+{
 
     public Player p1;
     public Player p2;
@@ -25,7 +26,16 @@ public class BattleshipGame implements BattleshipModel {
         // method stub
     }
     
-    public boolean placeShip( Sting s, int strR, int strC, int endR, int endC ){
+    public boolean placeShip( String s, int strR, int strC, int endR, int endC ){
+
+        Location[] loc = new Location[];
+
+        int size;
+
+        ShipType s;
+        
+
+        //use if to find ship type if ship matches type set to true
         //convert s (string to ship type)
 
         //head gets strR and strC only if the location is available
@@ -38,10 +48,16 @@ public class BattleshipGame implements BattleshipModel {
         //if headR == tailR we are horizotnal
         //if headC == tailC we are vert
         //if tailC-HeadC != shipSize return false
-            //else begin validation
+            //else begin validation, validation includes size
 
        //we use the m=slpe formula to find if the ship is diagonal
-        //validate 
+        //validate, validation includes size 
+
+        //once validation is complete build location array
+        //call location array
+
+        //load location into loc and pass to ship constructor
+        //also call activePlayer.setShips
  
         return true; //STUB
     }
