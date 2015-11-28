@@ -66,7 +66,7 @@ public class BattleshipGame
         return true; //STUB
     }
 
-    public Location[] getShipLocations(Player p, ShipType st){
+    public Location[] getShipLocations(Player p){
         //Store all players ships in a local reference
         Ship[] playerShips = p.getShips();
 
