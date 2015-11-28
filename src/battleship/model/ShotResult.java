@@ -26,7 +26,5 @@ class ShotResult {
         	break;
 
     	}
-        }
     }
-
 }

@@ -18,8 +18,12 @@ public class BattleshipGame
     }
     
     //added field to store active player
-    public void setActivePlayer(Player p){
-        this.activePlayer = p;
+    public void switchActivePlayer(){
+        if (activePlayer.equals(p1)){
+            activePlayer = p2;
+        } else {
+            activePlayer = p1;
+        }
     }
 
     public void resetGame(){
@@ -86,8 +90,11 @@ public class BattleshipGame
         return loc;
     }
 
-    public ShotResult makeShot(Location target){
-           return null;
+    public ShotResult makeShot(int row, int col){
+        //validate chosen space
+        activePlayer.getShots();
+        //Create a ShotResult object
+        // Add to firing players shot log
     }
 
     public boolean isGameOver(){
