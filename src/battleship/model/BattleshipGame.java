@@ -30,32 +30,79 @@ public class BattleshipGame
         // method stub
     }
     
-    public boolean placeShip( String s, int strR, int strC, int endR, int endC ){
+    public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
 
         Location[] loc = new Location[0];
 
-        int size;
+        int shipSize;
 
         ShipType st;
         
-
-        //use if to find ship type if ship matches type set to true
+        //find ship type if ship does not match return false
         //convert s (string to ship type)
+        if(  s.toLowerCase() == "aircraft carrier"){
+            st = ShipType.AIRCRAFT_CARRIER;
+            shipSize = 5;
+        } else if( s.toLowerCase() == "battleship"){
+            st = ShipType.BATTLESHIP;
+            shipSize = 4;
+        } else if(  s.toLowerCase() == "cruiser"){
+            st = ShipType.CRUSIER;
+            shipSize = 3;
+        } else if(  s.toLowerCase() == "destroyer"){
+            st = ShipType.DESTROYER;
+            shipSize = 2;
+        } else{
+            return false;
+        }
 
-        //head gets strR and strC only if the location is available
-        //run loop through all player ships
+        //verity that the head and tail are valid location
+        //if valid proceed to validate ship length
+        if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
+            //test to verify ship length matches position length
+            //return false if not else begin validation
+            if( shipLengthValid( size, headR, headC, tailR, tailC ) ){
 
-        //tail same as head 
+                //if headR == tailR the ship is horizontal
+                if( headR == tialR){
+                    if( headR < tailR ){
+                        //find the other locations STUB
+                    } else{
+                        //find the other locations STUB
+                    }
+                }
+                //if headC == tailC the ship is vertical
+                if( headC == tailC ){
+                    if( headC < tailC ){
+                        //find & validate the locations up from head STUB
+                    } else{
+                        //find and validate the locations down from head STuB
+                    }
+                }
+                //if absolute m=slope is 1 the ship is diagonal
+                if( Math.abs(mSlope(headR, headC, tailR, tialC)) == 1 ){
 
-        //if tail or head not empty return false;
+                    int m = mSlope(headR, headC, tailR, tailC);
 
-        //if headR == tailR we are horizotnal
-        //if headC == tailC we are vert
-        //if tailC-HeadC != shipSize return false
-            //else begin validation, validation includes size
+                    if( m > 0 && headC < tailC ){
+                        //find & validate all location up and to the right STUB
+                    } else if( m > 0 && tailC < headC ){
+                        //find & validate all locations down and to the left STUB
+                    } else if( m < 0 && headC < tailC ){
+                        //find & validate all locations up and to the left STUB
+                    } else{
+                        //find & validate all locations down and to the right STUB
+                    }
+                }
 
-       //we use the m=slpe formula to find if the ship is diagonal
-        //validate, validation includes size 
+            } else{
+                    return false;
+                }
+
+        } else{
+            return false;
+        }
+
 
         //once validation is complete build location array
         //call location array
@@ -123,5 +170,28 @@ public class BattleshipGame
 
     public ShotResult[] getP2Shots(){
         return new ShotResult[1];
+    }
+
+    /*
+    * private helper method to validate location placement
+    */
+    private boolean locationValid( int x, int y){
+        //validate location against activePlayer ships
+    }
+
+    /*
+    * private helper method to verify if ship is diagonal
+    */
+    private int mSlope( int x1, int y1, int x2, int y2){
+        int m = (y2 - y1) / (x2 - x1);
+        return m;
+    }
+
+    /*
+    * private helper method to validate ship length with ship positional
+    * length.
+    */
+    private boolean shipLengthValid( int size, int xh , int yh, int xt, yt ){
+        return ( size == (Math.sqrt( (xt - xh)*(xt - xh) + (yt - yh)*(yt - yh));
     }
 }
