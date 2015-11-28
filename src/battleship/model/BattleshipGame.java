@@ -9,7 +9,7 @@ public class BattleshipGame
    
     BattleshipGame(String player1Name, String player2Name){
        this.p1 = new Player(player1Name);
-       this.p2 = new Player(player1Name);
+       this.p2 = new Player(player2Name);
        activePlayer = p1;
     }
    
@@ -63,14 +63,35 @@ public class BattleshipGame
     }
 
     public Location[] getShipLocations(Player p, ShipType st){
-        return p.getShips()[0];
+        Ship[] playerShips = p.getShips();
+
+        int index = 0;
+        Location[] loc = new Location[16];
+
+        for ( Ship s : playerShips() ){
+            shipLoc = s.getLocation();
+            for ( Location l : shipLoc ){
+                loc[index++] = l;
+            }
+        }
+
+        return loc;
     }
 
-    public ShotResult makeShot(Player p, Location target){
-        return activePlayer.getShotResult;
+    public ShotResult makeShot(Location target){
+           
+    }
 
     public boolean isGameOver(){
         if
         return 
+    }
+
+    public Player getP1(){ 
+        return p1; 
+    }
+    
+    public Player getP2(){ 
+        return p2; 
     }
 }
