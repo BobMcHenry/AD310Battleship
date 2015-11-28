@@ -6,7 +6,6 @@ package battleship.model;
  */
 class Player {
     String name;
-    Board pBoard;
     int turnCount;
 
     Ship[] ships;
@@ -16,7 +15,6 @@ class Player {
 
     Player(String playerName) {
         this.name = playerName;
-        this.pBoard = playerBoard;
         turnCount = 0;
 
         ships = new Ship[5];
