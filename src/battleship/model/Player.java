@@ -18,6 +18,11 @@ class Player {
         this.name = playerName;
         this.pBoard = playerBoard;
         turnCount = 0;
+
+        ships = new Ship[5];
+        shipIndex = 0;
+        shotReport = new ShotResult[100];
+
     }
 
     Board getBoard() {
