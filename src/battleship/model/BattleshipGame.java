@@ -73,107 +73,363 @@ public class BattleshipGame implements BattleshipModel
         defensePlayer = p2; // Defensive player assignment.
     }
     
-    public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
-
-        Location[] playerShips = getShipLocations();
-
-        int shipSize;
-
-        ShipType st;
-        
-        //find ship type if ship does not match return false
-        //convert s (string to ship type)
-        if(  s.toLowerCase() == "aircraft carrier"){
-            st = ShipType.AIRCRAFT_CARRIER;
-            shipSize = 5;
-        } else if( s.toLowerCase() == "battleship"){
-            st = ShipType.BATTLESHIP;
-            shipSize = 4;
-        } else if(  s.toLowerCase() == "cruiser"){
-            st = ShipType.CRUSIER;
-            shipSize = 3;
-        } else if(  s.toLowerCase() == "destroyer"){
-            st = ShipType.DESTROYER;
-            shipSize = 2;
-        } else{
-            return false;
-        }
-
-        Location[] shipBody = new Location[shipSize];
-
-        //verity that the head and tail are valid location
-        //if valid proceed to validate ship length
-        if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
-            //test to verify ship length matches position length
-            //return false if not else begin validation
-            if( shipLengthValid( size, headR, headC, tailR, tailC ) ){
-
-                //if headR == tailR the ship is horizontal
-                if( headR == tailR){
-
-                    if( st == DESTROYER ){
-                        Location[] head = new Location(headR, headC);
-                        Location[] tail = new Location(tailR, tailC);
-
-                        shipBody[0] = head;
-                        shipBody[1] = tail;
-
-                        Ship destroyer = new Ship(st, shipBody);
-                        activePlayer.setShip(destroyer);
-                    }
-
-                    if( headC < tailC ){
-
-                        
-
-                        Location[] head = new Location(headR, headC);
-                        Location[] tail = new Location(tailR, tailC);
-
-                        locationValid ()
-                        Location[] b1 = new Location(headR, tailC - 3);
-                        Location[] b2 = new Location(headR, tailC - 2);
-                        Location[] b3 = new Location(headR, tailC - 1);
-                        
-                        
-
-                        shipBody[0] = head;
-                        shipBody[1] = tail;
-
-                        Ship destroyer = new Ship(st, shipBody);
-                        activePlayer.setShip(destroyer);
-
-
-
-                                
-                    
-                    } else{ 
-
-                        
-
-                    }
-
-                } else if( headC == tailC ){ //if headC == tailC the ship is vertical
-                    //build ship
-                    Ship sh = buildVerticalShip( st, shipSize, headR, headC, tailR, tailC );
-                    //set built ship
-                    activePlayer.setShip(sh);
-                } else{
-                    //build ship
-                    Ship sh = buildDiagoalShip( st, shipSize, headR, headC, tailR, tailC );
-                    activePlayer.setShip(sh);
-                }
-
+public boolean placeShip( String s, int headX, int headY, int tailX, int tailY ){
+    
+            int shipSize; //ship size for validation
+    
+            ShipType st; //shipType to build the type of ship
+            
+            //find ship type if ship does not match return false
+            //convert s (string to ship type)
+            if(  s.toLowerCase().equals("aircraft carrier") ){
+                st = ShipType.AIRCRAFT_CARRIER;
+                shipSize = 5;
+            } else if( s.toLowerCase().equals("battleship") ){
+                st = ShipType.BATTLESHIP;
+                shipSize = 4;
+            } else if(  s.toLowerCase().equals("cruiser"){
+                st = ShipType.CRUISER;
+                shipSize = 3;
+            } else if(  s.toLowerCase().equals("destroyer")){
+                st = ShipType.DESTROYER;
+                shipSize = 2;
             } else{
-                    return false;
-                }
+                return false;
+            }
+    
+            Location[] shipBody = new Location[shipSize]; //create the array for the size of ship we need
+    
+            //verity that the head and tail are valid location
+            //if valid proceed to validate ship length
+            if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
+                //test to verify ship length matches position length
+                //return false if not else begin validation
+                if( shipLengthValid( shipSize, headX, headY, tailX, tailY ) ){
+    
+                    //head and tail validated and built
+                    Location head = new Location(headR, headC);
+                    Location tail = new Location(tailR, tailC);
+    
+                    shipBody[0] = head;
+                    shipBody[1] = tail;
+    
+                    if( st == ShipType.DESTROYER ){
+                        
+                        //ship destoryer built
+                        Ship destroyer = new Ship(st, shipBody);
+                        activePlayer.setShip(destroyer);
+                        return true;
 
-        } else{
-            return false;
+                    }
+
+                    if( st == ShipType.AIRCRAFT_CARRIER ){
+                        //check to see if the ship is horizontal
+                        if( headY == tailY ){
+                            //locate tail direction and validate body to build ship right
+                            if( headX < tailX ){
+                                  //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX + 1, headY ) == false 
+                                        || validLocation( headX + 2, headY ) == false
+                                        || validLocation( headX + 3, headY ) == false ){
+
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX + 1, headY);
+                                  Location b2 = new Location(headX + 2, headY);
+                                  Location b1 = new Location(headX + 3, headY);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+                                  shipBody[3] = b3;
+
+                                  Ship aircraftCarrier = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //check to see if head is grater than the tail, body build left
+                            if( tailX < headX ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX - 1, headY ) == false 
+                                        || validLocation( headX - 2, headY ) == false 
+                                        || validLocation( headX - 3, headY ) == false ){
+
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX - 1, headY);
+                                  Location b2 = new Location(headX - 2, headY);
+                                  Location b1 = new Location(headX - 3, headY);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+                                  shipBody[3] = b3;
+
+                                  Ship aircraftCarrier = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                                }
+
+                            } 
+                        //check to see if the ship is vertical
+                        if( headX == tailX ){
+                            //locate tail direction and validate body to build ship
+                            if( headY < tailY ){
+                                  //validate the body of the ship, return if false, else continue
+
+                                  if( validLocation( headX, headY + 1 ) == false 
+                                        || validLocation( headX, headY + 2) == false 
+                                        || validLocation( headX, headY +3 ) == false ){
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX, headY + 1);
+                                  Location b2 = new Location(headX, headY + 2);
+                                  Location b1 = new Location(headX, headY + 3);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+                                  shipBody[3] = b3;
+
+                                  Ship aircraftCarrier = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //locate tail direction
+                            if( tailY < headY ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX, headY - 1) == false 
+                                        || validLocation( headX, headY - 2) == false
+                                        || validLocation( headX, headY - 3) == false ){
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX, headY - 1);
+                                  Location b2 = new Location(headX, headY - 2);
+                                  Location b1 = new Location(headX, headY - 3);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+                                  shipBody[3] = b3;
+
+                                  Ship aircraftCarrier = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                        }
+                        //check to see if the ship is diagonal, 
+                        if( Math.abs( mSlope( headX, headY, tailX, tailY)) == 1 ){
+
+                            if( m > 0 && headC < tailC ){
+                            //find & validate all location up and to the right STUB
+                            } else if( m > 0 && tailC < headC ){
+                            //find & validate all locations down and to the left STUB
+                            } else if( m < 0 && headC < tailC ){
+                            //find & validate all locations up and to the left STUB
+                            } else{
+                            //find & validate all locations down and to the right STUB
+                            }
+                        }
+                    }
+
+                    if( st == ShipType.BATTLESHIP ){
+                        //check to see if the ship is horizontal
+                        if( headY == tailY ){
+                            //locate tail direction and validate body to build ship right
+                            if( headX < tailX ){
+                                  //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX + 1, headY ) == false 
+                                        || validLocation( headX + 2, headY ) == false ){
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX + 1, headY);
+                                  Location b2 = new Location(headX + 2, headY);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+
+                                  Ship battleship = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //check to see if head is grater than the tail, body build left
+                            if( tailX < headX ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX - 1, headY ) == false 
+                                        || validLocation( headX - 2, headY ) == false){
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX - 1, headY);
+                                  Location b2 = new Location(headX - 2, headY);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+
+                                  Ship battleshipr = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                                }
+                            } 
+                        //check to see if the ship is vertical
+                        if( headX == tailX ){
+                            //locate tail direction and validate body to build ship
+                            if( headY < tailY ){
+                                  //validate the body of the ship, return if false, else continue
+
+                                  if( validLocation( headX, headY + 1 ) == false 
+                                        || validLocation( headX, headY + 2) == false ){
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX, headY + 1);
+                                  Location b2 = new Location(headX, headY + 2);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+                                  
+
+                                  Ship battleship = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //locate tail direction
+                            if( tailY < headY ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX, headY - 1) == false 
+                                        || validLocation( headX, headY - 2) == false ){
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX, headY - 1);
+                                  Location b2 = new Location(headX, headY - 2);
+
+                                  shipBody[1] = b1;
+                                  shipBody[2] = b2;
+
+                                  Ship battleship = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                        }
+                        //check to see if the ship is diagonal, 
+                        if( Math.abs( mSlope( headX, headY, tailX, tailY)) == 1 ){
+
+                            if( m > 0 && headC < tailC ){
+                            //find & validate all location up and to the right STUB
+                            } else if( m > 0 && tailC < headC ){
+                            //find & validate all locations down and to the left STUB
+                            } else if( m < 0 && headC < tailC ){
+                            //find & validate all locations up and to the left STUB
+                            } else{
+                            //find & validate all locations down and to the right STUB
+                            }
+                        }
+                    }
+
+                    if( st == ShipType.CRUSIER ){
+                        //check to see if the ship is horizontal
+                        if( headY == tailY ){
+                            //locate tail direction and validate body to build ship right
+                            if( headX < tailX ){
+                                  //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX + 1, headY ) == false ){
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX + 1, headY);
+
+                                  shipBody[1] = b1;
+
+                                  Ship crusier = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //check to see if head is grater than the tail, body build left
+                            if( tailX < headX ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX - 1, headY ) == false ){
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX - 1, headY);
+
+                                  shipBody[1] = b1;
+
+                                  Ship cruiser = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                                }
+
+                            } 
+                        //check to see if the ship is vertical
+                        if( headX == tailX ){
+                            //locate tail direction and validate body to build ship
+                            if( headY < tailY ){
+                                  //validate the body of the ship, return if false, else continue
+
+                                  if( validLocation( headX, headY + 1 ) == false ){
+                                        return false;
+                                  } 
+
+                                  Location b1 = new Location(headX, headY + 1);
+
+                                  shipBody[1] = b1;
+
+                                  Ship cruiser = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                            //locate tail direction
+                            if( tailY < headY ){
+                                    //validate the body of the ship, return if false, else continue
+                                  if( validLocation( headX, headY - 1) == false ){
+                                        return false; 
+                                  }
+
+                                  Location b1 = new Location(headX, headY - 1);
+
+                                  shipBody[1] = b1;
+
+                                  Ship cruiser = new Ship( st, shipBody );
+
+                                  activePlayer.setShip( aircraftCarrier );
+                                  return true;
+                            }
+                        }
+                        //check to see if the ship is diagonal, 
+                        if( Math.abs( mSlope( headX, headY, tailX, tailY)) == 1 ){
+
+                            if( m > 0 && headC < tailC ){
+                            //find & validate all location up and to the right STUB
+                            } else if( m > 0 && tailC < headC ){
+                            //find & validate all locations down and to the left STUB
+                            } else if( m < 0 && headC < tailC ){
+                            //find & validate all locations up and to the left STUB
+                            } else{
+                            //find & validate all locations down and to the right STUB
+                            }
+                        }
+                    }
+                } else{
+                        return false;
+                    }
+            } else{
+                return false;
+            }
         }
- 
-        return true; //STUB
-    }
-
     public Location[] getShipLocations(Player p){
         //Store all players ships in a local reference
         Ship[] playerShips = p.getShips();
