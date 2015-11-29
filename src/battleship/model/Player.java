@@ -65,6 +65,22 @@ class Player {
             out += ships[i].toString() + "\n";
         }
 
+        for (int i = 0; i < shotReport.length; i++){
+            if (shotReport[i] != null)
+                out += shotReport[i] + "\n";
+        }
+
+        return out;
+    }
+
+    Location[] getShotLocations(){
+        Location[] out = new Location[turnCount];
+        int ind = 0;
+        for (int i = 0; i < shotReport.length; i++){
+            if (shotReport[i] != null){
+                out[i] = shotReport[i].shotCoords;
+            }
+        }
         return out;
     }
 

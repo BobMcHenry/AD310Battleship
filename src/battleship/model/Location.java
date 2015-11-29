@@ -39,6 +39,10 @@ class Location {
         this.column = c;
         state = Status.INITIAL;
     }
+    Location(int r, int c, Status state){
+        this(r,c);
+        this.state = state;
+    }
 
     /**
      * Returns the Row of this location.
