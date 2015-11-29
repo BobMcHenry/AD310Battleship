@@ -40,6 +40,8 @@ public class BattleshipGame
     
         public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
 
+        Location[] playerShips = getShipLocations();
+
         int shipSize;
 
         ShipType st;
@@ -61,18 +63,59 @@ public class BattleshipGame
         } else{
             return false;
         }
+
+        Location[] shipBody = new Location[shipSize];
+
         //verity that the head and tail are valid location
         //if valid proceed to validate ship length
         if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
             //test to verify ship length matches position length
             //return false if not else begin validation
             if( shipLengthValid( size, headR, headC, tailR, tailC ) ){
+
                 //if headR == tailR the ship is horizontal
                 if( headR == tailR){
-                    //build ship
-                    Ship sh = buildHorizontalShip( st, shipSize, headR, headC, tailR, tailC );
-                    //set built ship
-                    activePlayer.setShip(sh);
+
+                    if( st == DESTROYER ){
+                        Location[] head = new Location(headR, headC);
+                        Location[] tail = new Location(tailR, tailC);
+
+                        shipBody[0] = head;
+                        shipBody[1] = tail;
+
+                        Ship destroyer = new Ship(st, shipBody);
+                        activePlayer.setShip(destroyer);
+                    }
+
+                    if( headC < tailC ){
+
+                        
+
+                        Location[] head = new Location(headR, headC);
+                        Location[] tail = new Location(tailR, tailC);
+
+                        locationValid ()
+                        Location[] b1 = new Location(headR, tailC - 3);
+                        Location[] b2 = new Location(headR, tailC - 2);
+                        Location[] b3 = new Location(headR, tailC - 1);
+                        
+                        
+
+                        shipBody[0] = head;
+                        shipBody[1] = tail;
+
+                        Ship destroyer = new Ship(st, shipBody);
+                        activePlayer.setShip(destroyer);
+
+
+
+                                
+                    
+                    } else{ 
+
+                        
+
+                    }
 
                 } else if( headC == tailC ){ //if headC == tailC the ship is vertical
                     //build ship
@@ -187,6 +230,13 @@ public class BattleshipGame
     */
     private boolean locationValid( int x, int y){
         //validate location against activePlayer ships
+        Location[] playerShips = getShipLocations();
+
+        for( int i = 0 ; i < playerShips ; i++ ){
+            if( headR == playerShip[i].getRow() && headC == playerShip[i].getColumn()) return false;
+            if( tailR == playerShip[i].getRow() && tailC == playerShip[i].getColumn()) return false;  
+        }
+        return true;
     }
 
     /*
@@ -205,8 +255,27 @@ public class BattleshipGame
         return ( size == (Math.sqrt( (xt - xh)*(xt - xh) + (yt - yh)*(yt - yh));
     }
 
-    private Ship buildHorizontalShip( st, shipSize, headR, headC, tailR, tailC ){
+    private Ship buildHorizontalShip( ShipType st, int shipSize, int headR, int headC, int tailR, int tailC ){
+        
+        Location[] playerShips = getShipLocations();
         //ship will be built
+       switch (st) {
+            case AIRCRAFT_CARRIER:
+                Location[] head = new Location(headR, headC);
+                Location[] tail = new Location(tailR, tailC);
+                Location[] b1 = new Location(tailR, tailC);
+                Location[] b2 = new Location(tailR, tailC);
+                Location[] b3 = new Location(tailR, tailC);
+            case BATTLESHIP:
+                size = 4;
+                break;
+            case CRUISER:
+                size = 3;
+                break;
+            case DESTROYER:
+                
+                break;
+        }
     }
 
     private Ship buildVerticalShip( st, shipSize, headR, headC, tailR, tailC ){
