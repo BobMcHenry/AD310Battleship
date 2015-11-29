@@ -57,4 +57,9 @@ class Location {
     void setStatus(Status value) {
         state = value;
     }
+
+    @Override
+    public String toString(){
+        return "Row: " + row + " Column: " + column + " State: " + state.toString() + "\n";
+    }
 }

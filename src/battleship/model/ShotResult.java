@@ -27,4 +27,9 @@ class ShotResult {
 
     	}
     }
+
+    @Override
+    public String toString() {
+        return shootingPlayer.getName() + " fired at location " + shotCoords.toString();
+    }
 }

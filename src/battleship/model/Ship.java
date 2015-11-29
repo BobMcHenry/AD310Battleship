@@ -60,4 +60,15 @@ class Ship {
         return placement;
     }
 
+    @Override
+    public String toString(){
+        String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";
+
+        for (Location l : placement){
+            out += l.toString();
+        }
+
+        return out;
+    }
+
 }
