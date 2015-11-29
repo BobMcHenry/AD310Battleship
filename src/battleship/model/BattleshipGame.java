@@ -179,7 +179,7 @@ public class BattleshipGame
 
         // Iterate through defending players locations
         for (Location l : sl) {
-            if (l.getRow() == row && l.getCol() == col) {
+            if (l.getRow() == row && l.getColumn() == col) {
 
                 l.setStatus(Status.HIT);
                 activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
