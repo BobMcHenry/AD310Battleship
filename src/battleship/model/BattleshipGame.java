@@ -38,9 +38,7 @@ public class BattleshipGame
         // method stub
     }
     
-    public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
-
-        Location[] loc = new Location[0];
+        public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
 
         int shipSize;
 
@@ -63,44 +61,28 @@ public class BattleshipGame
         } else{
             return false;
         }
-
         //verity that the head and tail are valid location
         //if valid proceed to validate ship length
         if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
             //test to verify ship length matches position length
             //return false if not else begin validation
             if( shipLengthValid( size, headR, headC, tailR, tailC ) ){
-
                 //if headR == tailR the ship is horizontal
-                if( headR == tialR){
-                    if( headR < tailR ){
-                        //find the other locations STUB
-                    } else{
-                        //find the other locations STUB
-                    }
-                }
-                //if headC == tailC the ship is vertical
-                if( headC == tailC ){
-                    if( headC < tailC ){
-                        //find & validate the locations up from head STUB
-                    } else{
-                        //find and validate the locations down from head STuB
-                    }
-                }
-                //if absolute m=slope is 1 the ship is diagonal
-                if( Math.abs(mSlope(headR, headC, tailR, tialC)) == 1 ){
+                if( headR == tailR){
+                    //build ship
+                    Ship sh = buildHorizontalShip( st, shipSize, headR, headC, tailR, tailC );
+                    //set built ship
+                    activePlayer.setShip(sh);
 
-                    int m = mSlope(headR, headC, tailR, tailC);
-
-                    if( m > 0 && headC < tailC ){
-                        //find & validate all location up and to the right STUB
-                    } else if( m > 0 && tailC < headC ){
-                        //find & validate all locations down and to the left STUB
-                    } else if( m < 0 && headC < tailC ){
-                        //find & validate all locations up and to the left STUB
-                    } else{
-                        //find & validate all locations down and to the right STUB
-                    }
+                } else if( headC == tailC ){ //if headC == tailC the ship is vertical
+                    //build ship
+                    Ship sh = buildVerticalShip( st, shipSize, headR, headC, tailR, tailC );
+                    //set built ship
+                    activePlayer.setShip(sh);
+                } else{
+                    //build ship
+                    Ship sh = buildDiagoalShip( st, shipSize, headR, headC, tailR, tailC );
+                    activePlayer.setShip(sh);
                 }
 
             } else{
@@ -110,13 +92,6 @@ public class BattleshipGame
         } else{
             return false;
         }
-
-
-        //once validation is complete build location array
-        //call location array
-
-        //load location into loc and pass to ship constructor
-        //also call activePlayer.setShips
  
         return true; //STUB
     }
