@@ -104,7 +104,7 @@ public interface BattleshipModel{
      * player. The method will loop through each players array of ships and
      * check for a sunken condition with the Ship.isSunk method.
      *
-     * @return
+     * @return True if win condition is met, false if gameplay should continue
      */
     public boolean isGameOver();
 

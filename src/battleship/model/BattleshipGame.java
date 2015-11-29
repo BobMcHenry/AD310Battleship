@@ -1,5 +1,8 @@
 package battleship.model;
 
+/**
+ *
+ */
 public class BattleshipGame 
 {
 
@@ -38,7 +41,7 @@ public class BattleshipGame
         // method stub
     }
     
-        public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
+    public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
 
         Location[] playerShips = getShipLocations();
 
@@ -163,21 +166,21 @@ public class BattleshipGame
         return loc;
     }
 
-    public String makeShot(int row, int col){
+    public String makeShot(int row, int col) {
         // Flip flag on players offensiveBoard array
-        if ( activePlayer.offensiveBoard[row*10+col] ){
+        if (activePlayer.offensiveBoard[row * 10 + col]) {
             return "Space already attacked";
         } else {
-            activePlayer.offensiveBoard[row*10+col] = true;
+            activePlayer.offensiveBoard[row * 10 + col] = true;
         }
 
         // get defending players locations
         Location[] sl = getShipLocations(defensePlayer);
 
         // Iterate through defending players locations
-        for (Location l : sl){
-            if (l.getRow() == row && l.getCol() == col){
-                
+        for (Location l : sl) {
+            if (l.getRow() == row && l.getCol() == col) {
+
                 l.setStatus(Status.HIT);
                 activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
 
@@ -186,10 +189,10 @@ public class BattleshipGame
         }
         // if not in location array, create a new location and shotresult,
         // flag as a miss and switch player
-        activePlayer.addShot(new ShotResult(activePlayer, new Location(row,col), Status.MISS));
+        activePlayer.addShot(new ShotResult(activePlayer, new Location(row, col), Status.MISS));
         switchActivePlayer();
         return "MISS";
-
+    }
 
 
     public boolean isGameOver(){
@@ -222,6 +225,156 @@ public class BattleshipGame
 
     public String getP2Name(){
         return p2.getName();
+    }
+
+    public String toString(){
+        boolean[] p1Off = getBoard(p1);
+        boolean[] p2Off = getBoard(p2);
+        Ship[] p1Ships = p1.getShips();
+        Ship[] p2Ships = p2.getShips();
+
+        // P1 Offensive grid
+        String out = p1.getName() + "\nOffense";
+
+        for (int i = 0; i < 100; i++){
+            // Print Offensive Board
+            if (i % 10 == 0){
+                out += "\n" + (char)(65 + i/10);
+            }
+            if (!p1Off[i]){
+                // Status == INITIAL
+                out += "  .";
+            } else {
+                //change token to HIT(H) or MISS(M), or sunk(S)
+                for (int j = 0; j < p2Ships.length; j++){
+                    if (p2Ships[j].getLocFromCoords(i/10, i%10) != null){
+                        if (p2Ships[j].isSunk()){
+                            out += "  S";
+                        } else if (p2Ships[j].getLocFromCoords(i/10, i%10).getStatus() == Status.HIT){
+                            out += "  H";
+                        } else {
+                            out += "  M";
+                        }
+                    }
+                }
+            }
+        }
+        out += " 01 02 03 04 05 06 07 08 09 10 | 01 02 03 04 05 06 07 08 09 10\n";
+
+        //P1 Defensive Grid
+        out += "Defense\n";
+
+        char[] p1DGrid = new char[100];
+
+        for (Ship s: p1Ships){
+            char type = 0;
+
+            switch (s.getShipType()){
+                case ShipType.AIRCRAFT_CARRIER:
+                    type = 'A';
+                    break;
+                case ShipType.BATTLESHIP:
+                    type = 'B';
+                    break;
+                case ShipType.CRUISER:
+                    type = 'C';
+                    break;
+                case ShipType.DESTROYER:
+                    type = 'D';
+                    break;
+            }
+
+
+            for (Location l: s.getLocation()){
+                p1DGrid[l.getIndex()] = type;
+            }
+        }
+
+        for (int i = 0; i < p1DGrid.length; i++){
+            if (i % 10 == 0){
+                out += "\n" + (char)(65 + i/10);
+            }
+
+            if (p1DGrid[i] == 0){
+                out += "  .";
+            } else {
+                out += "  " + p1DGrid[i];
+            }
+        }
+        out += " 01 02 03 04 05 06 07 08 09 10 | 01 02 03 04 05 06 07 08 09 10\n";
+
+        //P2 Offensive Grid
+        out += p2.getName() + "\nOffense";
+
+        for (int i = 0; i < 100; i++){
+            // Print Offensive Board
+            if (i % 10 == 0){
+                out += "\n" + (char)(65 + i/10);
+            }
+            if (!p2Off[i]){
+                // Status == INITIAL
+                out += "  .";
+            } else {
+                //change token to HIT(H) or MISS(M), or sunk(S)
+                for (int j = 0; j < p1Ships.length; j++){
+                    if (p1Ships[j].getLocFromCoords(i/10, i%10) != null){
+                        if (p2Ships[j].isSunk()){
+                            out += "  S";
+                        } else if (p1Ships[j].getLocFromCoords(i/10, i%10).getStatus() == Status.HIT){
+                            out += "  H";
+                        } else {
+                            out += "  M";
+                        }
+                    }
+                }
+            }
+        }
+        out += " 01 02 03 04 05 06 07 08 09 10 | 01 02 03 04 05 06 07 08 09 10";
+
+        //P2 Defensive Grid
+        out += "Defense\n";
+
+        char[] p2DGrid = new char[100];
+
+        for (Ship s: p2Ships){
+            //For each ship get type and assign a representative char
+            char type = 0;
+
+            switch (s.getShipType()){
+                case AIRCRAFT_CARRIER:
+                    type = 'A';
+                    break;
+                case BATTLESHIP:
+                    type = 'B';
+                    break;
+                case CRUISER:
+                    type = 'C';
+                    break;
+                case DESTROYER:
+                    type = 'D';
+                    break;
+            }
+            // Get char from above and assign to appropriate index
+            for (Location l: s.getLocation()){
+                p2DGrid[l.getIndex()] = type;
+            }
+        }
+        // Loop through char[] and print characters as assigned.
+        for (int i = 0; i < p2DGrid.length; i++){
+            if (i % 10 == 0){
+                out += "\n" + (char)(65 + i/10);
+            }
+
+            if (p2DGrid[i] == 0){
+                out += "  .";
+            } else {
+                out += "  " + p2DGrid[i];
+            }
+        }
+        out += " 01 02 03 04 05 06 07 08 09 10 | 01 02 03 04 05 06 07 08 09 10\n";
+
+
+        return out;
     }
 
 

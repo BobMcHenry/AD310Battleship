@@ -44,6 +44,8 @@ class Location {
         return column;
     }
 
+    int getIndex(){ return row*10 + column; }
+
     /*
      * Returns the Status of this location.
      */

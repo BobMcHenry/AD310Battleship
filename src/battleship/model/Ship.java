@@ -40,6 +40,15 @@ class Ship {
         return placement;
     }
 
+    Location getLocFromCoords(int row, int col){
+        for (Location l : placement){
+            if (l.getRow() == row && l.getColumn() == col) {
+                return l;
+            }
+        }
+        return null;
+    }
+
     // Return true if all Locations received hits and ship is sunk.
     boolean isSunk() {
         for (int i = 0; i < size; i++) {
