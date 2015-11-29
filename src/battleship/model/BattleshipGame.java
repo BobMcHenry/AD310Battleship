@@ -167,6 +167,12 @@ public class BattleshipGame
     }
 
     public String makeShot(int row, int col) {
+        if (p1.getShips().length != 5 && p2.getShips().length != 5){
+            String errorMessage = ("Players not setup for gameplay. "
+                                + "Player 1 has " + p1.getShips().length + "ships, "
+                                + "Player 2 has " + p2.getShips().length + "ships.");
+            throw new IllegalStateException(errorMessage);
+        }
         // Flip flag on players offensiveBoard array
         if (activePlayer.offensiveBoard[row * 10 + col]) {
             return "Space already attacked";
