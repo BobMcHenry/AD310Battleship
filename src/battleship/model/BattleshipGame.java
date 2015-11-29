@@ -270,16 +270,16 @@ public class BattleshipGame
             char type = 0;
 
             switch (s.getShipType()){
-                case ShipType.AIRCRAFT_CARRIER:
+                case AIRCRAFT_CARRIER:
                     type = 'A';
                     break;
-                case ShipType.BATTLESHIP:
+                case BATTLESHIP:
                     type = 'B';
                     break;
-                case ShipType.CRUISER:
+                case CRUISER:
                     type = 'C';
                     break;
-                case ShipType.DESTROYER:
+                case DESTROYER:
                     type = 'D';
                     break;
             }
