@@ -204,4 +204,16 @@ public class BattleshipGame
     private boolean shipLengthValid( int size, int xh , int yh, int xt, yt ){
         return ( size == (Math.sqrt( (xt - xh)*(xt - xh) + (yt - yh)*(yt - yh));
     }
+
+    private Ship buildHorizontalShip( st, shipSize, headR, headC, tailR, tailC ){
+        //ship will be built
+    }
+
+    private Ship buildVerticalShip( st, shipSize, headR, headC, tailR, tailC ){
+        //ship will be built
+    }
+
+    private Ship buildDiagoalShip( st, shipSize, headR, headC, tailR, tailC ){
+        //ship will be build
+    }
 }
