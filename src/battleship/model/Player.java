@@ -12,6 +12,7 @@ class Player {
     int shipIndex;
     
     ShotResult[] shotReport;
+    boolean[] offensiveBoard;
 
     Player(String playerName) {
         this.name = playerName;
@@ -21,6 +22,8 @@ class Player {
         shipIndex = 0;
         shotReport = new ShotResult[100];
 
+        boardState = new boolean[100];
+
     }
 
     String getName() {
@@ -29,6 +32,10 @@ class Player {
 
     Ship[] getShips() {
         return ships;
+    }
+
+    Location[] getShipLocations(){
+
     }
 
     ShotResult[] getShots() {
@@ -44,6 +51,10 @@ class Player {
 
     void addShot(ShotResult sr){
         shotReport[turnCount++] = sr;
+    }
+
+    boolean[] getOffensiveBoard(){
+        return offensiveBoard;
     }
 
 }

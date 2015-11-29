@@ -3,26 +3,34 @@ package battleship.model;
 public class BattleshipGame 
 {
 
-    public Player p1;
-    public Player p2;
-    public Player activePlayer;
+    Player p1;
+    Player p2;
+    Player activePlayer;
+    Player defensePlayer;
    
     BattleshipGame(String player1Name, String player2Name){
        this.p1 = new Player(player1Name);
        this.p2 = new Player(player2Name);
        activePlayer = p1;
+       defensePlayer = p2;
     }
    
     public Player getActivePlayer(){
-        return activePlayer; //STUB
+        return activePlayer;
+    }
+
+    public Player getDefensePlayer(){
+        return defensePlayer;
     }
     
     //added field to store active player
     public void switchActivePlayer(){
         if (activePlayer.equals(p1)){
             activePlayer = p2;
+            defensePlayer = p1;
         } else {
             activePlayer = p1;
+            defensePlayer = p2;
         }
     }
 
@@ -137,12 +145,34 @@ public class BattleshipGame
         return loc;
     }
 
-    public ShotResult makeShot(int row, int col){
-        //validate chosen space
-        activePlayer.getShots();
-        //Create a ShotResult object
-        // Add to firing players shot log
-    }
+    public String makeShot(int row, int col){
+        // Flip flag on players offensiveBoard array
+        if ( activePlayer.offensiveBoard[row*10+col] ){
+            return "Space already attacked";
+        } else {
+            activePlayer.offensiveBoard[row*10+col] = true;
+        }
+
+        // get defending players locations
+        Location[] sl = getShipLocations(defensePlayer);
+
+        // Iterate through defending players locations
+        for (Location l : sl){
+            if (l.getRow() == row && l.getCol() == col){
+                
+                l.setStatus(Status.HIT);
+                activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
+
+                return "HIT";
+            }
+        }
+        // if not in location array, create a new location and shotresult,
+        // flag as a miss and switch player
+        activePlayer.addShot(new ShotResult(activePlayer, new Location(row,col), Status.MISS));
+        switchActivePlayer();
+        return "MISS";
+
+
 
     public boolean isGameOver(){
         return true;
@@ -156,8 +186,16 @@ public class BattleshipGame
         return p1.getName();
     }
 
-    public ShotResult[] getP1Shots(){
-            return new ShotResult[1];
+    /**
+    * Returns an array of True/False values that can be mapped to the gamegrid. 
+    * Use Row# * 10 + Column# to get row index. False values are cells that 
+    * have not yet been attacked. True values are previously attacked cells. 
+    * 
+    * @param p Designates which player's offense grid will be returned
+    * @return Boolean[] of players offensive shots.
+    */
+    public boolean[] getBoard(Player p){
+        boolean[] board = p.getOffensiveBoard();
     }
 
     public Player getP2(){ 
@@ -168,9 +206,6 @@ public class BattleshipGame
         return p2.getName();
     }
 
-    public ShotResult[] getP2Shots(){
-        return new ShotResult[1];
-    }
 
     /*
     * private helper method to validate location placement

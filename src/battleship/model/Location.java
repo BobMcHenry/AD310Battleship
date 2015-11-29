@@ -27,6 +27,7 @@ class Location {
         }
         this.row = r;
         this.column = c;
+        state = Status.INITIAL;
     }
 
     /*
