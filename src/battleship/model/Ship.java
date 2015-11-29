@@ -64,11 +64,6 @@ class Ship {
         return size;
     }
 
-    Location[] getCoords() {
-
-        return placement;
-    }
-
     @Override
     public String toString(){
         String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";

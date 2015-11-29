@@ -10,7 +10,7 @@ public class Temp {
 
         //player 1
         game.placeShip("aircraft carrier", 0, 0, 4, 4);
-        game.placeShip("destroyer", 9, 0, 9, 1);
+        game.placeShip("destroyer", 9, 1, 9, 0);
         game.placeShip("destroyer", 9, 9, 8, 8);
         game.placeShip("battleship", 4, 6, 7, 6);
         game.placeShip("cruiser", 1, 9, 3, 7);

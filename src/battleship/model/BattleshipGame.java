@@ -181,8 +181,13 @@ public class BattleshipGame implements BattleshipModel
                 }
             }
         }
-        activePlayer.setShip(new Ship(st, shipBody));
-        //System.out.println(st.toString() + " Created for " + activePlayer.getName() );
+        if (placementValid(st, shipBody)){
+            activePlayer.setShip(new Ship(st, shipBody));
+        } else {
+            return false;
+        }
+
+        System.out.println(st.toString() + " Created for " + activePlayer.getName() );
         if (activePlayer.shipIndex == 5){
             switchActivePlayer();
         }
@@ -468,6 +473,47 @@ public class BattleshipGame implements BattleshipModel
 
 
 
+        return true;
+    }
+
+    private boolean placementValid(ShipType st, Location[] shipPlace){
+        // If player has no other ships, return true
+        if (activePlayer.shipIndex == 0){
+            return true;
+        }
+        // Get players ship array.
+        Ship[] ships = activePlayer.getShips();
+
+        // Check for ShipType already placed.
+        int destroyerCount = 0;
+
+        for (Ship s: ships){
+            if (s != null){
+                if (s.getShipType() == st && st != ShipType.DESTROYER){
+                    return false;
+                } else if (s.getShipType() == st && st == ShipType.DESTROYER){
+                    if (destroyerCount != 2){
+                        destroyerCount++;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        //validate diagonal placement. No ships should cross the line of another ship.
+        for (Ship s: ships){
+            if (s != null) {
+                Location[] sl = s.getLocation();
+
+                if (shipPlace[0].getRow() > sl[s.getSize()-1].getRow()
+                    && shipPlace[shipTypeToSize(st)-1].getRow() < sl[0].getRow()) {
+                    return false;
+                } else if (shipPlace[0].getRow() < sl[s.getSize()-1].getRow()
+                        && shipPlace[shipTypeToSize(st)-1].getRow() > sl[0].getRow()) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
