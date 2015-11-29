@@ -53,9 +53,12 @@ public interface BattleshipModel{
     public String getP2Name();
 
     /**
-     * Resets current game and reverts into setup mode.
+     * Resets current game and reverts into setup mode with two new Players
+     * View/Controller will need to revert to setup mode.
+     * @param p1Name Player One name as String
+     * @param p2Name Player Two name as String
      */
-    public void resetGame();
+    public void resetGame(String p1Name, String p2Name);
 
     /**
      * Places a ship on the game board for the player designated as the

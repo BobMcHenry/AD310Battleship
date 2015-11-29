@@ -1,23 +1,53 @@
 package battleship.model;
 
 /**
- *
+ * Implementation of the BattleshipModel interface
+ * @author Bob McHenry
+ * @author Chris Wilson
+ * @author Mario Rodriguez
+ * @author Jesse Bernoudy
+ * @version 11/28/2015 - WIP
  */
-public class BattleshipGame 
+public class BattleshipGame implements BattleshipModel
 {
-
+    /**
+     * Player one reference.
+     */
     Player p1;
+    /**
+     * Player two reference
+     */
     Player p2;
+    /**
+     * Offensive player reference. Should only be pointed at p1 or p2.
+     * Opposite of defensePlayer.
+     * Ie, if activePlayer is p1, defensePlayer is p2.
+     */
     Player activePlayer;
+    /**
+     * Defensive player reference. Should only be pointed at p1 or p2.
+     * Opposite of activePlayer.
+     * Ie, if activePlayer is p1, defensePlayer is p2.
+     */
     Player defensePlayer;
-   
+
+    /**
+     * BattleshipGame constructor creates 2 player classes from the provided
+     * playerXName strings, p1 and p2.
+     * activePlayer reference is pointed at p1
+     * defensePlayer reference is pointed at p2.
+     * Game model is ready for setup.
+     *
+     * @param player1Name String for Player class, p1, instantiation.
+     * @param player2Name String for Player class, p2, instantiation.
+     */
     BattleshipGame(String player1Name, String player2Name){
-       this.p1 = new Player(player1Name);
-       this.p2 = new Player(player2Name);
-       activePlayer = p1;
-       defensePlayer = p2;
+        this.p1 = new Player(player1Name); // Player One object creation
+        this.p2 = new Player(player2Name); // Player Two object creation
+        activePlayer = p1; // Offensive player assignment. p1 Starts
+        defensePlayer = p2; // Defensive player assignment.
     }
-   
+
     public Player getActivePlayer(){
         return activePlayer;
     }
@@ -25,8 +55,7 @@ public class BattleshipGame
     public Player getDefensePlayer(){
         return defensePlayer;
     }
-    
-    //added field to store active player
+
     public void switchActivePlayer(){
         if (activePlayer.equals(p1)){
             activePlayer = p2;
@@ -37,8 +66,11 @@ public class BattleshipGame
         }
     }
 
-    public void resetGame(){
-        // method stub
+    public void resetGame(String p1Name, String p2Name){
+        this.p1 = new Player(p1Name); // Player One object creation
+        this.p2 = new Player(p2Name); // Player Two object creation
+        activePlayer = p1; // Offensive player assignment. p1 Starts
+        defensePlayer = p2; // Defensive player assignment.
     }
     
     public boolean placeShip( String s, int headR, int headC, int tailR, int tailC ){
