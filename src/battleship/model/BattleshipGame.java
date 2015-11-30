@@ -495,6 +495,16 @@ public class BattleshipGame implements BattleshipModel {
         return true;
     }
 
+    public Status getStateFromXY(int row, int col){
+        Location[] shotLoc = p1.getShotLocations()
+        for (int i = 0; i < shotLoc.length; i++ ){
+            if (shotLoc[i].getRow() == row && shotLoc[i].getColumn() == col) {
+                return shotLoc[i].getStatus();
+            }
+        }
+        return Status.INITIAL;
+    }
+
 //    private boolean placementValid(ShipType st, Location[] shipPlace){
 //
 ////        for (int i=0; i < shipPlace.length;i++){
