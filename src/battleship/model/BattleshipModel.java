@@ -14,43 +14,43 @@ public interface BattleshipModel{
      * getActivePlayer returns the reference of the active player.
      * @return activePlayer reference
      */
-    public Player getActivePlayer();
+    Player getActivePlayer();
 
     /**
      * getDefensePlayer returns the reference of the defending player.
      * @return defensePlayer reference
      */
-    public Player getDefensePlayer();
+    Player getDefensePlayer();
 
     /**
      * Called when a player has finished setup or has fired a shot that missed.
      * Swaps the activePlayer and defensePlayer references to the appropriate
      * Player objects.
      */
-    public void switchActivePlayer();
+    void switchActivePlayer();
 
     /**
      * @return the Player stored in the game as Player 1
      */
-    public Player getP1();
+    Player getP1();
 
     /**
      *
      * @return Assigned name of Player 1 as a String
      */
-    public String getP1Name();
+    String getP1Name();
 
     /**
      *
      * @return the Player stored in the game as Player 2
      */
-    public Player getP2();
+    Player getP2();
 
     /**
      *
      * @return Assigned name of Player 2 as a String
      */
-    public String getP2Name();
+    String getP2Name();
 
     /**
      * Resets current game and reverts into setup mode with two new Players
@@ -58,7 +58,7 @@ public interface BattleshipModel{
      * @param p1Name Player One name as String
      * @param p2Name Player Two name as String
      */
-    public void resetGame(String p1Name, String p2Name);
+    void resetGame(String p1Name, String p2Name);
 
     /**
      * Places a ship on the game board for the player designated as the
@@ -78,7 +78,7 @@ public interface BattleshipModel{
      * @return True if ship is placed on board, False if ship fails validation
      * and is not placed.
      */
-    public boolean placeShip( String s, int headR, int headC, int tailR, int tailC );
+    boolean placeShip(String s, int headR, int headC, int tailR, int tailC);
 
     /**
      * Returns an array of all the board Locations the designated player's
@@ -88,7 +88,7 @@ public interface BattleshipModel{
      *
      * @return an array of Location objects.
      */
-    public Location[] getShipLocations(Player p);
+    Location[] getShipLocations(Player p);
 
     /**
      * Once setup mode has ended, the makeShot method is used to make offensive
@@ -100,7 +100,7 @@ public interface BattleshipModel{
      *
      * @return String message relaying status of hit.
      */
-    public String makeShot(int row, int col);
+    String makeShot(int row, int col);
 
     /**
      * isGameOver checks to see if a win condition has been met by either
@@ -109,7 +109,7 @@ public interface BattleshipModel{
      *
      * @return True if win condition is met, false if gameplay should continue
      */
-    public boolean isGameOver();
+    boolean isGameOver();
 
     /**
      * Returns an array of True/False values that can be mapped to the gamegrid.
@@ -119,5 +119,5 @@ public interface BattleshipModel{
      * @param p Designates which player's offense grid will be returned
      * @return Boolean[] of players offensive shots.
     */
-    public boolean[] getBoard(Player p);
+    boolean[] getBoard(Player p);
 }
