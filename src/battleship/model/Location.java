@@ -85,12 +85,18 @@ class Location {
         state = value;
     }
 
+    int[] getXY(){
+        int[] out = new int[2];
+        out[0] = getRow();
+        out[0] = getColumn();
+        return out;
+    }
     /**
      * String representation of Location object
      * @return Information string in the format Row: # | Column: # | State: STATUS
      */
     @Override
     public String toString(){
-        return "Row: " + row + " | Column: " + column + " | State: " + state.toString() + "\n";
+        return "Row: " + row + " | Column: " + column + " | State: " + state.toString() ;
     }
 }

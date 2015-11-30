@@ -64,12 +64,22 @@ class Ship {
         return size;
     }
 
+    int[][] getAllXY(){
+        int[][] out = new int[size][];
+
+        for (int i = 0; i < placement.length; i++){
+            out[i] = placement[i].getXY();
+        }
+
+        return out;
+    }
+
     @Override
     public String toString(){
         String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";
 
         for (Location l : placement){
-            out += l.toString();
+            out += l.toString() +"\n";
         }
 
         return out;

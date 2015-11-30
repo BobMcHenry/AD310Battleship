@@ -13,7 +13,7 @@ public class Temp {
         game.placeShip("destroyer", 9, 1, 9, 0);
         game.placeShip("destroyer", 9, 9, 8, 8);
         game.placeShip("battleship", 4, 6, 7, 6);
-        game.placeShip("cruiser", 1, 9, 3, 7);
+        game.placeShip("cruiser", 0, 3, 0, 5);
 
 
         //player 2
@@ -23,22 +23,21 @@ public class Temp {
         game.placeShip("battleship", 4, 6, 7, 6);
         game.placeShip("cruiser", 3, 7, 1, 9);
 
-        System.out.println(game.getActivePlayer().getName());
+        System.out.println(game.getActivePlayer().getName() + " firing on B2");
         System.out.println(game.makeShot(1,1));
-        System.out.println(game.getActivePlayer().getName());
+        System.out.println(game.getActivePlayer().getName() + " firing on A2");
         System.out.println(game.makeShot(0,1));
-        System.out.println(game.getActivePlayer().getName());
+        System.out.println(game.getActivePlayer().getName() + " firing on J10");
         System.out.println(game.makeShot(9,9));
-        System.out.println(game.getActivePlayer().getName());
+        System.out.println(game.getActivePlayer().getName() + " firing on J1");
         System.out.println(game.makeShot(9,0));
-        System.out.println(game.getActivePlayer().getName());
+        System.out.println(game.getActivePlayer().getName() + " firing on J2");
         System.out.println(game.makeShot(9,1));
-        System.out.println(game.getActivePlayer().getName());
 
         System.out.println(game.getActivePlayer());
         System.out.println(game.getDefensePlayer());
         System.out.println("\n\n-----------------------\n" + game);//.activePlayer);
-        System.out.println(game.getActivePlayer().getShips()[4]);
+        //System.out.println(game.getActivePlayer().getShips()[4]);
 
     }
 }
