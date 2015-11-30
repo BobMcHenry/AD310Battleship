@@ -35,6 +35,8 @@ public class PreBoard extends Application {
     private BattleshipGame game;
     private String[] playerNames;
     private MainApp mainApp;
+    
+    
       
     /**
      * Application class override method, where javaFX stage starts
@@ -110,8 +112,9 @@ public class PreBoard extends Application {
                         controller.startGame(playerNames);
                         controller.setPlayer2(player);                                               
                         p2B.start(new Stage());
-                        hideBtn.fire();                        
-                        p1B.primeShow();                        
+                        hideBtn.fire();
+                        p1B.primeShow();
+                        
                 }                        
             }
         });        
@@ -183,9 +186,7 @@ public class PreBoard extends Application {
      */
     public ViewCon getVcon() {
         return controller;
-    }
-    
-    
+    }   
    
     
     

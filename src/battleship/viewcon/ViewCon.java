@@ -1,8 +1,8 @@
 package battleship.viewcon;
 import battleship.model.*;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
-
 import javafx.scene.control.Button;
 
 /**
@@ -33,6 +33,8 @@ public class ViewCon {
        isP1SetupMode = true;
        isP2SetupMode = true;       
    }
+    
+    
    
     /**
      * Method to set a link to the BattleshipGame object
@@ -158,7 +160,8 @@ public class ViewCon {
     public void preShow() {
        System.out.println(preShow);
        preShow.fire();
-   }
+   }    
+    
    
     /**
      * Method to hide the PreBoard
@@ -233,17 +236,31 @@ public class ViewCon {
     * @param btn 
     */
    public void handleGridBtn1(String id, Button btn) {
-       System.out.println("From board1");
-       System.out.println("id is: " + id + " , button is: " + btn);
-       this.hideP1();
-       this.showP2();
+       int[] coords;
+       coords = this.processMove(id, btn);       
+       p1B.nextMove.setVisible(true);
+       p1B.hideBoardButtons();
    }
 
    public void handleGridBtn2(String id, Button btn) {
-       System.out.println("From board2");
-       System.out.println("id is: " + id + " , button is: " + btn);
+       int[] coords;
+       coords = this.processMove(id, btn);       
+       p2B.nextMove.setVisible(true);
+       p2B.hideBoardButtons();
+   }
+   
+   public void handleNextMoveBtn1(ActionEvent e) {      
+       this.hideP1();
+       this.showP2();
+       p1B.nextMove.setVisible(false);
+       p1B.showBoardButtons();
+   }
+   
+   public void handleNextMoveBtn2(ActionEvent e) {       
        this.hideP2();
        this.showP1();
+       p2B.nextMove.setVisible(false);
+       p2B.showBoardButtons();
    }
    
    public int[][] getShipCoords() {
@@ -251,6 +268,8 @@ public class ViewCon {
    }
    
    public void resetP1SideElements() {
+       //gridMain.add(shipButtonSize, 2, 1);
+       
        p1B.shipStatsLabel.setText("Sunken Enemy ships: ");
        p1B.showBoardButtons();
        p1B.shipButtonSize.setText("");
@@ -324,5 +343,42 @@ public class ViewCon {
        }       
        return gameConnect.placeShip(s, hr, headColumn, tr, tailColumn);
    }
+   
+   /**
+    * This method will process the input from players clicking the grid buttons during gameplay
+    *  It will pass its coordinates to the game's makeShot() method, and decide what to do with the view after that
+    * @param id
+    * @param btn
+    * @return 
+    */
+   public int[] processMove(String id, Button btn) {
+       int row = 0;
+       String r = id.substring(0, 1);
+       int column = Integer.parseInt(id.substring(1, 2));
+       if(r.equals("A")) {
+           row = 0;
+       } else if(r.equals("B")) {
+           row = 1;
+       } else if(r.equals("C")) {
+           row = 2;
+       } else if(r.equals("D")) {
+           row = 3;
+       } else if(r.equals("E")) {
+           row = 4;
+       } else if(r.equals("F")) {
+           row = 5;
+       } else if(r.equals("G")) {
+           row = 6;
+       } else if(r.equals("H")) {
+           row = 7;
+       } else if(r.equals("I")) {
+           row = 8;
+       } else if(r.equals("J")) {
+           row = 9;
+       }       
+       gameConnect.makeShot(row, column);
+       return new int[]{row, column};
+   }
     
+   
 }

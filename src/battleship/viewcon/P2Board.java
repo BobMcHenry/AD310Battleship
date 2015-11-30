@@ -32,10 +32,13 @@ public class P2Board extends Application {
     boolean isSetupComplete;    
     Scene scene;
     GridPane gridInner;
-    Button bs, ac, ds1, ds2, cr, hideBtn, showBtn;    
+    GridPane gridMain;
+    Button bs, ac, ds1, ds2, cr, hideBtn, showBtn, nextMove; 
+    Label bsL, acL, ds1L, ds2L, crL;
     VBox shipButtons;
     Label shipStatsLabel;
     Label shipButtonSize;
+    Label moveStatus;
     String activeShip;
     String activeShipPasser;
     String[] twoLocations; // Field for two different string locations to pass to model for validation
@@ -69,8 +72,7 @@ public class P2Board extends Application {
      * Method to set the link to the ViewCon controller class
      * @param v 
      */
-    public void setLink(ViewCon v) {
-        System.out.println("Connection from viewcon to this P2Board established");
+    public void setLink(ViewCon v) {        
         this.viewLink = v;
     }
     
@@ -82,7 +84,7 @@ public class P2Board extends Application {
         shipsValidated = new boolean[5];
         
         // Setup the gridPane for all the children components/nodes       
-        GridPane gridMain = new GridPane();
+        gridMain = new GridPane();
         gridMain.setHgap(0);
         gridMain.setVgap(0);
         gridMain.setPadding(new Insets(220, 25, 25, 100));
@@ -96,6 +98,7 @@ public class P2Board extends Application {
         
         // Player name above the board buttons
         Label playerLabel = new Label(player);
+        playerLabel.setId("blueLabel");
         gridMain.add(playerLabel, 0, 0);
         
         // VBox to house the board Letters
@@ -177,12 +180,18 @@ public class P2Board extends Application {
         
         // Label to notify user to place ship
         shipStatsLabel = new Label("Select a ship");
+        shipStatsLabel.setId("blueLabel");
         shipStatsLabel.setPadding(new Insets(0, 0, 0, 65));
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
         shipButtons = new VBox();        
         shipButtonSize = new Label("");
-        gridMain.add(shipButtonSize, 2, 1);
+        shipButtonSize.setId("blueLabel");
+        moveStatus = new Label("miss");
+        moveStatus.setId("status");
+        gridMain.add(shipButtonSize, 2, 1);        
+        gridMain.add(moveStatus, 2, 2);
+        
         
         // Actual buttons to select ship to place
         shipButtons.setSpacing(5);
@@ -441,35 +450,55 @@ public class P2Board extends Application {
             cr.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
-            shipButtons.getChildren().remove(ac);            
+            shipButtons.getChildren().remove(ac);
+            acL = new Label("Carrier");
+            acL.setId("sunkShips");
+            shipButtons.getChildren().addAll(acL);
+            acL.setVisible(false);
         }
         if(activeShip.equals("BATTLESHIP")) {
             ac.setDisable(false);
             cr.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
-            shipButtons.getChildren().remove(bs);            
+            shipButtons.getChildren().remove(bs);
+            bsL = new Label("Battleship");
+            bsL.setId("sunkShips");
+            shipButtons.getChildren().addAll(bsL);
+            bsL.setVisible(false);
         }
         if(activeShip.equals("CRUISER")) {
             bs.setDisable(false);
             ac.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
-            shipButtons.getChildren().remove(cr);            
+            shipButtons.getChildren().remove(cr);
+            crL = new Label("Cruiser");
+            crL.setId("sunkShips");
+            shipButtons.getChildren().addAll(crL);
+            crL.setVisible(false);
         }
         if(activeShip.equals("DESTROYER1")) {
             bs.setDisable(false);
             cr.setDisable(false);
             ac.setDisable(false);
             ds2.setDisable(false);
-            shipButtons.getChildren().remove(ds1);            
+            shipButtons.getChildren().remove(ds1);
+            ds1L = new Label("Destroyer1");
+            ds1L.setId("sunkShips");
+            shipButtons.getChildren().addAll(ds1L);
+            ds1L.setVisible(false);
         }
         if(activeShip.equals("DESTROYER2")) {
             bs.setDisable(false);
             cr.setDisable(false);
             ds1.setDisable(false);
             ac.setDisable(false);
-            shipButtons.getChildren().remove(ds2);            
+            shipButtons.getChildren().remove(ds2);
+            ds2L = new Label("Destroyer2");
+            ds2L.setId("sunkShips");
+            shipButtons.getChildren().addAll(ds2L);
+            ds2L.setVisible(false);
         }
         hideBoardButtons();
         isShipClicked = true;
@@ -540,6 +569,18 @@ public class P2Board extends Application {
        if(shipsValidated[0] == true && shipsValidated[1] == true && shipsValidated[2] == true
                && shipsValidated[3] == true && shipsValidated[4] == true) {
            viewLink.isP2SetupMode = false;
+           
+           gridMain.getChildren().remove(shipButtonSize);
+           nextMove = new Button("Switch Players");
+           nextMove.setId("moveBtn");
+           nextMove.setOnAction(new EventHandler<ActionEvent>() { 
+            @Override
+            public void handle(ActionEvent e) {
+                viewLink.handleNextMoveBtn2(e);
+            }
+        });
+           gridMain.add(nextMove, 2, 1);
+           nextMove.setVisible(false);
            viewLink.resetP2SideElements();
            hideBtn.fire();
            //int[][] finalShipList = viewLink.getShipCoords();

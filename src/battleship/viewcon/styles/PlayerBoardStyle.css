@@ -12,12 +12,28 @@ and open the template in the editor.
     -fx-focus-color: transparent;
 }
 
-.label {
+#blueLabel {
     -fx-font-size: 28px;
     -fx-font-family: Impact;
     -fx-text-fill: #002cb3;
     -fx-alignment: CENTER_RIGHT;
     -fx-effect: innershadow(one-pass-box, #808080, 5, 0.2, 2, 0);
+}
+
+#sunkShips {
+    -fx-font-size: 22px;
+    -fx-font-family: Impact;
+    -fx-text-fill: #0066ff;
+    -fx-alignment:CENTER_LEFT;
+    -fx-effect: innershadow(one-pass-box, #ff6600, 1, 0.2, 2, 0);
+}
+
+#status {
+    -fx-font-size: 32px;
+    -fx-font-family: Impact;
+    -fx-text-fill: #0066ff;
+    -fx-alignment:CENTER_RIGHT;
+    -fx-effect: innershadow(one-pass-box, #ff6600, 1, 0.2, 2, 0);
 }
 
 #letters {
@@ -33,7 +49,7 @@ and open the template in the editor.
     -fx-fill:  linear-gradient(darkblue , cornflowerblue);
 }
 
-#shipBox > .button {
+#shipBox > .button, #moveBtn {
     -fx-background-color:
         linear-gradient(#ffb280, #fff0e5),
         radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
@@ -44,7 +60,7 @@ and open the template in the editor.
     -fx-text-fill: #000000;
 }
 
-#shipBox > .button:hover {
+#shipBox > .button:hover, #moveBtn:hover {
     -fx-background-color:
         linear-gradient(#ffb280, #fff0e5),
         radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
@@ -65,9 +81,11 @@ and open the template in the editor.
     -fx-background-image: url("../img/waterSquare.jpg");
 }
 
-#innerACplace > .button {
-    -fx-background-image: url("../img/acGrid.jpg");
+#hit > .button {
+    -fx-background-image: url("../img/acHit.jpg");
 }
+
+ 
 
 
 

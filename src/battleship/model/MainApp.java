@@ -6,10 +6,8 @@
 package battleship.model;
 import battleship.viewcon.*;
 import javafx.application.Application;
-import static javafx.application.Platform.exit;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  *
@@ -20,26 +18,21 @@ public class MainApp extends Application {
     Player player2;
     BattleshipGame theGame;
     PreBoard theGamePreBoard;
-    ViewCon viewConnector;
+    ViewCon viewConnector;   
     
-    // Starts the javafx stage, this is the javafx thread class
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override public void handle(WindowEvent t) {
-            System.out.println("CLOSING");
-            exit();
-    }
-});
+    
+    public void start(Stage primaryStage) {       
         theGamePreBoard = new PreBoard();
         theGamePreBoard.setMainAppConnection(this);
         theGamePreBoard.start(primaryStage);
         viewConnector = theGamePreBoard.getVcon();        
-    }
+    } 
+    
     
     public void startBsGame(String[] names) {                
         theGame = new BattleshipGame(names[0], names[1]);        
         viewConnector.setGame(theGame);
+        
     }
     
     public BattleshipGame getGame() {
@@ -48,10 +41,11 @@ public class MainApp extends Application {
     
     public void setConnection(ViewCon vc) {
         this.viewConnector = vc;
-    }
+    }    
+    
     
     public static void main(String[] args) {
-        MainApp app = new MainApp();       
+        MainApp app = new MainApp();
         Application.launch();
         app.start(new Stage());        
     }

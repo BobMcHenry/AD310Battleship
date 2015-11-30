@@ -195,7 +195,7 @@ public class BattleshipGame implements BattleshipModel {
         }
         return true;
     }
-    public int[][] getShipCoords(Player p){        
+    public int[][] getShipCoords(Player p){
         int[][] out = new int[16][];
         if(p.shipIndex == 5){
             Ship[] ships = p.getShips();
@@ -257,7 +257,6 @@ public class BattleshipGame implements BattleshipModel {
             // Iterate through defending players locations
             for (Location l : sl) {
                 if (l.getRow() == row && l.getColumn() == col) {
-
                     l.setStatus(Status.HIT);
                     activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
 
@@ -493,6 +492,16 @@ public class BattleshipGame implements BattleshipModel {
             }
         }
         return true;
+    }
+
+    public Status getStateFromXY(int row, int col){
+        Location[] shotLoc = p1.getShotLocations();
+        for (int i = 0; i < shotLoc.length; i++ ){
+            if (shotLoc[i].getRow() == row && shotLoc[i].getColumn() == col) {
+                return shotLoc[i].getStatus();
+            }
+        }
+        return Status.INITIAL;
     }
 
 //    private boolean placementValid(ShipType st, Location[] shipPlace){
