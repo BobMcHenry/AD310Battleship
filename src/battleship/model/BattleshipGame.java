@@ -40,7 +40,7 @@ public class BattleshipGame implements BattleshipModel {
      * @param player1Name String for Player class, p1, instantiation.
      * @param player2Name String for Player class, p2, instantiation.
      */
-    BattleshipGame(String player1Name, String player2Name) {
+    public BattleshipGame(String player1Name, String player2Name) {
         this.p1 = new Player(player1Name); // Player One object creation
         this.p2 = new Player(player2Name); // Player Two object creation
         activePlayer = p1; // Offensive player assignment. p1 Starts
