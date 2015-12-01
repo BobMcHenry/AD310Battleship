@@ -3,20 +3,20 @@ package battleship.model;
 /**
  * Ship class, to be extended to individual ship classes.
  */
-public class Ship {
+class Ship {
     // Type of ship being created
     ShipType type;
     // Number of grid squares occupied by ship
     int size;    // Array of Locations representing specific grid squares occupied. 
     Location[] placement;
 
-    public Ship(ShipType st, Location[] place) {
+    Ship(ShipType st, Location[] place) {
         type = st;
         size = SizeFromShipType(st);
         placement = place;
     }
 
-    public static int SizeFromShipType(ShipType st){
+    private static int SizeFromShipType(ShipType st){
         int size = 0;
         switch (st) {
             case AIRCRAFT_CARRIER:
@@ -36,16 +36,16 @@ public class Ship {
     }
 
     // Return ShipType enum value
-    public ShipType getShipType() {
+    ShipType getShipType() {
         return type;
     }
 
     // Return array of locations occupied by ship
-    public Location[] getLocation() {
+    Location[] getLocation() {
         return placement;
     }
 
-    public Location getLocFromCoords(int row, int col){
+    Location getLocFromCoords(int row, int col){
         for (Location l : placement){
             if (l.getRow() == row && l.getColumn() == col) {
                 return l;
@@ -54,21 +54,8 @@ public class Ship {
         return null;
     }
 
-    public boolean contains(int row, int col){
-        for (Location l : placement){
-            if (l.getRow() == row && l.getColumn() == col) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean intersects(Ship other){
-        return false;
-    }
-
     // Return true if all Locations received hits and ship is sunk.
-    public boolean isSunk() {
+    boolean isSunk() {
         for (int i = 0; i < size; i++) {
             if (placement[i].getStatus() != Status.HIT) {
                 return false;
@@ -78,11 +65,11 @@ public class Ship {
     }
 
     // Return size of ship.
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public int[][] getAllXY(){
+    int[][] getAllXY(){
         int[][] out = new int[size][];
 
         for (int i = 0; i < placement.length; i++){

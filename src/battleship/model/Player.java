@@ -4,7 +4,7 @@ package battleship.model;
  * Player class to store the players board object and retrieve all previous
  * state information from the above hierarchy
  */
-public class Player {
+class Player {
     String name;
     int turnCount;
 
@@ -25,15 +25,15 @@ public class Player {
         offensiveBoard = new boolean[100];
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public Ship[] getShips() {
+    Ship[] getShips() {
         return ships;
     }
 
-    public ShotResult[] getShots() {
+    ShotResult[] getShots() {
         return shotReport;
     }
 
@@ -47,7 +47,7 @@ public class Player {
         shotReport[turnCount++] = sr;
     }
 
-    public boolean[] getOffensiveBoard(){
+    boolean[] getOffensiveBoard(){
 
         return offensiveBoard;
     }

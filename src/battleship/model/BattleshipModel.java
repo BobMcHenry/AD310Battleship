@@ -17,10 +17,22 @@ public interface BattleshipModel{
     Player getActivePlayer();
 
     /**
+     * getActivePlayerName returns the name of the active player.
+     * @return activePlayer name
+     */
+    String getActivePlayerName();
+
+    /**
      * getDefensePlayer returns the reference of the defending player.
      * @return defensePlayer reference
      */
     Player getDefensePlayer();
+
+    /**
+     * getDefensePlayerName returns the name of the defending player.
+     * @return getDefensePlayer name
+     */
+    String getDefensePlayerName();
 
     /**
      * Called when a player has finished setup or has fired a shot that missed.

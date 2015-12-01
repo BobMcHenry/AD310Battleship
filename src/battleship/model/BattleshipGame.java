@@ -51,8 +51,16 @@ public class BattleshipGame implements BattleshipModel {
         return activePlayer;
     }
 
+    public String getActivePlayerName(){
+        return activePlayer.getName();
+    }
+
     public Player getDefensePlayer() {
         return defensePlayer;
+    }
+
+    public String getDefensePlayerName() {
+        return defensePlayer.name;
     }
 
     public void switchActivePlayer() {
@@ -64,6 +72,8 @@ public class BattleshipGame implements BattleshipModel {
             defensePlayer = p2;
         }
     }
+
+
 
     public void resetGame(String p1Name, String p2Name) {
         this.p1 = new Player(p1Name); // Player One object creation

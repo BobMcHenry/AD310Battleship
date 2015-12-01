@@ -1,7 +1,6 @@
 package battleship.test;
 
 import battleship.model.BattleshipGame;
-import battleship.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,23 +71,23 @@ public class BattleshipGameTest {
     }
     @Test
     public void testGetActivePlayer() throws Exception {
-        Player player = game.getActivePlayer();
-        assertTrue(player.getName().compareTo(PLAYER1)==0);
+        String player = game.getActivePlayerName();
+        assertEquals(player, PLAYER1);
     }
 
     @Test
     public void testGetDefensePlayer() throws Exception {
-        Player player = game.getDefensePlayer();
-        assertTrue(player.getName().compareTo(PLAYER2)==0);
+        String player = game.getDefensePlayerName();
+        assertEquals(player, PLAYER2);
     }
 
     @Test
     public void testSwitchActivePlayer() throws Exception {
-        Player activePlayer1 = game.getActivePlayer();
-        Player defensivePlayer1 = game.getDefensePlayer();
+        String activePlayer1 = game.getActivePlayerName();
+        String defensivePlayer1 = game.getDefensePlayerName();
         game.switchActivePlayer();
-        Player activePlayer2 = game.getActivePlayer();
-        Player defensivePlayer2 = game.getDefensePlayer();
+        String activePlayer2 = game.getActivePlayerName();
+        String defensivePlayer2 = game.getDefensePlayerName();
         assertNotEquals(activePlayer1, activePlayer2);
         assertNotEquals(defensivePlayer1, defensivePlayer2);
         assertEquals(activePlayer1, defensivePlayer2);
