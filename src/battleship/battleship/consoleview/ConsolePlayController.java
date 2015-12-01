@@ -27,6 +27,8 @@ public class ConsolePlayController {
         String ap = bg.getActivePlayerName();
         String dp = bg.getDefensePlayerName();
 
+        System.out.println(getAttackGrid(bg.getBoard(bg.getActivePlayer())));
+
         System.out.println(ap + " attacking " + dp + ". Enter attack coords: ");
         String coords = input.nextLine();
 
@@ -37,6 +39,24 @@ public class ConsolePlayController {
 
         System.out.println(bg.makeShot(row, col));
 
+
+    }
+
+    String getAttackGrid(boolean[] grid){
+        String out = "";
+        for (int i = 0; i < 100; i++) {
+            // Print Offensive Board
+            if (i % 10 == 0) {
+                out += "\n" + (char) (65 + i / 10);
+            }
+            if (!grid[i]) {
+                // Status == INITIAL
+                out += "  .";
+            } else {
+                out+="  h";
+            }
+        }
+        return (out += "\n  01 02 03 04 05 06 07 08 09 10 \n");
 
     }
 }
