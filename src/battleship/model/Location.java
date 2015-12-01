@@ -4,7 +4,7 @@ package battleship.model;
  * A class that represents the status of one square on the playing board.
  * Uses a row,col pair as the coordinate system, rows and cols numbered 0-9
  */
-public class Location {
+class Location {
     /**
      * Row position of Location
      */
@@ -24,7 +24,7 @@ public class Location {
      * @param c The column of this location, valid values are 0-9.
      * @throws IllegalArgumentException if either r or c are out of range.
      */
-    public Location(int r, int c) {
+    Location(int r, int c) {
         //Validation
         if (r < 0 || r > 9) {
             throw new IllegalArgumentException(
@@ -40,7 +40,7 @@ public class Location {
         state = Status.INITIAL;
     }
 
-    public Location(int r, int c, Status state){
+    Location(int r, int c, Status state){
         this(r,c);
         this.state = state;
     }
@@ -49,7 +49,7 @@ public class Location {
      * Returns the Row of this location.
      * @return the int value of the row this Location occupies
      */
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
@@ -57,7 +57,7 @@ public class Location {
      * Returns the Column of this location.
      * @return the int value of the column this Location occupies.
      */
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
@@ -65,7 +65,7 @@ public class Location {
      * Returns the calculated index value of the location.
      * @return int equal to (row * width + column)
      */
-    public int getIndex(){ return row*10 + column; }
+    int getIndex(){ return row*10 + column; }
 
     /**
      * Returns the Status of this location. HIT, MISS, or INITIAL
@@ -74,7 +74,7 @@ public class Location {
      * MISS if fired on and is not in a Ship's Location[]
      * or INITIAL if not yet fired on.
      */
-    public Status getStatus() {
+    Status getStatus() {
         return state;
     }
 
@@ -82,7 +82,7 @@ public class Location {
      * Sets the status of this location.
      * @param value The new Status enum type of location
      */
-    public void setStatus(Status value) {
+    void setStatus(Status value) {
         state = value;
     }
 
