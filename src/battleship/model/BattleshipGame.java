@@ -181,6 +181,9 @@ public class BattleshipGame implements BattleshipModel {
                     return false;
                 }
             }
+        } else {
+            // Head and tail are not valid
+            return false;
         }
         //Diagonal b-section validaion.
 //        if (placementValid(st, shipBody)){
