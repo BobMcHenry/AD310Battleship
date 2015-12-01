@@ -5,7 +5,7 @@ package battleship.model;
  * shot. shot coordinates, and type of ship if applicable.
  */
 
-class ShotResult {
+public class ShotResult {
     Player shootingPlayer;
     Location shotCoords;
     Status type;

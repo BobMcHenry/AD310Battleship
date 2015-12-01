@@ -4,7 +4,7 @@ package battleship.model;
  * A class that represents the status of one square on the playing board.
  * Uses a row,col pair as the coordinate system, rows and cols numbered 0-9
  */
-class Location {
+public class Location {
     /**
      * Row position of Location
      */
@@ -24,7 +24,7 @@ class Location {
      * @param c The column of this location, valid values are 0-9.
      * @throws IllegalArgumentException if either r or c are out of range.
      */
-    Location(int r, int c) {
+    public Location(int r, int c) {
         //Validation
         if (r < 0 || r > 9) {
             throw new IllegalArgumentException(
@@ -39,7 +39,8 @@ class Location {
         this.column = c;
         state = Status.INITIAL;
     }
-    Location(int r, int c, Status state){
+
+    public Location(int r, int c, Status state){
         this(r,c);
         this.state = state;
     }
@@ -48,7 +49,7 @@ class Location {
      * Returns the Row of this location.
      * @return the int value of the row this Location occupies
      */
-    int getRow() {
+    public int getRow() {
         return row;
     }
 
@@ -56,7 +57,7 @@ class Location {
      * Returns the Column of this location.
      * @return the int value of the column this Location occupies.
      */
-    int getColumn() {
+    public int getColumn() {
         return column;
     }
 
@@ -64,7 +65,7 @@ class Location {
      * Returns the calculated index value of the location.
      * @return int equal to (row * width + column)
      */
-    int getIndex(){ return row*10 + column; }
+    public int getIndex(){ return row*10 + column; }
 
     /**
      * Returns the Status of this location. HIT, MISS, or INITIAL
@@ -73,7 +74,7 @@ class Location {
      * MISS if fired on and is not in a Ship's Location[]
      * or INITIAL if not yet fired on.
      */
-    Status getStatus() {
+    public Status getStatus() {
         return state;
     }
 
@@ -81,16 +82,17 @@ class Location {
      * Sets the status of this location.
      * @param value The new Status enum type of location
      */
-    void setStatus(Status value) {
+    public void setStatus(Status value) {
         state = value;
     }
 
     int[] getXY(){
         int[] out = new int[2];
         out[0] = getRow();
-        out[0] = getColumn();
+        out[1] = getColumn();
         return out;
     }
+
     /**
      * String representation of Location object
      * @return Information string in the format Row: # | Column: # | State: STATUS
