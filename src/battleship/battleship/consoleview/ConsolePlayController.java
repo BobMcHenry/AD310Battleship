@@ -30,14 +30,15 @@ public class ConsolePlayController {
         System.out.println(getAttackGrid(bg.getBoard(bg.getActivePlayer())));
 
         System.out.println(ap + " attacking " + dp + ". Enter attack coords: ");
-        String coords = input.nextLine();
+        String coords = input.nextLine().toUpperCase();
 
-        // Validate coords
-
+        // Validate coords //Temporarily using input validation from setup.
+        ConsoleSetupController.validateCoords(coords, input);
         int row = ConsoleSetupController.stringToRow(coords);
         int col = ConsoleSetupController.stringToCol(coords);
 
         System.out.println(bg.makeShot(row, col));
+        System.out.println(bg.getActivePlayer());
 
 
     }
@@ -53,7 +54,11 @@ public class ConsolePlayController {
                 // Status == INITIAL
                 out += "  .";
             } else {
-                out+="  h";
+                if (bg.getStateFromXY(i/10, i%10) == Status.HIT){
+                    out+= "  H";
+                } else {
+                    out+= "  M";
+                }
             }
         }
         return (out += "\n  01 02 03 04 05 06 07 08 09 10 \n");

@@ -31,15 +31,32 @@ public class ConsoleSetupController {
         return bg;
     }
 
+    BattleshipGame testSetup(){
+        BattleshipGame bg = new BattleshipGame("P1", "P2");
+        String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
+        bg.placeShip(ships[0], 0,0,0,4);
+        bg.placeShip(ships[1], 1,0,1,3);
+        bg.placeShip(ships[2], 2,0,2,2);
+        bg.placeShip(ships[3], 3,0,3,1);
+        bg.placeShip(ships[4], 4,0,4,1);
+
+        bg.placeShip(ships[0], 0,0,0,4);
+        bg.placeShip(ships[1], 1,0,1,3);
+        bg.placeShip(ships[2], 2,0,2,2);
+        bg.placeShip(ships[3], 3,0,3,1);
+        bg.placeShip(ships[4], 4,0,4,1);
+        return bg;
+    }
+
     void placeShips(String playerName){
 
         String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
         System.out.println(playerName + " Ship Setup. \nEnter coordinates as Row letter:Column number. Ex. \"A:3\"\n");
         for (String s: ships){
-            System.out.print(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: ");
+            System.out.print(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: \n");
             String head = input.nextLine().toUpperCase();
 
-            System.out.print("\nEnter Coordinates for Ship Tail: ");
+            System.out.print("\nEnter Coordinates for Ship Tail: \n");
             String tail = input.nextLine().toUpperCase();
 
             //validate coords and parse to int pair.
@@ -56,9 +73,9 @@ public class ConsoleSetupController {
             while ( !(bg.placeShip(s, headx, heady, tailx, taily)) ){
                 System.out.println("Invalid placement. Check coords and reenter");
 
-                System.out.println(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: ");
+                System.out.println(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: \n");
                 head = input.nextLine().toUpperCase();
-                System.out.print("Enter Coordinates for Ship Tail: ");
+                System.out.print("Enter Coordinates for Ship Tail: \n");
                 tail = input.nextLine().toUpperCase();
 
                 head = validateCoords(head, input);
@@ -75,19 +92,19 @@ public class ConsoleSetupController {
     }
 
     static String validateCoords(String s, Scanner in){
-        if (s.charAt(0) < 65 && s.charAt(0) > 74){
+        if (s.charAt(0) < 65 || s.charAt(0) > 74){
             System.out.println("Invalid row. Please enter a row A-J: ");
-            s = in.nextLine();
+            s = validateCoords(in.nextLine().toUpperCase(), in);
         }
         try{
             int strInt = Integer.parseInt(s.substring(2));
             if (strInt > 10 || strInt < 1){
                 System.out.println("Invalid column. Please re-enter coords: ");
-                s = in.nextLine();
+                s = validateCoords(in.nextLine().toUpperCase(), in);
             }
         } catch (NumberFormatException e){
             System.out.println("Invalid column. Please re-enter coords:  ");
-            s = in.nextLine();
+            s = validateCoords(in.nextLine().toUpperCase(), in);
         }
 
         return s;
