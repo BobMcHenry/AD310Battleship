@@ -1,6 +1,8 @@
 package battleship.battleship.consoleview;
 
-import battleship.model.BattleshipGame;
+import battleship.model.*;
+
+import java.util.Scanner;
 
 /**
  * Created by bob on 12/1/15.
@@ -8,10 +10,14 @@ import battleship.model.BattleshipGame;
 public class TestApp {
 
     public static void main(String[] args){
+        //Scanner input = new Scanner(System.in);
         ConsoleSetupController setup = new ConsoleSetupController();
         BattleshipGame bg = setup.runSetup();
-        System.out.print(bg);
+        //System.out.print(bg);
+
         ConsolePlayController play = new ConsolePlayController(bg);
+
+        play.beginPlay();
 
 
     }

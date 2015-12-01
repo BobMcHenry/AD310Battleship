@@ -50,9 +50,15 @@ public class BattleshipGame implements BattleshipModel {
     public Player getActivePlayer() {
         return activePlayer;
     }
+    public String getActivePlayerName() {
+        return activePlayer.name;
+    }
 
     public Player getDefensePlayer() {
         return defensePlayer;
+    }
+    public String getDefensePlayerName() {
+        return defensePlayer.name;
     }
 
     public void switchActivePlayer() {
@@ -260,7 +266,9 @@ public class BattleshipGame implements BattleshipModel {
                     l.setStatus(Status.HIT);
                     activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
 
+                    //check for sunk
                     return "HIT";
+
                 }
             }
             // if not in location array, create a new location and shotresult,
@@ -273,7 +281,7 @@ public class BattleshipGame implements BattleshipModel {
 
 
     public boolean isGameOver() {
-        return true;
+        return false;
     }
 
     public Player getP1() {

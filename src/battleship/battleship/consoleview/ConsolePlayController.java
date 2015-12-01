@@ -1,6 +1,6 @@
 package battleship.battleship.consoleview;
 
-import battleship.model.BattleshipGame;
+import battleship.model.*;
 
 import java.util.Scanner;
 
@@ -17,7 +17,26 @@ public class ConsolePlayController {
         this.bg = bg;
     }
 
+    public void beginPlay(){
+        while( !(bg.isGameOver()) ){
+            fireShot();
+        }
+    }
+
     public void fireShot(){
+        String ap = bg.getActivePlayerName();
+        String dp = bg.getDefensePlayerName();
+
+        System.out.println(ap + " attacking " + dp + ". Enter attack coords: ");
+        String coords = input.nextLine();
+
+        // Validate coords
+
+        int row = ConsoleSetupController.stringToRow(coords);
+        int col = ConsoleSetupController.stringToCol(coords);
+
+        System.out.println(bg.makeShot(row, col));
+
 
     }
 }

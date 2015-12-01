@@ -43,12 +43,12 @@ public class ConsoleSetupController {
             String tail = input.nextLine().toUpperCase();
 
             //validate coords and parse to int pair.
-            head = validateCoords(head);
+            head = validateCoords(head, input);
             int headx = stringToRow(head);
             int heady = stringToCol(head);
 
             //validate coords and parse to int pair.
-            tail = validateCoords(tail);
+            tail = validateCoords(tail, input);
             int tailx = stringToRow(tail);
             int taily = stringToCol(tail);
 
@@ -61,11 +61,11 @@ public class ConsoleSetupController {
                 System.out.print("Enter Coordinates for Ship Tail: ");
                 tail = input.nextLine().toUpperCase();
 
-                head = validateCoords(head);
+                head = validateCoords(head, input);
                 headx = stringToRow(head);
                 heady = stringToCol(head);
 
-                tail = validateCoords(tail);
+                tail = validateCoords(tail, input);
                 tailx = stringToRow(tail);
                 taily = stringToCol(tail);
             }
@@ -74,30 +74,30 @@ public class ConsoleSetupController {
         System.out.println(playerName + " has completed setup.");
     }
 
-    private String validateCoords(String s){
+    static String validateCoords(String s, Scanner in){
         if (s.charAt(0) < 65 && s.charAt(0) > 74){
             System.out.println("Invalid row. Please enter a row A-J: ");
-            s = input.nextLine();
+            s = in.nextLine();
         }
         try{
             int strInt = Integer.parseInt(s.substring(2));
             if (strInt > 10 || strInt < 1){
                 System.out.println("Invalid column. Please re-enter coords: ");
-                s = input.nextLine();
+                s = in.nextLine();
             }
         } catch (NumberFormatException e){
             System.out.println("Invalid column. Please re-enter coords:  ");
-            s = input.nextLine();
+            s = in.nextLine();
         }
 
         return s;
     }
 
-    private int stringToRow(String coords){
+    static int stringToRow(String coords){
         return (int)coords.charAt(0) - 65;
     }
 
-    private int stringToCol(String coords){
+    static int stringToCol(String coords){
         return Integer.parseInt(coords.substring(2)) - 1 ;
     }
 
