@@ -23,21 +23,17 @@ class Player {
         shotReport = new ShotResult[100];
 
         offensiveBoard = new boolean[100];
-
     }
 
     String getName() {
-
         return name;
     }
 
     Ship[] getShips() {
-
         return ships;
     }
 
     ShotResult[] getShots() {
-
         return shotReport;
     }
 
@@ -45,7 +41,6 @@ class Player {
         if (shipIndex < ships.length)
             ships[shipIndex++] = s;
         else throw new IllegalArgumentException("Max ships exceeded.");
-
     }
 
     void addShot(ShotResult sr){

@@ -39,6 +39,7 @@ class Location {
         this.column = c;
         state = Status.INITIAL;
     }
+
     Location(int r, int c, Status state){
         this(r,c);
         this.state = state;
@@ -88,9 +89,10 @@ class Location {
     int[] getXY(){
         int[] out = new int[2];
         out[0] = getRow();
-        out[0] = getColumn();
+        out[1] = getColumn();
         return out;
     }
+
     /**
      * String representation of Location object
      * @return Information string in the format Row: # | Column: # | State: STATUS
