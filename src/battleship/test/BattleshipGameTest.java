@@ -65,6 +65,36 @@ public class BattleshipGameTest {
         assertTrue("Placing player 2 cruiser should return true.", game.placeShip("cruiser", P2_CRUISER_LOCATION[0][0], P2_CRUISER_LOCATION[0][1], P2_CRUISER_LOCATION[2][0], P2_CRUISER_LOCATION[2][1]));
     }
 
+    private void sinkP2AircraftCarrier() {
+        game.makeShot(P2_AIRCRAFT_CARRIER[0][0], P2_AIRCRAFT_CARRIER[0][1]);
+        game.makeShot(P2_AIRCRAFT_CARRIER[1][0], P2_AIRCRAFT_CARRIER[1][1]);
+        game.makeShot(P2_AIRCRAFT_CARRIER[2][0], P2_AIRCRAFT_CARRIER[2][1]);
+        game.makeShot(P2_AIRCRAFT_CARRIER[3][0], P2_AIRCRAFT_CARRIER[3][1]);
+        game.makeShot(P2_AIRCRAFT_CARRIER[4][0], P2_AIRCRAFT_CARRIER[4][1]);
+
+    }
+    private void sinkP2Destroyer1() {
+        game.makeShot(P2_DESTROYER1_LOCATION[0][0], P2_DESTROYER1_LOCATION[0][1]);
+        game.makeShot(P2_DESTROYER1_LOCATION[1][0], P2_DESTROYER1_LOCATION[1][1]);
+    }
+    private void sinkP2Destroyer2() {
+        game.makeShot(P2_DESTROYER2_LOCATION[0][0], P2_DESTROYER2_LOCATION[0][1]);
+        game.makeShot(P2_DESTROYER2_LOCATION[1][0], P2_DESTROYER2_LOCATION[1][1]);
+    }
+
+    private void sinkP2BattleShip() {
+        game.makeShot(P2_BATTLESHIP_LOCATION[0][0], P2_BATTLESHIP_LOCATION[0][1]);
+        game.makeShot(P2_BATTLESHIP_LOCATION[1][0], P2_BATTLESHIP_LOCATION[1][1]);
+        game.makeShot(P2_BATTLESHIP_LOCATION[2][0], P2_BATTLESHIP_LOCATION[2][1]);
+        game.makeShot(P2_BATTLESHIP_LOCATION[3][0], P2_BATTLESHIP_LOCATION[3][1]);
+    }
+
+    private void sinkP2Cruiser() {
+        game.makeShot(P2_CRUISER_LOCATION[0][0], P2_CRUISER_LOCATION[0][1]);
+        game.makeShot(P2_CRUISER_LOCATION[1][0], P2_CRUISER_LOCATION[1][1]);
+        game.makeShot(P2_CRUISER_LOCATION[2][0], P2_CRUISER_LOCATION[2][1]);
+    }
+
     @Before
     public void setUp() throws Exception {
         game = new BattleshipGame(PLAYER1, PLAYER2);
@@ -141,27 +171,13 @@ public class BattleshipGameTest {
         placeP2ShipsValid();
         assertFalse("isGameOver should be false at the start of a game", game.isGameOver());
 
-        game.makeShot(P2_AIRCRAFT_CARRIER[0][0], P2_AIRCRAFT_CARRIER[0][1]);
-        game.makeShot(P2_AIRCRAFT_CARRIER[1][0], P2_AIRCRAFT_CARRIER[1][1]);
-        game.makeShot(P2_AIRCRAFT_CARRIER[2][0], P2_AIRCRAFT_CARRIER[2][1]);
-        game.makeShot(P2_AIRCRAFT_CARRIER[3][0], P2_AIRCRAFT_CARRIER[3][1]);
-        game.makeShot(P2_AIRCRAFT_CARRIER[4][0], P2_AIRCRAFT_CARRIER[4][1]);
+        sinkP2AircraftCarrier();
         assertFalse("isGameOver should be false while the defense player has unsunk ships", game.isGameOver());
 
-        game.makeShot(P2_DESTROYER1_LOCATION[0][0], P2_DESTROYER1_LOCATION[0][1]);
-        game.makeShot(P2_DESTROYER1_LOCATION[1][0], P2_DESTROYER1_LOCATION[1][1]);
-
-        game.makeShot(P2_DESTROYER2_LOCATION[0][0], P2_DESTROYER2_LOCATION[0][1]);
-        game.makeShot(P2_DESTROYER2_LOCATION[1][0], P2_DESTROYER2_LOCATION[1][1]);
-
-        game.makeShot(P2_BATTLESHIP_LOCATION[0][0], P2_BATTLESHIP_LOCATION[0][1]);
-        game.makeShot(P2_BATTLESHIP_LOCATION[1][0], P2_BATTLESHIP_LOCATION[1][1]);
-        game.makeShot(P2_BATTLESHIP_LOCATION[2][0], P2_BATTLESHIP_LOCATION[2][1]);
-        game.makeShot(P2_BATTLESHIP_LOCATION[3][0], P2_BATTLESHIP_LOCATION[3][1]);
-
-        game.makeShot(P2_CRUISER_LOCATION[0][0], P2_CRUISER_LOCATION[0][1]);
-        game.makeShot(P2_CRUISER_LOCATION[1][0], P2_CRUISER_LOCATION[1][1]);
-        game.makeShot(P2_CRUISER_LOCATION[2][0], P2_CRUISER_LOCATION[2][1]);
+        sinkP2Destroyer1();
+        sinkP2Destroyer2();
+        sinkP2BattleShip();
+        sinkP2Cruiser();
         assertTrue("isGameOver should be true when all defense ships are sunk", game.isGameOver());
     }
 }
