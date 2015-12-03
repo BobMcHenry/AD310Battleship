@@ -1,12 +1,9 @@
-package battleship.battleship.consoleview;
+package battleship.consoleview;
 
 import battleship.model.*;
 
 import java.util.Scanner;
 
-/**
- * Created by bob on 12/1/15.
- */
 public class ConsolePlayController {
 
     Scanner input;
@@ -21,6 +18,7 @@ public class ConsolePlayController {
         while( !(bg.isGameOver()) ){
             fireShot();
         }
+        System.out.println("GAME OVER! " + bg.getActivePlayerName() + " Wins!");
     }
 
     public void fireShot(){
@@ -64,7 +62,8 @@ public class ConsolePlayController {
                 }
             }
         }
-        return (out += "\n  01 02 03 04 05 06 07 08 09 10 \n");
+        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
+        return out;
 
     }
 }

@@ -188,7 +188,7 @@ public class BattleshipGame implements BattleshipModel {
                 }
             }
         }
-        //Diagonal b-section validaion.
+        //Diagonal b-section validation.
 //        if (placementValid(st, shipBody)){
 //            activePlayer.setShip(new Ship(st, shipBody));
 //        } else {
@@ -281,7 +281,20 @@ public class BattleshipGame implements BattleshipModel {
 
 
     public boolean isGameOver() {
-        return false;
+        // Still in setup mode
+        if (p1.shipIndex != 5 || p2.shipIndex != 5){
+            return false;
+        }
+
+        boolean gameOver = true;
+        for(Ship ship:defensePlayer.getShips())
+        {
+            // if any ship is not sunk then the game is not over
+            if(!ship.isSunk()){
+                gameOver = false;
+            }
+        }
+        return gameOver;
     }
 
     public Player getP1() {

@@ -1,4 +1,4 @@
-package battleship.battleship.consoleview;
+package battleship.consoleview;
 
 import battleship.model.*;
 
@@ -118,7 +118,7 @@ public class ConsoleSetupController {
         return s.charAt(0) >= 65 && s.charAt(0) <= 74;
     }
     static boolean checkCol(String s){
-        String col = "";
+        String col;
         if (s.length() > 1) {
             col = s.substring(1);
         } else {
