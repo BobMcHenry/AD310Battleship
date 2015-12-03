@@ -12,6 +12,12 @@ class Ship {
 
     Ship(ShipType st, Location[] place) {
         type = st;
+        size = SizeFromShipType(st);
+        placement = place;
+    }
+
+    private static int SizeFromShipType(ShipType st){
+        int size = 0;
         switch (st) {
             case AIRCRAFT_CARRIER:
                 size = 5;
@@ -26,8 +32,7 @@ class Ship {
                 size = 2;
                 break;
         }
-
-        placement = place;
+        return size;
     }
 
     // Return ShipType enum value

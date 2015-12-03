@@ -29,16 +29,19 @@ public class ConsolePlayController {
 
         System.out.println(getAttackGrid(bg.getBoard(bg.getActivePlayer())));
 
-        System.out.println(ap + " attacking " + dp + ". Enter attack coords: ");
+        System.out.println(ap + " attacking " + dp + ". Enter attack coordinates: ");
         String coords = input.nextLine().toUpperCase();
 
         // Validate coords //Temporarily using input validation from setup.
-        ConsoleSetupController.validateCoords(coords, input);
+        while(!ConsoleSetupController.validateCoords(coords)){
+            System.out.println("INVALID COORDINATES");
+            System.out.println("Enter attack coordinates: ");
+            coords = input.nextLine().toUpperCase();
+        }
         int row = ConsoleSetupController.stringToRow(coords);
         int col = ConsoleSetupController.stringToCol(coords);
 
         System.out.println(bg.makeShot(row, col));
-        System.out.println(bg.getActivePlayer());
 
 
     }
