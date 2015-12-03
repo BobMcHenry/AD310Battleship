@@ -23,21 +23,17 @@ class Player {
         shotReport = new ShotResult[100];
 
         offensiveBoard = new boolean[100];
-
     }
 
     String getName() {
-
         return name;
     }
 
     Ship[] getShips() {
-
         return ships;
     }
 
     ShotResult[] getShots() {
-
         return shotReport;
     }
 
@@ -45,7 +41,6 @@ class Player {
         if (shipIndex < ships.length)
             ships[shipIndex++] = s;
         else throw new IllegalArgumentException("Max ships exceeded.");
-
     }
 
     void addShot(ShotResult sr){
@@ -65,6 +60,22 @@ class Player {
             out += ships[i].toString() + "\n";
         }
 
+        for (int i = 0; i < shotReport.length; i++){
+            if (shotReport[i] != null)
+                out += shotReport[i] + "\n";
+        }
+
+        return out;
+    }
+
+    Location[] getShotLocations(){
+        Location[] out = new Location[turnCount];
+        int ind = 0;
+        for (int i = 0; i < shotReport.length; i++){
+            if (shotReport[i] != null){
+                out[i] = shotReport[i].shotCoords;
+            }
+        }
         return out;
     }
 

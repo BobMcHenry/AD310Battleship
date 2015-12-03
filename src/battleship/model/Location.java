@@ -40,6 +40,11 @@ class Location {
         state = Status.INITIAL;
     }
 
+    Location(int r, int c, Status state){
+        this(r,c);
+        this.state = state;
+    }
+
     /**
      * Returns the Row of this location.
      * @return the int value of the row this Location occupies
@@ -81,12 +86,19 @@ class Location {
         state = value;
     }
 
+    int[] getXY(){
+        int[] out = new int[2];
+        out[0] = getRow();
+        out[1] = getColumn();
+        return out;
+    }
+
     /**
      * String representation of Location object
      * @return Information string in the format Row: # | Column: # | State: STATUS
      */
     @Override
     public String toString(){
-        return "Row: " + row + " | Column: " + column + " | State: " + state.toString() + "\n";
+        return "Row: " + row + " | Column: " + column + " | State: " + state.toString() ;
     }
 }
