@@ -44,6 +44,11 @@ class Location {
         this.state = state;
     }
 
+    Location(int r, int c, Status state){
+        this(r,c);
+        this.state = state;
+    }
+
     /**
      * Returns the Row of this location.
      * @return the int value of the row this Location occupies
@@ -88,9 +93,16 @@ class Location {
     int[] getXY(){
         int[] out = new int[2];
         out[0] = getRow();
+<<<<<<< HEAD
         out[0] = getColumn();
         return out;
     }
+=======
+        out[1] = getColumn();
+        return out;
+    }
+
+>>>>>>> master
     /**
      * String representation of Location object
      * @return Information string in the format Row: # | Column: # | State: STATUS
