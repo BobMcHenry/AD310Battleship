@@ -38,11 +38,7 @@ public class BattleshipGameTest {
         assertTrue("Placing player 1 destroyer 1 should return true.", game.placeShip("destroyer", P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
         assertTrue("Placing player 1 destroyer 2 should return true.", game.placeShip("destroyer", P1_DESTROYER2_LOCATION[0][0], P1_DESTROYER2_LOCATION[0][1], P1_DESTROYER2_LOCATION[1][0], P1_DESTROYER2_LOCATION[1][1]));
         assertTrue("Placing player 1 battleship should return true.", game.placeShip("battleship", P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
-<<<<<<< HEAD
         assertTrue("Placing player 1 cruiser should return true.", game.placeShip("cruiser", P1_CRUISER_LOCATION[0][0], P1_CRUISER_LOCATION[0][1], P1_CRUISER_LOCATION[1][0], P1_CRUISER_LOCATION[1][1]));
-=======
-        assertTrue("Placing player 1 cruisser should return true.", game.placeShip("cruiser", P1_CRUISER_LOCATION[0][0], P1_CRUISER_LOCATION[0][1], P1_CRUISER_LOCATION[1][0], P1_CRUISER_LOCATION[1][1]));
->>>>>>> master
     }
 
     private void placeP1ShipsInvalid() {
