@@ -31,6 +31,9 @@ class Ship {
             case DESTROYER:
                 size = 2;
                 break;
+            case SUBMARINE:
+                size = 3;
+                break;
         }
         return size;
     }

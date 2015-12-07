@@ -1,0 +1,83 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 16, 2015, 4:02:24 PM
+    Author     : c-dub
+*/
+.root {
+    -fx-background-image: url("../img/playerBoard.jpg");
+    -fx-focus-color: transparent;
+}
+
+.label {
+    -fx-font-size: 28px;
+    -fx-font-family: Impact;
+    -fx-text-fill: #002cb3;
+    -fx-alignment: CENTER_LEFT;
+    -fx-effect: innershadow(one-pass-box, #808080, 5, 0.2, 2, 0);
+}
+
+#directions {
+    -fx-font-size: 22px;
+    -fx-font-family: Impact;
+    -fx-text-fill: #012cb3;
+    -fx-alignment: CENTER_LEFT;
+    -fx-effect: innershadow(one-pass-box, #808080, 5, 0.2, 2, 0);
+}
+
+#letters {
+    -fx-font-size: 33px;
+    -fx-font-family: Impact;
+    -fx-text-origin: baseline;
+    -fx-fill:  linear-gradient(darkblue , cornflowerblue);
+}
+
+#numbers {
+    -fx-font-size: 33px;
+    -fx-font-family: Impact;
+    -fx-fill:  linear-gradient(darkblue , cornflowerblue);
+}
+
+#shipBox > .button {
+    -fx-background-color:
+        linear-gradient(#ffb280, #fff0e5),
+        radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-font-size: 15px;
+    -fx-text-fill: #000000;
+}
+
+#shipBox > .button:hover {
+    -fx-background-color:
+        linear-gradient(#ffb280, #fff0e5),
+        radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-font-size: 15px;
+    -fx-text-fill: #ffb280;         
+}
+
+#inner > .button {
+    -fx-background-image: url("../img/waterSquare.jpg");
+    -fx-background-color: #000000;
+}
+
+#inner > .button:hover {    
+    -fx-background-color: #ffb280;
+    -fx-background-image: url("../img/waterSquarehover.jpg");
+}
+
+
+
+
+
+
+
+
+

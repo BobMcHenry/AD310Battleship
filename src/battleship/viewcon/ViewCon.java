@@ -4,130 +4,303 @@
  * and open the template in the editor.
  */
 package battleship.viewcon;
-import battleship.model.*;
 
-import javafx.scene.control.Button;
+import battleship.model.*;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 
 /**
  *
- * @author foolishklown
+ * @author c-dub
  */
 public class ViewCon {
-    
-   private P1Board p1B;
-   private P2Board p2B;  
-   private PreBoard preB;   
-   private String player1;
-   private String player2;
-   private Button preShow;
-   private Button preHide;
-   private BattleshipGame gameConnect; //this is our connection directly to BattleshipGame class for
-   // direct communication
-   boolean isP1SetupMode;
-   boolean isP2SetupMode;
-   private MainApp main;
-   
-   public ViewCon() {
-       isP1SetupMode = true;
-       isP2SetupMode = true;
-   }
-   
-   public void setGame(BattleshipGame bg) {
-       this.gameConnect = bg;
-   }
+    private int configurationOption;
+    private BattleshipMain mainConnection;
+    private BattleshipGame gameConnection;
+    private PreBoard preB;
+    private P1Board p1Board;
+    private P2Board p2Board;
+    private ObservableList<Node> p1Nodes;
+    private ObservableList<Node> p2Nodes;
+    boolean isP1SetupMode;
+    boolean isP2SetupMode;
+    private String player1;
+    private String player2;
+    // we will manipulate the length of the following defensive arrays based upon which configuration
+    //  is chosen before setup
+    //public Map<String, Boolean> acMapP1, bsMapP1, crMapP1, ds1MapP1, ds2MapP1, sbMapP1, acMapP2, bsMapP2, crMapP2, ds1MapP2, ds2MapP2, sbMapP2;
+    ShotProcessor shotP;
 
-    public void setMain(MainApp m) {
-        this.main = preB.getMainConnection();
+    public ViewCon() {
+        shotP = new ShotProcessor();        
+        isP1SetupMode = true;
+        isP2SetupMode = true;
+        preB = new PreBoard();
+        preB.setLink(this);
+        preB.buildTheGrid();        
+        p1Board = new P1Board();
+        p1Board.setLink(this);
+        p1Board.buildTheGrid();        
+        p2Board = new P2Board();
+        p2Board.setLink(this);
+        p2Board.buildTheGrid();        
+    }   
+    
+    /**
+     * This method connects this class with the BattleshipMain class and is the controller for the viewcon side of things
+     *  The BattleshipRewrite class is direct communication between this (the controller for viewcon), and the BattleshipGame class
+     *   which is the Model
+     * @param b 
+     */
+    public void setMainConnect(BattleshipMain b) {
+        this.mainConnection = b;
     }
-   
-   
-   public void setPreB(PreBoard p) {
-       this.preB = p;
+    
+    public void setShotProcessor() {
+        this.shotP = new ShotProcessor();
+        mainConnection.setShotProcessor(shotP);
+    }
+    
+    public void setGameConnect(BattleshipGame g) {
+        this.gameConnection = g;
+    }
+    
+    public void setP1Label(String n) {
+        p1Board.setNameLabel(n);
+    }
+    
+    public void setP2Label(String n) {
+        p2Board.setNameLabel(n);
+    }
+    
+    public void setPlayers(String player1, String player2) {        
+        mainConnection.setPlayer1(player1);
+        mainConnection.setPlayer2(player2);
+    }
+    
+    public String getPlayer1Name() {
+        return player1;
+    }
+    
+    public String getPlayer2Name() {
+        return player2;
+    }
+
+    public GridPane getPreGrid() {
+        return preB.getGrid();
+    }
+
+    public GridPane getP1Grid() {
+        return p1Board.getGrid();
+    }
+
+    public GridPane getP2Grid() {
+        return p2Board.getGrid();
+    }
+    
+    public void exitPre() {
+        mainConnection.launchGame();
+    }   
+    
+    public boolean placeShip(String id, String[] loc) {        
+        int row1 = returnRow(loc[0].substring(0, 1));        
+        int row2 = returnRow(loc[1].substring(0, 1));        
+        int col1 = Integer.parseInt(loc[0].substring(1, 2));        
+        int col2 = Integer.parseInt(loc[1].substring(1, 2));        
+        return gameConnection.placeShip(id, row1, col1, row2, col2);
+    }
+    
+    public void saveP1Defense(String[] list, String str) {
+        shotP.saveP1Defense(list, str);
+    }
+    
+    public void saveP2Defense(String[] list, String str) {
+        shotP.saveP2Defense(list, str);
+    }
+    
+   public int returnRow(String row) {       
+       int value = 0;
+        switch (row) {
+            case "A":
+                value = 0;
+                break;
+            case "B":
+                value = 1;
+                break;
+            case "C":
+                value = 2;
+                break;
+            case "D":
+                value = 3;
+                break;
+            case "E":
+                value = 4;
+                break;
+            case "F":
+                value = 5;
+                break;
+            case "G":
+                value = 6;
+                break;
+            case "H":
+                value = 7;
+                break;
+            case "I":
+                value = 8;
+                break;
+            case "J":
+                value = 8;
+            default:
+                break;
+        }       
+       return value;
    }
    
-   public PreBoard getPreB() {
-       return preB;
-   }
-   
-   public void setPreShowBtn(Button s) {
-       this.preShow = s;
-   }   
-   
-   public void setPreHideBtn(Button s) {
-       this.preHide = s;
-   }   
-   
-   public ViewCon getCon() {
-       return this;
-   }
-  
-   public void setp1(P1Board p1) {
-       this.p1B = p1;
-       p1B.setLink(this);
-   }
-   
-   public void setp2(P2Board p2) {
-       this.p2B = p2;
-       p2B.setLink(this);
-   }   
-  
-   
-   public void setPlayer1(String p) {
-      this.player1 = p;
-      p1B.setPlayer(player1);
+   public String returnStringRow(int row) {       
+       String value = "";
+        switch (row) {
+            case 0:
+                value = "A";
+                break;
+            case 1:
+                value = "B";
+                break;
+            case 2:
+                value = "C";
+                break;
+            case 3:
+                value = "D";
+                break;
+            case 4:
+                value = "E";
+                break;
+            case 5:
+                value = "F";
+                break;
+            case 6:
+                value = "G";
+                break;
+            case 7:
+                value = "H";
+                break;
+            case 8:
+                value = "I";
+                break;
+            case 9:
+                value = "J";
+            default:
+                break;
+        }       
+       return value;
    }  
    
-   public void setPlayer2(String p) {
-       this.player2 = p;
-       p2B.setPlayer(player2);
+   public String[] changeButtonsSetup() {       
+       int[][] coords = gameConnection.getCurrentShipCoords();
+       String[] convertCoords = new String[coords.length];
+       for(int i = 0; i < coords.length; i++) {
+           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
+           convertCoords[i] = temp;
+       }
+       return convertCoords;
    }
    
-   public void setP1BoardLink() {
-       p1B.setLink(this);
+   public void callP2(ObservableList<Node> list) {
+       p1Board.showBoardButtons();
+       mainConnection.resetP1SetupButtons(list);
+       mainConnection.instantiateP2();
+       mainConnection.switchToP2();
    }
    
-   public void setP2BoardLink() {
-       p2B.setLink(this);
-   }
-   
-   public void preShow() {
-       System.out.println(preShow);
-       preShow.fire();
-   }
-   
-   public void preHide() {
-       preHide.fire();
-   }     
-   
-   // Connection directly across to the BattleshipGame object - this is how view communicates with model
-   public void setBattleshipGame(BattleshipGame b) {
-       this.gameConnect = b;
-   }
-   
-   public BattleshipGame getBattleshipGame() {
-       return gameConnect;       
-   }
-   
-   public void showP1() {
-       p1B.showBtn.fire();
-   }
-   
-   public void hideP1() {
-       p1B.hideBtn.fire();
-   }
-   
-   public void showP2() {
-       p2B.showBtn.fire();
-   }
-   
-   public void hideP2() {
-       p2B.hideBtn.fire();
-   }
-   
-   public void prime2show() {
-       p2B.primeShow();
+   public void startGame(ObservableList<Node> list) {       
+       mainConnection.switchToP1();
+       mainConnection.resetP2SetupButtons(list);
+       p2Board.showBoardButtons();
    }
    
    
+   public void changeButtonsP1(String btn, String ship) {
+       mainConnection.changeButtonsP1(btn, ship);
+       p1Board.shipStatsLabel.setText("");
+   }
+   
+   public void changeButtonsP2(String btn, String ship) {
+       mainConnection.changeButtonsP2(btn, ship);
+       p2Board.shipStatsLabel.setText("");
+   }
+   
+   public void handleGridBtnGameP1(String id) {
+        boolean gameOver = gameConnection.isGameOver();
+        if(gameOver == true) {
+            // reset everything in view
+            System.out.println("Adding view reset logic here soon");
+        }
+        int row = returnRow(id.substring(0, 1));
+        int col = Integer.parseInt(id.substring(1, 2));
+        String attack = gameConnection.makeShot(row, col);
+        if(attack.equals("HIT")) {
+            p1Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
+            mainConnection.processP1Hit(id);
+        }        
+        else if(attack.equals("MISS")) {
+        System.out.println("Miss was returned from board, calling method");
+        p1Board.moveStatus.setText("MISS");
+        p1Board.hideBoardButtons();
+        p1Board.nextMove.setVisible(true);
+        p2Board.showBoardButtons();
+        mainConnection.processP1Miss(id);
+        }
+        else if(attack.equals("Space already attacked")) {
+            p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
+        }
+        else {
+            System.out.println("something fucked up with handleGridBtn method");
+        }
+    }
+   
+   public void handleGridBtnGameP2(String id) {
+        boolean gameOver = gameConnection.isGameOver();
+        if(gameOver == true) {
+            // reset everything in view
+            System.out.println("Adding view reset logic here soon");
+        }
+        int row = returnRow(id.substring(0, 1));
+        int col = Integer.parseInt(id.substring(1, 2));
+        String attack = gameConnection.makeShot(row, col);
+        if(attack.equals("HIT")) {
+            p1Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
+            mainConnection.processP2Hit(id);
+        }        
+        else if(attack.equals("MISS")) {
+        p2Board.moveStatus.setText("MISS");
+        p2Board.hideBoardButtons();
+        p2Board.nextMove.setVisible(true);
+        p1Board.showBoardButtons();
+        mainConnection.processP2Miss(id);
+        }
+        else if(attack.equals("Space already attacked")) {
+            p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
+        }
+        else {
+            System.out.println("Something went horribly wrong with the handleGridBtn method");
+        }
+    }
+    
+    public void handlePlayerSwitchBtnP1(String id) {
+        p1Board.nextMove.setVisible(false);
+        p1Board.moveStatus.setText("");
+        mainConnection.switchToP2();        
+    }
+    
+    public void handlePlayerSwitchBtnP2(String id) {
+        p2Board.nextMove.setVisible(false);
+        p2Board.moveStatus.setText("");
+        mainConnection.switchToP1();        
+    }
+    
+    
+      
     
 }

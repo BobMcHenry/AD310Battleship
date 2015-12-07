@@ -31,6 +31,8 @@ public class BattleshipGame implements BattleshipModel {
      */
     Player defensePlayer;
 
+    Location[] currentShipCoords; //--------------------------------------- helper field for view
+
     /**
      * BattleshipGame constructor creates 2 player classes from the provided
      * playerXName strings, p1 and p2.
@@ -46,6 +48,21 @@ public class BattleshipGame implements BattleshipModel {
         this.p2 = new Player(player2Name); // Player Two object creation
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
+    }
+
+    public void setCurrentShipCoords(Location[] coords) { //---------------------- helper method for view
+        this.currentShipCoords = coords;
+    }
+
+    public int[][] getCurrentShipCoords() { //-------------------------------------``helper method for view
+        int[][] intCoords = new int[currentShipCoords.length][2];
+        for (int i = 0; i < currentShipCoords.length; i++) {
+            int row = currentShipCoords[i].getRow();
+            int col = currentShipCoords[i].getColumn();
+            intCoords[i][0] = row;
+            intCoords[i][1] = col;
+        }
+        return intCoords;
     }
 
     public Player getActivePlayer() {
