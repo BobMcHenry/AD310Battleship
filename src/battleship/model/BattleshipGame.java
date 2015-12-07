@@ -98,35 +98,6 @@ public class BattleshipGame implements BattleshipModel {
         defensePlayer = p2; // Defensive player assignment.
     }
 
-    private ShipType stringToShipType(String s) {
-//        System.out.println(s);
-        if (s.toLowerCase().equals("aircraft carrier")) {
-            return ShipType.AIRCRAFT_CARRIER;
-        } else if (s.toLowerCase().equals("battleship")) {
-            return ShipType.BATTLESHIP;
-        } else if (s.toLowerCase().equals("cruiser")) {
-            return ShipType.CRUISER;
-        } else if (s.toLowerCase().equals("destroyer")) {
-            return ShipType.DESTROYER;
-        }
-
-        throw new IllegalArgumentException("Not a valid ShipType");
-    }
-
-    private int shipTypeToSize(ShipType st) {
-        switch (st) {
-            case AIRCRAFT_CARRIER:
-                return 5;
-            case BATTLESHIP:
-                return 4;
-            case CRUISER:
-                return 3;
-            case DESTROYER:
-                return 2;
-        }
-        return -1; //if anything goes wrong, return -1 to break placeShip method.
-    }
-
     public boolean placeShip(String shipType, int headX, int headY, int tailX, int tailY) {
 
         ShipType st = stringToShipType(shipType); //shipType to build the type of ship
@@ -222,25 +193,6 @@ public class BattleshipGame implements BattleshipModel {
             switchActivePlayer();
         }
         return true;
-    }
-
-    public int[][] getShipCoords(Player p) {
-        int[][] out = new int[16][];
-        if (p.shipIndex == 5) {
-            Ship[] ships = p.getShips();
-
-            int ind = 0;
-            for (Ship s : ships) {
-                for (Location l : s.getLocation()) {
-                    out[ind++] = l.getXY();
-                }
-
-            }
-
-        } else {
-            throw new IllegalStateException("Setup Incomplete");
-        }
-        return out;
     }
 
     public Location[] getShipLocations(Player p) {
@@ -345,196 +297,6 @@ public class BattleshipGame implements BattleshipModel {
         return p2.getName();
     }
 
-    public String toString() {
-//        System.out.println("Start");
-        boolean[] p1Off = getBoard(p1);
-        boolean[] p2Off = getBoard(p2);
-        Location[] p1Shots = p1.getShotLocations();
-        Location[] p2Shots = p2.getShotLocations();
-        Ship[] p1Ships = p1.getShips();
-        Ship[] p2Ships = p2.getShips();
-
-        // P1 Offensive grid
-        String out = p1.getName() + "\nOffense";
-
-//        System.out.println("P1 Off");
-        for (int i = 0; i < 100; i++) {
-            // Print Offensive Board
-            if (i % 10 == 0) {
-                out += "\n" + (char) (65 + i / 10);
-            }
-            if (!p1Off[i]) {
-                // Status == INITIAL
-                out += "  .";
-            } else {
-                //change token to HIT(H) or MISS(M), or sunk(S)
-                boolean isMarked = false;
-                for (int j = 0; j < p2Ships.length; j++) {
-                    if (p2Ships[j].getLocFromCoords(i / 10, i % 10) != null) {
-                        if (p2Ships[j].isSunk()) {
-                            out += "  S";
-                            isMarked = true;
-                        } else if (p2Ships[j].getLocFromCoords(i / 10, i % 10).getStatus() == Status.HIT) {
-                            out += "  H";
-                            isMarked = true;
-                        }
-                    }
-
-                }
-                if (!isMarked) {
-                    out += "  M";
-                }
-            }
-        }
-
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P1 Defensive Grid
-//        System.out.println("P1 Def");
-        out += "\nDefense";
-
-        char[] p1DGrid = new char[100];
-
-        for (Ship s : p1Ships) {
-            char type = 0;
-
-//            System.out.println("P1 Def - Switch");
-
-            switch (s.getShipType()) {
-                case AIRCRAFT_CARRIER:
-                    type = 'A';
-                    break;
-                case BATTLESHIP:
-                    type = 'B';
-                    break;
-                case CRUISER:
-                    type = 'C';
-                    break;
-                case DESTROYER:
-                    type = 'D';
-                    break;
-            }
-
-
-//            System.out.println("P1 Def - Loc");
-            for (Location l : s.getLocation()) {
-                p1DGrid[l.getIndex()] = type;
-            }
-        }
-
-//        System.out.println("P1 Def - Populate");
-        for (int i = 0; i < p1DGrid.length; i++) {
-            if (i % 10 == 0) {
-                out += "\n" + (char) (65 + i / 10);
-            }
-
-            if (p1DGrid[i] == 0) {
-                out += "  .";
-            } else {
-                out += "  " + p1DGrid[i];
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P2 Offensive Grid
-//        System.out.println("P2 Off");
-        out += "\n" + p2.getName() + "\nOffense";
-
-        for (int i = 0; i < 100; i++) {
-            // Print Offensive Board
-            if (i % 10 == 0) {
-                out += "\n" + (char) (65 + i / 10);
-            }
-            if (!p2Off[i]) {
-                // Status == INITIAL
-                out += "  .";
-            } else {
-                //change token to HIT(H) or MISS(M), or sunk(S)
-                boolean isMarked = false;
-                for (int j = 0; j < p1Ships.length; j++) {
-                    if (p1Ships[j].getLocFromCoords(i / 10, i % 10) != null) {
-                        if (p1Ships[j].isSunk()) {
-                            out += "  S";
-                            isMarked = true;
-                        } else if (p1Ships[j].getLocFromCoords(i / 10, i % 10).getStatus() == Status.HIT) {
-                            out += "  H";
-                            isMarked = true;
-                        }
-                    }
-                }
-                if (!isMarked) {
-                    out += "  M";
-                }
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P2 Defensive Grid
-//        System.out.println("P2 Def");
-        out += "\nDefense";
-
-        char[] p2DGrid = new char[100];
-
-        for (Ship s : p2Ships) {
-            //For each ship get type and assign a representative char
-            char type = 0;
-
-            switch (s.getShipType()) {
-                case AIRCRAFT_CARRIER:
-                    type = 'A';
-                    break;
-                case BATTLESHIP:
-                    type = 'B';
-                    break;
-                case CRUISER:
-                    type = 'C';
-                    break;
-                case DESTROYER:
-                    type = 'D';
-                    break;
-            }
-            // Get char from above and assign to appropriate index
-            for (Location l : s.getLocation()) {
-                p2DGrid[l.getIndex()] = type;
-            }
-        }
-        // Loop through char[] and print characters as assigned.
-        for (int i = 0; i < p2DGrid.length; i++) {
-            if (i % 10 == 0) {
-                out += "\n" + (char) (65 + i / 10);
-            }
-
-            if (p2DGrid[i] == 0) {
-                out += "  .";
-            } else {
-                out += "  " + p2DGrid[i];
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-
-        return out;
-    }
-
-
-    /*
-    * private helper method to validate location placement
-    */
-    private boolean locationValid(int x, int y) {
-        //validate location against activePlayer ships
-        Location[] playerShips = getShipLocations(activePlayer);
-
-        for (int i = 0; i < playerShips.length; i++) {
-            if (playerShips[i] != null) {
-                // Check if location is occupied. Collision checking
-                if (x == playerShips[i].getRow() && y == playerShips[i].getColumn()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public Status getStateFromXY(int row, int col) {
         Location[] shotLoc = p1.getShotLocations();
         for (int i = 0; i < shotLoc.length; i++) {
@@ -612,5 +374,52 @@ public class BattleshipGame implements BattleshipModel {
     private int mSlope(int x1, int y1, int x2, int y2) {
 
         return Math.abs(y2 - y1) / Math.abs(x2 - x1);
+    }
+
+    /*
+    * private helper method to validate location placement
+    */
+    private boolean locationValid(int x, int y) {
+        //validate location against activePlayer ships
+        Location[] playerShips = getShipLocations(activePlayer);
+
+        for (int i = 0; i < playerShips.length; i++) {
+            if (playerShips[i] != null) {
+                // Check if location is occupied. Collision checking
+                if (x == playerShips[i].getRow() && y == playerShips[i].getColumn()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private ShipType stringToShipType(String s) {
+//        System.out.println(s);
+        if (s.toLowerCase().equals("aircraft carrier")) {
+            return ShipType.AIRCRAFT_CARRIER;
+        } else if (s.toLowerCase().equals("battleship")) {
+            return ShipType.BATTLESHIP;
+        } else if (s.toLowerCase().equals("cruiser")) {
+            return ShipType.CRUISER;
+        } else if (s.toLowerCase().equals("destroyer")) {
+            return ShipType.DESTROYER;
+        }
+
+        throw new IllegalArgumentException("Not a valid ShipType");
+    }
+
+    private int shipTypeToSize(ShipType st) {
+        switch (st) {
+            case AIRCRAFT_CARRIER:
+                return 5;
+            case BATTLESHIP:
+                return 4;
+            case CRUISER:
+                return 3;
+            case DESTROYER:
+                return 2;
+        }
+        return -1; //if anything goes wrong, return -1 to break placeShip method.
     }
 }
