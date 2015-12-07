@@ -1,103 +1,135 @@
 package battleship.model;
 
 /**
- * Interface for Battleship Model
- *
+ * Public Model Interface for Battleship game
  * @author Bob McHenry
  * @author Chris Wilson
  * @author Jesse Bernoudy
  * @author Mario Rodriguez
- **/
-public interface BattleshipModel {
+ * @version 11/28/2015
+ */
+public interface BattleshipModel{
 
-    // /**
-    //  * Returns the player that is currently on the offensive
-    //  *
-    //  * @return the playMode enum state of the current game.
-    //  */
-    // public PlayMode getPlayMode();
+    /**
+     * getActivePlayer returns the reference of the active player.
+     * @return activePlayer reference
+     */
+    Player getActivePlayer();
 
-    // /**
-    //  * Sets the play mode from setup to battle and back
-    //  *
-    //  * @param playMode The Playmode enum value being assigned.
-    //  * @return the play mode that was implemented
-    //  */
-    // public void setPlayMode(PlayMode playMode);
+    /**
+     * getActivePlayerName returns the name of the active player.
+     * @return activePlayer name
+     */
+    String getActivePlayerName();
 
-    // /**
-    //  * Returns the player that is currently on the offensive
-    //  *
-    //  * @return the player that is currently active
-    //  */
-    // public Player getActivePlayer();
+    /**
+     * getDefensePlayer returns the reference of the defending player.
+     * @return defensePlayer reference
+     */
+    Player getDefensePlayer();
 
-    // /**
-    //  * Sets the specified player for offensive play
-    //  *
-    //  * @param player Player being set to offense.
-    //  */
-    // public void setActivePlayer(Player player);
+    /**
+     * getDefensePlayerName returns the name of the defending player.
+     * @return getDefensePlayer name
+     */
+    String getDefensePlayerName();
 
-    // /**
-    //  * resets the gameboard, ships and counters. Starts new game in SetUp mode.
-    //  */
-    // public void resetGame();
+    /**
+     * Called when a player has finished setup or has fired a shot that missed.
+     * Swaps the activePlayer and defensePlayer references to the appropriate
+     * Player objects.
+     */
+    void switchActivePlayer();
 
-    // /**
-    //  * Returns specified players Board object
-    //  *
-    //  * @param player Player's board to be returned
-    //  * @return current state of board from specified player
-    //  */
-    // public Board getPlayerBoard(Player player);
+    /**
+     * @return the Player stored in the game as Player 1
+     */
+    Player getP1();
 
-    // /**
-    //  * Returns true if a ship is succefully placed on the board
-    //  *
-    //  * @param player Player performing placement
-    //  * @param ship   Ship being placed
-    //  * @param head   Starting Location of ship
-    //  * @param tail   Ending Location of ship
-    //  * @return true if the ship is succefully placed
-    //  * @throws IllegalArgumentException if ship placement is not legal.
-    //  */
-    // public boolean placeShip(Player player, Ship ship, Location head, Location tail);
+    /**
+     *
+     * @return Assigned name of Player 1 as a String
+     */
+    String getP1Name();
 
-    // /**
-    //  * Returns an array of Locations currently occupied by the ship.
-    //  *
-    //  * @param player Player who owns the ship being queried
-    //  * @param ship   ShipType enum value of type of ship requested
-    //  * @return an array of Locations the ship occupies.
-    //  */
-    // public Location[] getShipLocations(Player player, ShipType ship);
+    /**
+     *
+     * @return the Player stored in the game as Player 2
+     */
+    Player getP2();
 
-    // /**
-    //  * Returns the result of the shot fired by the specified player, i.e. hit or
-    //  * miss
-    //  *
-    //  * @param player Player firing shot
-    //  * @param target Location of attack
-    //  * @return the resuld of the shot fired by the specified player at the
-    //  * specified location
-    //  */
-    // public ShotResult makeShot(Player player, Location target);
+    /**
+     *
+     * @return Assigned name of Player 2 as a String
+     */
+    String getP2Name();
 
-    // /**
-    //  * Method to return a winner once game is over.
-    //  *
-    //  * @return Player object of winning player
-    //  * @throws IllegalStateException when there is no winner
-    //  */
-    // public Player getWinner();
+    /**
+     * Resets current game and reverts into setup mode with two new Players
+     * View/Controller will need to revert to setup mode.
+     * @param p1Name Player One name as String
+     * @param p2Name Player Two name as String
+     */
+    void resetGame(String p1Name, String p2Name);
 
-    // /**
-    //  * Method to test for a win condition.
-    //  *
-    //  * @return True if win condition met, false if no win condition met.
-    //  */
-    // public boolean isGameOver();
+    /**
+     * Places a ship on the game board for the player designated as the
+     * activePlayer. Requires the type of ship being placed, as a String
+     * and the row and colum coordinates for the head and tail of the ship.
+     *
+     * Returns true on proper ship placement, false if the placement fails
+     * validation.
+     *
+     * @param s String representation of the ShipType being placed.
+     *          Use <em>aircraft carrier</em>,<em> cruiser</em>,
+     *          <em> battleship</em>, and <em> destroyer</em>.
+     * @param headR The row coordinate value for the head of the ship.
+     * @param headC The column coordinate value for the head of the ship.
+     * @param tailR The row coordinate value for the tail of the ship.
+     * @param tailC The column coordinate value for the tail of the ship.
+     * @return True if ship is placed on board, False if ship fails validation
+     * and is not placed.
+     */
+    boolean placeShip(String s, int headR, int headC, int tailR, int tailC);
+
+    /**
+     * Returns an array of all the board Locations the designated player's
+     * ships occupy.
+     *
+     * @param p The player whose ship locations are being requested.
+     *
+     * @return an array of Location objects.
+     */
+    Location[] getShipLocations(Player p);
+
+    /**
+     * Once setup mode has ended, the makeShot method is used to make offensive
+     * moves. The activePlayer will fire at the designated row/col coordinates
+     * of the defensePlayer's board.
+     *
+     * @param row The targeted row of the offensive move.
+     * @param col The targeted column of the offensive move.
+     *
+     * @return String message relaying status of hit.
+     */
+    String makeShot(int row, int col);
+
+    /**
+     * isGameOver checks to see if a win condition has been met by either
+     * player. The method will loop through each players array of ships and
+     * check for a sunken condition with the Ship.isSunk method.
+     *
+     * @return True if win condition is met, false if gameplay should continue
+     */
+    boolean isGameOver();
+
+    /**
+     * Returns an array of True/False values that can be mapped to the gamegrid.
+     * Use Row# * 10 + Column# to get row index. False values are cells that
+     * have not yet been attacked. True values are previously attacked cells.
+     *
+     * @param p Designates which player's offense grid will be returned
+     * @return Boolean[] of players offensive shots.
+    */
+    boolean[] getBoard(Player p);
 }
-
-

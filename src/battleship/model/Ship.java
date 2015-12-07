@@ -12,6 +12,12 @@ class Ship {
 
     Ship(ShipType st, Location[] place) {
         type = st;
+        size = SizeFromShipType(st);
+        placement = place;
+    }
+
+    private static int SizeFromShipType(ShipType st){
+        int size = 0;
         switch (st) {
             case AIRCRAFT_CARRIER:
                 size = 5;
@@ -26,8 +32,7 @@ class Ship {
                 size = 2;
                 break;
         }
-
-        placement = place;
+        return size;
     }
 
     // Return ShipType enum value
@@ -38,6 +43,15 @@ class Ship {
     // Return array of locations occupied by ship
     Location[] getLocation() {
         return placement;
+    }
+
+    Location getLocFromCoords(int row, int col){
+        for (Location l : placement){
+            if (l.getRow() == row && l.getColumn() == col) {
+                return l;
+            }
+        }
+        return null;
     }
 
     // Return true if all Locations received hits and ship is sunk.
@@ -55,9 +69,14 @@ class Ship {
         return size;
     }
 
-    Location[] getCoords() {
+    int[][] getAllXY(){
+        int[][] out = new int[size][];
 
-        return placement;
+        for (int i = 0; i < placement.length; i++){
+            out[i] = placement[i].getXY();
+        }
+
+        return out;
     }
 
     @Override
@@ -65,7 +84,7 @@ class Ship {
         String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";
 
         for (Location l : placement){
-            out += l.toString();
+            out += l.toString() +"\n";
         }
 
         return out;
