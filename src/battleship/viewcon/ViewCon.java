@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package battleship.viewcon;
+import battleship.model.*;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  *
@@ -17,13 +16,29 @@ public class ViewCon {
     
    private P1Board p1B;
    private P2Board p2B;  
-   private StackPane stack;
-   private PreBoard preB;
-   private Stage theStage;
+   private PreBoard preB;   
    private String player1;
    private String player2;
    private Button preShow;
    private Button preHide;
+   private BattleshipGame gameConnect; //this is our connection directly to BattleshipGame class for
+   // direct communication
+   boolean isP1SetupMode;
+   boolean isP2SetupMode;
+   private MainApp main;
+   
+   public ViewCon() {
+       isP1SetupMode = true;
+       isP2SetupMode = true;
+   }
+   
+   public void setGame(BattleshipGame bg) {
+       this.gameConnect = bg;
+   }
+
+    public void setMain(MainApp m) {
+        this.main = preB.getMainConnection();
+    }
    
    
    public void setPreB(PreBoard p) {
@@ -82,6 +97,37 @@ public class ViewCon {
    
    public void preHide() {
        preHide.fire();
+   }     
+   
+   // Connection directly across to the BattleshipGame object - this is how view communicates with model
+   public void setBattleshipGame(BattleshipGame b) {
+       this.gameConnect = b;
    }
+   
+   public BattleshipGame getBattleshipGame() {
+       return gameConnect;       
+   }
+   
+   public void showP1() {
+       p1B.showBtn.fire();
+   }
+   
+   public void hideP1() {
+       p1B.hideBtn.fire();
+   }
+   
+   public void showP2() {
+       p2B.showBtn.fire();
+   }
+   
+   public void hideP2() {
+       p2B.hideBtn.fire();
+   }
+   
+   public void prime2show() {
+       p2B.primeShow();
+   }
+   
+   
     
 }

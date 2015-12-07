@@ -6,9 +6,12 @@
 package battleship.viewcon;
 
 import javafx.application.Application;
+import static javafx.application.Platform.exit;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 /**
@@ -29,7 +33,7 @@ public class P1Board extends Application {
     Stage prime;
     ViewCon viewLink;
     String player;    
-    boolean turn;
+    boolean isShipClicked;
     boolean isSetupComplete;    
     Scene scene;
     GridPane gridInner;
@@ -39,22 +43,36 @@ public class P1Board extends Application {
     Label shipButtonSize;
     String activeShip;
     String[] twoLocations; // Field for two different string locations to pass to model for validation
-    boolean[] shipsValidated; // Boolean array, when all ships are validated(true) and placed, move forward    
+    boolean[] shipsValidated; // Boolean array, when all ships are validated(true) and placed, move forward
+    
+    
     
       @Override
-    public void start(Stage primaryStage) {        
+    public void start(Stage primaryStage) {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+    @Override public void handle(WindowEvent t) {
+        System.out.println("CLOSING");
+        exit();
+    }
+});
+        isShipClicked = true;
         isSetupComplete = false;
         twoLocations = new String[]{".", "."};        
         prime = primaryStage;                   //STUB
-        primaryStage.setTitle("Player1 Board");
+        //primaryStage.setTitle("Player1 Board");
+        prime.setTitle("Player1 Board");
         //prime.setTitle("Player1 Board");
-        primaryStage.setResizable(false);        
+        //primaryStage.setResizable(false);
+        prime.setResizable(false);
         buildBoard();   // Build the whole board, primaryStage is a field and can be accessed inside this
         //prime.setScene(scene);
         //prime.show();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        //primaryStage.setScene(scene);
+        prime.setScene(scene);
+        //primaryStage.show();
     }
+    
+   
     
     /**
      * Mutator
@@ -292,7 +310,7 @@ public class P1Board extends Application {
                         Button clickedBtn = (Button) source; 
                         String shipBtnId = clickedBtn.getId();
                         // Event handler method
-                        handleGridBtn(shipBtnId);
+                        handleGridBtn(shipBtnId, clickedBtn);
                     }
                }            
         });
@@ -300,7 +318,8 @@ public class P1Board extends Application {
                 gridInner.add(btn, z - 1, counter);
             }            
             counter++;
-        }
+        }        
+        hideBoardButtons();
         
         // Add dummy buttons to show/hide the board
         hideBtn = new Button();
@@ -327,20 +346,29 @@ public class P1Board extends Application {
         // Establish a new scene consisting of the main grid Pane, set window size
         scene = new Scene(gridMain, 890, 720);
         // Attach css stylesheet
-        scene.getStylesheets().add(P1Board.class.getResource("styles/PlayerBoardStyle.css").toExternalForm());
-        
+        scene.getStylesheets().add(P1Board.class.getResource("styles/PlayerBoardStyle.css").toExternalForm());        
     }
+    
+    
+    
+    /************************************************************************************************************************************
     
     /**
      * Event handler for choosing a button for ship placement
      * @param btn 
      */
     public void handleShipBtn(String btn) {
+        
         // Set the active ship
-        activeShip = btn;       
+        activeShip = btn;
+        // Show the board buttons because we know we are choosing a ship
+        if(isShipClicked == true); {
+        showBoardButtons();        
+        }
+        isShipClicked = false;
             // Check switch statement, disable all buttons and change labels
             switch(btn) {
-            case "AIRCRAFT_CARRIER" :   shipStatsLabel.setText("Place head");
+            case "AIRCRAFT_CARRIER" :   shipStatsLabel.setText("Place bow of ship");
                                         shipButtonSize.setText("Size: 5 squares");
                                         ac.setDisable(true);                                        
                                         bs.setDisable(true);
@@ -349,7 +377,7 @@ public class P1Board extends Application {
                                         ds2.setDisable(true);
                  break;
                  
-                    case "BATTLESHIP" : shipStatsLabel.setText("Place head");
+                    case "BATTLESHIP" : shipStatsLabel.setText("Place bow of ship");
                                         shipButtonSize.setText("Size: 4 squares");
                                         bs.setDisable(true);                                 
                                         ac.setDisable(true);
@@ -358,7 +386,7 @@ public class P1Board extends Application {
                                         ds2.setDisable(true);
                  break;
             
-                    case "CRUISER" :    shipStatsLabel.setText("Place head");
+                    case "CRUISER" :    shipStatsLabel.setText("Place bow of ship");
                                         shipButtonSize.setText("Size: 3 squares");
                                         cr.setDisable(true);                                        
                                         ac.setDisable(true);
@@ -366,7 +394,7 @@ public class P1Board extends Application {
                                         ds1.setDisable(true);
                                         ds2.setDisable(true);
                  break;
-                    case "DESTROYER1" : shipStatsLabel.setText("Place head");
+                    case "DESTROYER1" : shipStatsLabel.setText("Place bow of ship");
                                         shipButtonSize.setText("Size: 2 squares");
                                         ds1.setDisable(true);                                       
                                         ac.setDisable(true);
@@ -374,7 +402,7 @@ public class P1Board extends Application {
                                         bs.setDisable(true);
                                         ds2.setDisable(true);
                  break;
-                    case "DESTROYER2" : shipStatsLabel.setText("Place head");
+                    case "DESTROYER2" : shipStatsLabel.setText("Place bow of ship");
                                         shipButtonSize.setText("Size: 2 squares");
                                         ds2.setDisable(true);                                        
                                         ac.setDisable(true);
@@ -384,41 +412,57 @@ public class P1Board extends Application {
                  break;
             default: break;
         }
-    }    
+    } 
+    
+    public void hideBoardButtons() {
+        ObservableList<Node> list = gridInner.getChildren();
+        for(int i = 0; i < list.size(); i++) {
+            Node n = list.get(i);
+            n.setDisable(true);
+        }
+    }
+    
+    public void showBoardButtons() {
+        ObservableList<Node> list = gridInner.getChildren();
+        for(int i = 0; i < list.size(); i++) {
+            Node n = list.get(i);
+            n.setDisable(false);
+        }
+    }
     
     /**
      * Method to reset all the buttons after a ship has been validated. Removes the last validated ship button
      */
     public void resetButtons() {
-        if(activeShip == "AIRCRAFT_CARRIER") {
+        if(activeShip.equals("AIRCRAFT_CARRIER")) {
             bs.setDisable(false);
             cr.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
             shipButtons.getChildren().remove(ac);            
         }
-        if(activeShip == "BATTLESHIP") {
+        if(activeShip.equals("BATTLESHIP")) {
             ac.setDisable(false);
             cr.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
             shipButtons.getChildren().remove(bs);            
         }
-        if(activeShip == "CRUISER") {
+        if(activeShip.equals("CRUISER")) {
             bs.setDisable(false);
             ac.setDisable(false);
             ds1.setDisable(false);
             ds2.setDisable(false);
             shipButtons.getChildren().remove(cr);            
         }
-        if(activeShip == "DESTROYER1") {
+        if(activeShip.equals("DESTROYER1")) {
             bs.setDisable(false);
             cr.setDisable(false);
             ac.setDisable(false);
             ds2.setDisable(false);
             shipButtons.getChildren().remove(ds1);            
         }
-        if(activeShip == "DESTROYER2") {
+        if(activeShip.equals("DESTROYER2")) {
             bs.setDisable(false);
             cr.setDisable(false);
             ds1.setDisable(false);
@@ -430,13 +474,15 @@ public class P1Board extends Application {
     /**
      * Event handler method for board button fires
      * @param btnId 
+     * @param btn
      */
-    public void handleGridBtn(String btnId) {        
+    public void handleGridBtn(String btnId, Button btn) {
+        if(viewLink.isP1SetupMode == true) {
         int index = 0;
         switch(activeShip) {
            // Establish placement of each ship in the validation array
-           case "AIRCRAFT_CARRIER" : index = 0;
-           break;
+           case "AIRCRAFT_CARRIER" : index = 0;                                     
+                                     break;
            case "BATTLESHIP" : index = 1;
            break;
            case "CRUISER" : index = 2;
@@ -449,7 +495,8 @@ public class P1Board extends Application {
        // If there is no String location in the head/tail array, place the parameter in index 0
        if(twoLocations[0].equals(".")) {           
            twoLocations[0] = btnId;
-           shipStatsLabel.setText("Place tail");           
+           shipStatsLabel.setText("Place stern of ship");
+           
        }
        // If there is a String location in index 0, put the parameter in index 1
        else {
@@ -464,7 +511,7 @@ public class P1Board extends Application {
 
            // Reset the two locations array for next ship placement
            twoLocations[0] = ".";
-           twoLocations[1] = ".";
+           twoLocations[1] = ".";           
            // Reset the buttons and remove activeShip button
            resetButtons();
            // Reset ship label
@@ -478,10 +525,19 @@ public class P1Board extends Application {
        if(shipsValidated[0] == true && shipsValidated[1] == true && shipsValidated[2] == true
                && shipsValidated[3] == true && shipsValidated[4] == true) {
            hideBtn.fire();
-           System.out.println(viewLink);
-           viewLink.preShow();           
-       }
-    }   
+           viewLink.prime2show();
+           //viewLink.preShow();
+           
+       } 
+        
+    } else {
+            
+        }
+    }
+    
+    public void primeShow() {
+        prime.show();
+    }
     
 }
 

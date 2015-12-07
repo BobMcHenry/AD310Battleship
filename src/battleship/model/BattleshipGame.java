@@ -53,7 +53,7 @@ public class BattleshipGame
             st = ShipType.BATTLESHIP;
             shipSize = 4;
         } else if(  s.toLowerCase() == "cruiser"){
-            st = ShipType.CRUSIER;
+            st = ShipType.CRUISER;
             shipSize = 3;
         } else if(  s.toLowerCase() == "destroyer"){
             st = ShipType.DESTROYER;
@@ -66,7 +66,7 @@ public class BattleshipGame
         if( locationValid( headR, headC) && locationValid(tailR, tailC) ){
             //test to verify ship length matches position length
             //return false if not else begin validation
-            if( shipLengthValid( size, headR, headC, tailR, tailC ) ){
+            if( /**shipLengthValid( shipSize, headR, headC, tailR, tailC )*/true ){
                 //if headR == tailR the ship is horizontal
                 if( headR == tailR){
                     //build ship
@@ -120,21 +120,21 @@ public class BattleshipGame
         return loc;
     }
 
-    public String makeShot(int row, int col){
+    public String makeShot(int row, int col) {
         // Flip flag on players offensiveBoard array
-        if ( activePlayer.offensiveBoard[row*10+col] ){
+        if (activePlayer.offensiveBoard[row * 10 + col]) {
             return "Space already attacked";
         } else {
-            activePlayer.offensiveBoard[row*10+col] = true;
+            activePlayer.offensiveBoard[row * 10 + col] = true;
         }
 
         // get defending players locations
         Location[] sl = getShipLocations(defensePlayer);
 
         // Iterate through defending players locations
-        for (Location l : sl){
-            if (l.getRow() == row && l.getCol() == col){
-                
+        for (Location l : sl) {
+            if (l.getRow() == row && l.getCol() == col) {
+
                 l.setStatus(Status.HIT);
                 activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
 
@@ -143,10 +143,10 @@ public class BattleshipGame
         }
         // if not in location array, create a new location and shotresult,
         // flag as a miss and switch player
-        activePlayer.addShot(new ShotResult(activePlayer, new Location(row,col), Status.MISS));
+        activePlayer.addShot(new ShotResult(activePlayer, new Location(row, col), Status.MISS));
         switchActivePlayer();
         return "MISS";
-
+    }
 
 
     public boolean isGameOver(){
@@ -201,19 +201,24 @@ public class BattleshipGame
     * private helper method to validate ship length with ship positional
     * length.
     */
-    private boolean shipLengthValid( int size, int xh , int yh, int xt, yt ){
+    /**
+    private boolean shipLengthValid( int size, int xh , int yh, int xt, int yt ){
         return ( size == (Math.sqrt( (xt - xh)*(xt - xh) + (yt - yh)*(yt - yh));
     }
 
     private Ship buildHorizontalShip( st, shipSize, headR, headC, tailR, tailC ){
         //ship will be built
+        return null;
     }
 
     private Ship buildVerticalShip( st, shipSize, headR, headC, tailR, tailC ){
         //ship will be built
+        return null;
     }
 
     private Ship buildDiagoalShip( st, shipSize, headR, headC, tailR, tailC ){
         //ship will be build
+        return null;
     }
+     */
 }
