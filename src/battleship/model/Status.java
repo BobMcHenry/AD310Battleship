@@ -5,6 +5,7 @@ public enum Status {
     MISS,
     HIT,
     INITIAL,
-    INVALID
+    INVALID,
+    SUNK
 }
 
