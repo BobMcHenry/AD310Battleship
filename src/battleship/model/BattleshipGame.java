@@ -2,7 +2,6 @@ package battleship.model;
 
 /**
  * Implementation of the BattleshipModel interface
- *
  * @author Bob McHenry
  * @author Chris Wilson
  * @author Mario Rodriguez
@@ -30,7 +29,7 @@ public class BattleshipGame implements BattleshipModel {
      * Ie, if activePlayer is p1, defensePlayer is p2.
      */
     Player defensePlayer;
-
+    
     Location[] currentShipCoords; //--------------------------------------- helper field for view
 
     /**
@@ -49,14 +48,14 @@ public class BattleshipGame implements BattleshipModel {
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
     }
-
+    
     public void setCurrentShipCoords(Location[] coords) { //---------------------- helper method for view
         this.currentShipCoords = coords;
     }
-
+    
     public int[][] getCurrentShipCoords() { //-------------------------------------``helper method for view
         int[][] intCoords = new int[currentShipCoords.length][2];
-        for (int i = 0; i < currentShipCoords.length; i++) {
+        for(int i = 0; i < currentShipCoords.length; i++) {
             int row = currentShipCoords[i].getRow();
             int col = currentShipCoords[i].getColumn();
             intCoords[i][0] = row;
@@ -69,8 +68,8 @@ public class BattleshipGame implements BattleshipModel {
         return activePlayer;
     }
 
-    public String getActivePlayerName() {
-        return activePlayer.name;
+    public String getActivePlayerName(){
+        return activePlayer.getName();
     }
 
     public Player getDefensePlayer() {
@@ -91,6 +90,8 @@ public class BattleshipGame implements BattleshipModel {
         }
     }
 
+
+
     public void resetGame(String p1Name, String p2Name) {
         this.p1 = new Player(p1Name); // Player One object creation
         this.p2 = new Player(p2Name); // Player Two object creation
@@ -108,6 +109,8 @@ public class BattleshipGame implements BattleshipModel {
             return ShipType.CRUISER;
         } else if (s.toLowerCase().equals("destroyer")) {
             return ShipType.DESTROYER;
+        } else if (s.toLowerCase().equals("submarine")) { //--------------------------------------- added
+            return ShipType.SUBMARINE;
         }
 
         throw new IllegalArgumentException("Not a valid ShipType");
@@ -121,6 +124,8 @@ public class BattleshipGame implements BattleshipModel {
                 return 4;
             case CRUISER:
                 return 3;
+            case SUBMARINE:
+                return 3; // --------------------------------added
             case DESTROYER:
                 return 2;
         }
@@ -161,7 +166,7 @@ public class BattleshipGame implements BattleshipModel {
                     }
                 } else if (highCol == lowCol) {
                     // vertical ship. Increment rows from low to high
-                    if (locationValid(lowRow + i, lowCol) && highRow - lowRow + 1 == shipSize) {
+                    if (locationValid(lowRow + i, lowCol)  && highRow - lowRow + 1 == shipSize) {
                         shipBody[i] = new Location(lowRow + i, lowCol);
                     } else {
                         return false;
@@ -206,11 +211,12 @@ public class BattleshipGame implements BattleshipModel {
                 } else {
                     return false;
                 }
-            }
+            }            
         } else {
             // Head and tail are not valid
             return false;
         }
+        //Diagonal b-section validaion.
 //        if (placementValid(st, shipBody)){
 //            activePlayer.setShip(new Ship(st, shipBody));
 //        } else {
@@ -218,22 +224,24 @@ public class BattleshipGame implements BattleshipModel {
 //        }
         activePlayer.setShip(new Ship(st, shipBody));
         System.out.println(st.toString() + " Created for " + activePlayer.getName());
+        currentShipCoords = shipBody;   //------------------------------------------------- added helper field and method for view
+        setCurrentShipCoords(currentShipCoords);
         if (activePlayer.shipIndex == 5) {
             switchActivePlayer();
         }
         return true;
     }
 
-    public int[][] getShipCoords(Player p) {
-        int[][] out = new int[16][];
-        if (p.shipIndex == 5) {
+    public int[][] getShipCoords(Player p){
+        int[][] out = new int[16][]; //---------------------------------------- length needs to be a field variable selected during view setup
+        if(p.shipIndex == 5){
             Ship[] ships = p.getShips();
 
-            int ind = 0;
-            for (Ship s : ships) {
-                for (Location l : s.getLocation()) {
-                    out[ind++] = l.getXY();
-                }
+            int ind=0;
+            for (Ship s: ships){
+               for (Location l : s.getLocation()){
+                   out[ind++] = l.getXY();
+               }
 
             }
 
@@ -242,7 +250,7 @@ public class BattleshipGame implements BattleshipModel {
         }
         return out;
     }
-
+    
     public Location[] getShipLocations(Player p) {
         //Store all players ships in a local reference
         Ship[] playerShips = p.getShips();
@@ -267,7 +275,7 @@ public class BattleshipGame implements BattleshipModel {
         return loc;
     }
 
-    public String makeShot(int row, int col) {
+    public Status makeShot(int row, int col) {
         if (p1.shipIndex != 5 || p2.shipIndex != 5) {
             String errorMessage = ("Players not setup for gameplay. "
                     + "Player 1 has " + p1.shipIndex + " ships, "
@@ -275,47 +283,47 @@ public class BattleshipGame implements BattleshipModel {
             throw new IllegalStateException(errorMessage);
         } else {
             // Flip flag on players offensiveBoard array
-            if (activePlayer.offensiveBoard[row * 10 + col]) {
-                return "Space already attacked";
+            if (activePlayer.offensiveBoard[row * 10 + col] != Status.INITIAL) {
+                return activePlayer.getOffensiveBoardIndex(row * 10 + col);
             } else {
-                activePlayer.offensiveBoard[row * 10 + col] = true;
-            }
+                // get defending players locations
+                Location[] sl = getShipLocations(defensePlayer);
 
-            // get defending players locations
-            Location[] sl = getShipLocations(defensePlayer);
+                // Iterate through defending players locations
+                for (Location l : sl) {
+                    if (l.getRow() == row && l.getColumn() == col) {
 
-            // Iterate through defending players locations
-            for (Location l : sl) {
-                if (l.getRow() == row && l.getColumn() == col) {
-                    l.setStatus(Status.HIT);
-                    activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
-
-                    return "HIT";
+                        l.setStatus(Status.HIT);
+                        activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
+                        return Status.HIT;
+                    }
                 }
             }
             // if not in location array, create a new location and shotresult,
             // flag as a miss and switch player
             activePlayer.addShot(new ShotResult(activePlayer, new Location(row, col, Status.MISS), Status.MISS));
             switchActivePlayer();
-            return "MISS";
+            return Status.MISS;
         }
     }
 
     public boolean isGameOver() {
         // Still in setup mode
-        if (p1.shipIndex != 5 || p2.shipIndex != 5) {
+        if (p1.shipIndex != 5 || p2.shipIndex != 5){
             return false;
         }
 
         boolean gameOver = true;
-        for (Ship ship : defensePlayer.getShips()) {
+        for(Ship ship:defensePlayer.getShips())
+        {
             // if any ship is not sunk then the game is not over
-            if (!ship.isSunk()) {
+            if(!ship.isSunk()){
                 gameOver = false;
             }
         }
         return gameOver;
     }
+
 
     public Player getP1() {
         return p1;
@@ -333,7 +341,7 @@ public class BattleshipGame implements BattleshipModel {
      * @param p Designates which player's offense grid will be returned
      * @return Boolean[] of players offensive shots.
      */
-    public boolean[] getBoard(Player p) {
+    public Status[] getBoard(Player p) {
         return p.getOffensiveBoard();
     }
 
@@ -345,10 +353,11 @@ public class BattleshipGame implements BattleshipModel {
         return p2.getName();
     }
 
+
     public String toString() {
 //        System.out.println("Start");
-        boolean[] p1Off = getBoard(p1);
-        boolean[] p2Off = getBoard(p2);
+        Status[] p1Off = getBoard(p1);
+        Status[] p2Off = getBoard(p2);
         Location[] p1Shots = p1.getShotLocations();
         Location[] p2Shots = p2.getShotLocations();
         Ship[] p1Ships = p1.getShips();
@@ -363,7 +372,7 @@ public class BattleshipGame implements BattleshipModel {
             if (i % 10 == 0) {
                 out += "\n" + (char) (65 + i / 10);
             }
-            if (!p1Off[i]) {
+            if (p1Off[i].equals(Status.INITIAL)) {
                 // Status == INITIAL
                 out += "  .";
             } else {
@@ -413,6 +422,9 @@ public class BattleshipGame implements BattleshipModel {
                 case DESTROYER:
                     type = 'D';
                     break;
+                case SUBMARINE: //-------------------------------------- added
+                    type = 'C';
+                    break;
             }
 
 
@@ -445,7 +457,7 @@ public class BattleshipGame implements BattleshipModel {
             if (i % 10 == 0) {
                 out += "\n" + (char) (65 + i / 10);
             }
-            if (!p2Off[i]) {
+            if (p2Off[i].equals(Status.INITIAL)) {
                 // Status == INITIAL
                 out += "  .";
             } else {
@@ -492,6 +504,9 @@ public class BattleshipGame implements BattleshipModel {
                 case DESTROYER:
                     type = 'D';
                     break;
+                case SUBMARINE: //---------------------------------------- added 
+                    type = 'C';
+                    break;
             }
             // Get char from above and assign to appropriate index
             for (Location l : s.getLocation()) {
@@ -535,9 +550,9 @@ public class BattleshipGame implements BattleshipModel {
         return true;
     }
 
-    public Status getStateFromXY(int row, int col) {
+    public Status getStateFromXY(int row, int col){
         Location[] shotLoc = p1.getShotLocations();
-        for (int i = 0; i < shotLoc.length; i++) {
+        for (int i = 0; i < shotLoc.length; i++ ){
             if (shotLoc[i].getRow() == row && shotLoc[i].getColumn() == col) {
                 return shotLoc[i].getStatus();
             }

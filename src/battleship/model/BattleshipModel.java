@@ -112,7 +112,7 @@ public interface BattleshipModel{
      *
      * @return String message relaying status of hit.
      */
-    String makeShot(int row, int col);
+    Status makeShot(int row, int col);
 
     /**
      * isGameOver checks to see if a win condition has been met by either
@@ -131,5 +131,5 @@ public interface BattleshipModel{
      * @param p Designates which player's offense grid will be returned
      * @return Boolean[] of players offensive shots.
     */
-    boolean[] getBoard(Player p);
+    Status[] getBoard(Player p);
 }

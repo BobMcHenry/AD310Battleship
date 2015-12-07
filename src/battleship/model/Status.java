@@ -4,6 +4,8 @@ package battleship.model;
 public enum Status {
     MISS,
     HIT,
-    INITIAL
+    INITIAL,
+    SUNK,
+    INVALID
 }
 

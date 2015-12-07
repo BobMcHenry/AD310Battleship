@@ -234,25 +234,24 @@ public class ViewCon {
    public void handleGridBtnGameP1(String id) {
         boolean gameOver = gameConnection.isGameOver();
         if(gameOver == true) {
-            // reset everything in view
+            // reset everything in view, then get the PreBoard functioning to call reset in model
             System.out.println("Adding view reset logic here soon");
         }
         int row = returnRow(id.substring(0, 1));
         int col = Integer.parseInt(id.substring(1, 2));
-        String attack = gameConnection.makeShot(row, col);
-        if(attack.equals("HIT")) {
+        Status attack = gameConnection.makeShot(row, col);
+        if(attack.equals(Status.HIT)) {
             p1Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
             mainConnection.processP1Hit(id);
         }        
-        else if(attack.equals("MISS")) {
-        System.out.println("Miss was returned from board, calling method");
+        else if(attack.equals(Status.MISS)) {
         p1Board.moveStatus.setText("MISS");
         p1Board.hideBoardButtons();
         p1Board.nextMove.setVisible(true);
         p2Board.showBoardButtons();
         mainConnection.processP1Miss(id);
         }
-        else if(attack.equals("Space already attacked")) {
+        else if(attack.equals(Status.HIT) || attack.equals(Status.MISS) || attack.equals(Status.SUNK)) {
             p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
         }
         else {
@@ -268,19 +267,19 @@ public class ViewCon {
         }
         int row = returnRow(id.substring(0, 1));
         int col = Integer.parseInt(id.substring(1, 2));
-        String attack = gameConnection.makeShot(row, col);
-        if(attack.equals("HIT")) {
+        Status attack = gameConnection.makeShot(row, col);
+        if(attack.equals(Status.HIT)) {
             p1Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
             mainConnection.processP2Hit(id);
         }        
-        else if(attack.equals("MISS")) {
+        else if(attack.equals(Status.MISS)) {
         p2Board.moveStatus.setText("MISS");
         p2Board.hideBoardButtons();
         p2Board.nextMove.setVisible(true);
         p1Board.showBoardButtons();
         mainConnection.processP2Miss(id);
         }
-        else if(attack.equals("Space already attacked")) {
+        else if(attack.equals(Status.SUNK) || attack.equals(Status.INVALID)) {
             p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
         }
         else {

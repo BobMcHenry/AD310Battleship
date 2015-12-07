@@ -12,7 +12,7 @@ class Player {
     int shipIndex;
     
     ShotResult[] shotReport;
-    boolean[] offensiveBoard;
+    Status[] offensiveBoard;
 
     Player(String playerName) {
         this.name = playerName;
@@ -22,7 +22,11 @@ class Player {
         shipIndex = 0;
         shotReport = new ShotResult[100];
 
-        offensiveBoard = new boolean[100];
+        offensiveBoard = new Status[100];
+        java.util.Arrays.fill(offensiveBoard, Status.INITIAL);
+        for(int i = 0; i < offensiveBoard.length; i++) {
+            System.out.println(offensiveBoard[i]);
+        }
     }
 
     String getName() {
@@ -37,6 +41,18 @@ class Player {
         return shotReport;
     }
 
+    public void setOffensiveBoard(int index, Status status) {
+        this.offensiveBoard[index] = status;
+    }
+
+    public Status getOffensiveBoardIndex(int index) {
+        return offensiveBoard[index];
+    }
+
+    public Status[] getOffensiveBoard() {
+        return offensiveBoard;
+    }
+
     void setShip(Ship s){
         if (shipIndex < ships.length)
             ships[shipIndex++] = s;
@@ -45,11 +61,6 @@ class Player {
 
     void addShot(ShotResult sr){
         shotReport[turnCount++] = sr;
-    }
-
-    boolean[] getOffensiveBoard(){
-
-        return offensiveBoard;
     }
 
     public String toString(){
@@ -70,6 +81,7 @@ class Player {
 
     Location[] getShotLocations(){
         Location[] out = new Location[turnCount];
+        int ind = 0;
         for (int i = 0; i < shotReport.length; i++){
             if (shotReport[i] != null){
                 out[i] = shotReport[i].shotCoords;
