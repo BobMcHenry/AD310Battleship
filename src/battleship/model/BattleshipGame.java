@@ -50,19 +50,31 @@ public class BattleshipGame implements BattleshipModel {
     public Player getActivePlayer() {
         return activePlayer;
     }
+    public String getActivePlayerName() {
+        return activePlayer.name;
+    }
 
+<<<<<<< HEAD
+=======
     public String getActivePlayerName(){
         return activePlayer.getName();
     }
 
+>>>>>>> master
     public Player getDefensePlayer() {
         return defensePlayer;
     }
-
     public String getDefensePlayerName() {
         return defensePlayer.name;
     }
 
+<<<<<<< HEAD
+=======
+    public String getDefensePlayerName() {
+        return defensePlayer.name;
+    }
+
+>>>>>>> master
     public void switchActivePlayer() {
         if (activePlayer.equals(p1)) {
             activePlayer = p2;
@@ -73,8 +85,11 @@ public class BattleshipGame implements BattleshipModel {
         }
     }
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> master
     public void resetGame(String p1Name, String p2Name) {
         this.p1 = new Player(p1Name); // Player One object creation
         this.p2 = new Player(p2Name); // Player Two object creation
@@ -191,11 +206,16 @@ public class BattleshipGame implements BattleshipModel {
                     return false;
                 }
             }
+<<<<<<< HEAD
+        }
+        //Diagonal b-section validation.
+=======
         } else {
             // Head and tail are not valid
             return false;
         }
         //Diagonal b-section validaion.
+>>>>>>> master
 //        if (placementValid(st, shipBody)){
 //            activePlayer.setShip(new Ship(st, shipBody));
 //        } else {
@@ -208,12 +228,20 @@ public class BattleshipGame implements BattleshipModel {
         }
         return true;
     }
+<<<<<<< HEAD
+    public int[][] getShipCoords(Player p){
+        int[][] out = new int[16][];
+        if(p.shipIndex == 5){
+            Ship[] ships = p.getShips();
+
+=======
 
     public int[][] getShipCoords(Player p){
         int[][] out = new int[16][];
         if(p.shipIndex == 5){
             Ship[] ships = p.getShips();
 
+>>>>>>> master
             int ind=0;
             for (Ship s: ships){
                for (Location l : s.getLocation()){
@@ -271,11 +299,20 @@ public class BattleshipGame implements BattleshipModel {
             // Iterate through defending players locations
             for (Location l : sl) {
                 if (l.getRow() == row && l.getColumn() == col) {
+<<<<<<< HEAD
+                    l.setStatus(Status.HIT);
+                    activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
+
+                    //check for sunk
+                    return "HIT";
+
+=======
 
                     l.setStatus(Status.HIT);
                     activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
 
                     return "HIT";
+>>>>>>> master
                 }
             }
             // if not in location array, create a new location and shotresult,
@@ -292,6 +329,15 @@ public class BattleshipGame implements BattleshipModel {
             return false;
         }
 
+<<<<<<< HEAD
+    public boolean isGameOver() {
+        // Still in setup mode
+        if (p1.shipIndex != 5 || p2.shipIndex != 5){
+            return false;
+        }
+
+=======
+>>>>>>> master
         boolean gameOver = true;
         for(Ship ship:defensePlayer.getShips())
         {
@@ -303,7 +349,10 @@ public class BattleshipGame implements BattleshipModel {
         return gameOver;
     }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
     public Player getP1() {
         return p1;
     }

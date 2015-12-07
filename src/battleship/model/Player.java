@@ -29,7 +29,11 @@ class Player {
         return name;
     }
 
+<<<<<<< HEAD
+    Ship[] getShips() {        
+=======
     Ship[] getShips() {
+>>>>>>> master
         return ships;
     }
 
@@ -70,7 +74,10 @@ class Player {
 
     Location[] getShotLocations(){
         Location[] out = new Location[turnCount];
+<<<<<<< HEAD
+=======
         int ind = 0;
+>>>>>>> master
         for (int i = 0; i < shotReport.length; i++){
             if (shotReport[i] != null){
                 out[i] = shotReport[i].shotCoords;

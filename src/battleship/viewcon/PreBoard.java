@@ -1,12 +1,9 @@
-/*
- * PreBoard object. This is the starter class for the different JavaFX stages (different windows - username screen,
- *  and each players window)
- * After first username input, this class hides and calls on a new P1Board object
- */
 package battleship.viewcon;
+import battleship.model.*;
 
 import javafx.geometry.Insets;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -20,29 +17,42 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 /**
- * 
- *
- * @author c-dub
+ * PreBoard class, used for getting user input for players names
+ * @author Chris Wilson
+ * @author Bob McHenry
+ * @author Mario Rodriguez De la Raza en la casa!
+ * @author Jessy Bernoudi
  */
 public class PreBoard extends Application {
     private boolean turn; // field to determine which players name to put into which board
     private String player;       
     private Button hideBtn;
     private Button showBtn;
-    TextField userText;
-    ViewCon controller;    
-    P1Board p1B;
-    P2Board p2B;
+    private TextField userText;
+    private ViewCon controller;    
+    private P1Board p1B;
+    private P2Board p2B;
+    private BattleshipGame game;
+    private String[] playerNames;
+    private MainApp mainApp;
     
+    
+      
+    /**
+     * Application class override method, where javaFX stage starts
+     * @param primaryStage 
+     */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) {   
+        playerNames = new String[2];               
         turn = false;       
         p1B = new P1Board();
         p2B = new P2Board();
         controller = new ViewCon();
+        controller.setPreB(this); 
         controller.setp1(p1B);
-        controller.setp2(p2B);
-        controller.setPreB(this);
+        controller.setp2(p2B);               
+        controller.setMain();
         primaryStage.setTitle("Battleship setup"); //Main stage (window container)      
         //Gridpane for using rows/columns for child node placement
         GridPane grid = new GridPane();
@@ -57,7 +67,7 @@ public class PreBoard extends Application {
         grid.add(sceneTitle, 0, 0, 2, 1);
         
         // label and textfield
-        Label userName = new Label("Enter UserName:");
+        Label userName = new Label("Enter Player1 UserName:");
         userName.setId("user-name");
         grid.add(userName, 0, 1);        
         TextField userTextField = new TextField();
@@ -82,32 +92,32 @@ public class PreBoard extends Application {
                         } else {
                             player = temp1;
                         }
-                        controller.setPlayer1(player);                                        
-                        turn = true;
-                        Stage stage = new Stage();
-                        p1B.start(stage);
+                        playerNames[0] = player;
+                        controller.setPlayer1(player);                       
+                        turn = true;                        
+                        p1B.start(new Stage());
                         grid.getChildren().remove(userTextField);
                         userText = new TextField();
-                        userText.setId("text-field2");
+                        userText.setId("text-field");
                         grid.add(userText, 0, 2);
-                        hideBtn.fire();                        
-                } else {
-                    
+                        userName.setText("Enter Player2 username:");                        
+                } else {                    
                     String temp2 = userText.getText();
                         if(temp2.equals("")) {
                             player = "Player2";
                         } else {
                             player = temp2;
                         }
-                        System.out.println("Player 2 should be: " + player);
-                        controller.setPlayer2(player);
-                        Stage stage2 = new Stage();
-                        p2B.start(stage2);
+                        playerNames[1] = player;                        
+                        controller.startGame(playerNames);
+                        controller.setPlayer2(player);                                               
+                        p2B.start(new Stage());
                         hideBtn.fire();
+                        p1B.primeShow();
+                        
                 }                        
             }
-        });
-        
+        });        
         
         hideBtn = new Button();        
         hideBtn.setId("hideBtn");
@@ -138,14 +148,46 @@ public class PreBoard extends Application {
         primaryStage.show();        
     }
 
+    /**
+     *
+     * @param v
+     */
     public void setLink(ViewCon v) {        
-        this.controller = v;
-    }    
+        this.controller = v;        
+    }   
     
-    public static void main(String[] args) {
-        Application.launch(args);
+    /**
+     *
+     * @param b
+     */
+    public void setBattleshipGame(BattleshipGame b) {
+        this.game = b;        
     }
-
+    
+    /**
+     *
+     * @param main
+     */
+    public void setMainAppConnection(MainApp main) {        
+        this.mainApp = main;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public MainApp getMainConnection() {        
+        return mainApp;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public ViewCon getVcon() {
+        return controller;
+    }   
+   
     
     
 }
