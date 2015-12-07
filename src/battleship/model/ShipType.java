@@ -7,7 +7,8 @@ public enum ShipType {
     AIRCRAFT_CARRIER,
     DESTROYER,
     BATTLESHIP,
-    CRUISER
+    CRUISER,
+    SUBMARINE
 }
     
 
