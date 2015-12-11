@@ -84,14 +84,12 @@ public class ShotProcessor {
             System.out.println("coordinate going into ac map: " +coords[i]);
             System.out.println("value going into ac map: " + acMapP1.get(coords[i]));
         }
-        System.out.println("ac map size is: " + acMapP1.size());
     }
     
     public void setP1BsMap(String[] coords) {
         for(int i = 0; i < coords.length; i++) {
             bsMapP1.put(coords[i], false);
         }
-        System.out.println("bs map size is: " + bsMapP1.size());
     }
     
     public void setP1CrMap(String[] coords) {
@@ -156,11 +154,17 @@ public class ShotProcessor {
     
     public boolean checkSunk(Map<String, Boolean> map) {
         System.out.println("Map received, checking " + map);
+        int count = 0;
         boolean sunk = false;
         Collection c = map.values();
         Iterator itr = c.iterator();
         while(itr.hasNext()) {
-            System.out.println(itr.next());
+            if(itr.next().equals(true)) {
+                count++;
+            }
+            if(count == map.size()) {
+                sunk = true;
+            }
         }
         return sunk;
     }

@@ -92,9 +92,10 @@ public class P2Board {
         player = viewLink.getPlayer1Name();
         playerLabel = new Label("");
         playerLabel.setId("player");
-        playerLabel.setPadding(new Insets(0, 0, 0, 70));
+        playerLabel.setPadding(new Insets(0, 0, 0, 100));
         playerTurn = new Label("");
-        playerTurn.setId("status");
+        playerTurn.setId("otherLabel");
+        playerTurn.setPadding(new Insets(0, 0, 0, 40));
         gridMain.add(playerLabel, 0, 0);
         gridMain.add(playerTurn, 1, 0);
         
@@ -166,14 +167,14 @@ public class P2Board {
         // Label to notify user to place ship
         shipStatsLabel = new Label("Select a ship");
         shipStatsLabel.setId("blueLabel");
-        shipStatsLabel.setPadding(new Insets(0, 0, 0, 100));
+        shipStatsLabel.setPadding(new Insets(0, 0, 0, 140));
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
         shipButtons = new VBox();        
         shipButtonSize = new Label("");
         shipButtonSize.setId("blueLabel");
         moveStatus = new Label("");
-        moveStatus.setId("status");
+        moveStatus.setId("otherLabel");
         gridMain.add(shipButtonSize, 2, 2);
         gridMain.add(moveStatus, 2, 3);
         
@@ -182,7 +183,7 @@ public class P2Board {
         shipButtons.setSpacing(5);
         shipButtons.setId("shipBox");
         shipButtons.setPrefWidth(100);
-        shipButtons.setPadding(new Insets(0, 0, 0, 140));
+        shipButtons.setPadding(new Insets(0, 0, 0, 200));
             bs = new Button("BattleShip");
             ac = new Button("Aircraft Carrier");
             cr = new Button("Cruiser");
@@ -507,6 +508,7 @@ public class P2Board {
                     && shipsValidated[3] == true && shipsValidated[4] == true) {
                         viewLink.isP2SetupMode = false;           
                         gridMain.getChildren().remove(shipButtonSize);
+                        shipStatsLabel.setText("Sunken ships:");
                         nextMove = new Button("Switch Players");
                         nextMove.setId("moveBtn");
                         nextMove.setOnAction(new EventHandler<ActionEvent>() { 

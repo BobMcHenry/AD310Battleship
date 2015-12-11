@@ -12,12 +12,28 @@ and open the template in the editor.
     -fx-focus-color: transparent;
 }
 
-.label {
+#player {
+        -fx-font-size: 36px;
+        -fx-font-family: Impact;
+        -fx-text-fill: #002cb3;
+        -fx-alignment: CENTER_LEFT;
+        -fx-effect: dropshadow(one-pass-box, #ff8b17, 5, 0.2, 2, 0);
+}
+
+#blueLabel {
     -fx-font-size: 28px;
     -fx-font-family: Impact;
-    -fx-text-fill: #002cb3;
+    -fx-text-fill: #0039e6;
     -fx-alignment: CENTER_LEFT;
-    -fx-effect: innershadow(one-pass-box, #808080, 5, 0.2, 2, 0);
+    -fx-effect: innershadow(one-pass-box, #ff8b17, 5, 0.2, 2, 0);
+}
+
+#otherLabel {
+    -fx-font-size: 34px;
+        -fx-font-family: Impact;
+        -fx-text-fill: #0039e6;
+        -fx-alignment: CENTER_LEFT;
+        -fx-effect: innershadow(one-pass-box, #ff8b17 , 5, 0.2, 2, 0);
 }
 
 #directions {
@@ -41,7 +57,7 @@ and open the template in the editor.
     -fx-fill:  linear-gradient(darkblue , cornflowerblue);
 }
 
-#shipBox > .button {
+#shipBox > .button, #moveBtn {
     -fx-background-color:
         linear-gradient(#ffb280, #fff0e5),
         radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
@@ -52,7 +68,7 @@ and open the template in the editor.
     -fx-text-fill: #000000;
 }
 
-#shipBox > .button:hover {
+#shipBox > .button:hover, #moveBtn:hover {
     -fx-background-color:
         linear-gradient(#ffb280, #fff0e5),
         radial-gradient(center 50% -40%, radius 200%, #006699 45%, #1a1aff 50%);
@@ -73,7 +89,9 @@ and open the template in the editor.
     -fx-background-image: url("../img/waterSquarehover.jpg");
 }
 
-
+#sunkShips {
+    -fx-background-color: red;
+}
 
 
 

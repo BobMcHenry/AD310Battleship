@@ -24,9 +24,6 @@ class Player {
 
         offensiveBoard = new Status[100];
         java.util.Arrays.fill(offensiveBoard, Status.INITIAL);
-        for(int i = 0; i < offensiveBoard.length; i++) {
-            System.out.println(offensiveBoard[i]);
-        }
     }
 
     String getName() {

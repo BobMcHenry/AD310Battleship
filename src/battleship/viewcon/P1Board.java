@@ -83,9 +83,10 @@ public class P1Board {
         // Player name above the board buttons       
         playerLabel = new Label("");
         playerLabel.setId("player");
-        playerLabel.setPadding(new Insets(0, 0, 0, 70));
+        playerLabel.setPadding(new Insets(0, 0, 0, 100));
         playerTurn = new Label("");
-        playerTurn.setId("status");
+        playerTurn.setId("otherLabel");
+        playerTurn.setPadding(new Insets(0, 0, 0, 40));
         gridMain.add(playerLabel, 0, 0);
         gridMain.add(playerTurn, 1, 0);
         
@@ -157,14 +158,14 @@ public class P1Board {
         // Label to notify user to place ship
         shipStatsLabel = new Label("Select a ship");
         shipStatsLabel.setId("blueLabel");
-        shipStatsLabel.setPadding(new Insets(0, 0, 0, 100));
+        shipStatsLabel.setPadding(new Insets(0, 0, 0, 140));
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
         shipButtons = new VBox();        
         shipButtonSize = new Label("");
         shipButtonSize.setId("blueLabel");
         moveStatus = new Label("");
-        moveStatus.setId("status");
+        moveStatus.setId("otherLabel");
         gridMain.add(shipButtonSize, 2, 2);
         gridMain.add(moveStatus, 2, 3);
         
@@ -173,7 +174,7 @@ public class P1Board {
         shipButtons.setSpacing(5);
         shipButtons.setId("shipBox");
         shipButtons.setPrefWidth(100);
-        shipButtons.setPadding(new Insets(0, 0, 0, 140));
+        shipButtons.setPadding(new Insets(0, 0, 0, 200));
             bs = new Button("BattleShip");
             ac = new Button("Aircraft Carrier");
             cr = new Button("Cruiser");
@@ -287,7 +288,7 @@ public class P1Board {
                         Button clickedBtn = (Button) source;                        
                         String shipBtnId = clickedBtn.getId();
                         // Event handler method for either setup mode or game mode
-                        if(viewLink.isP1SetupMode == true) {                        
+                        if(viewLink.isP1SetupMode) {       // possible fuckup, add true back................
                         handleGridBtnSetup(shipBtnId, clickedBtn);
                         } else {                            
                             viewLink.handleGridBtnGameP1(shipBtnId);
@@ -320,7 +321,7 @@ public class P1Board {
         activeShip = btnId;
         //activeShipPasser = activeShip;
         // Show the board buttons because we know we are choosing a ship
-        if(isShipClicked == true); {        
+        if(isShipClicked == true); {
         showBoardButtons();        
         }
         isShipClicked = false;
@@ -432,7 +433,7 @@ public class P1Board {
             ds.setDisable(false);
             ac.setDisable(false);
             shipButtons.getChildren().remove(sb);
-            sbL = new Label("Destroyer2");
+            sbL = new Label("Submarine");
             sbL.setId("sunkShips");
             shipButtons.getChildren().addAll(sbL);
             sbL.setVisible(false);
@@ -499,6 +500,7 @@ public class P1Board {
                     && shipsValidated[3] == true && shipsValidated[4] == true) {
                      viewLink.isP1SetupMode = false;           
                      gridMain.getChildren().remove(shipButtonSize);
+                     shipStatsLabel.setText("Sunken ships:");
                      nextMove = new Button("Switch Players");
                      nextMove.setId("moveBtn");
                      nextMove.setOnAction(new EventHandler<ActionEvent>() { 
