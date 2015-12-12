@@ -48,22 +48,22 @@ public class BattleshipMain extends Application {
     }
     
     public void instantiateP1() {
-        p1Scene = new Scene(vc.getP1Grid(), 890, 700);
+        p1Scene = new Scene(vc.getP1Grid(), 890, 720);
         p1Scene.getStylesheets().add(BattleshipMain.class.getResource("styles/PlayerBoardStyle.css").toExternalForm());
         p1Stage = new Stage();
         p1Stage.setTitle("Player1 Board");        
         p1Stage.setScene(p1Scene);
-        p1Stage.setResizable(false);
+        p1Stage.setResizable(true);
         p1Stage.show();
     }
     
     public void instantiateP2() {
-        p2Scene = new Scene(vc.getP2Grid(), 890, 700);
+        p2Scene = new Scene(vc.getP2Grid(), 890, 720);
         p2Scene.getStylesheets().add(BattleshipMain.class.getResource("styles/PlayerBoardStyle.css").toExternalForm());
         p2Stage = new Stage();
         p2Stage.setTitle("Player2 Board");
         p2Stage.setScene(p2Scene);
-        p2Stage.setResizable(false);
+        p2Stage.setResizable(true);
         p2Stage.show();
     }
     
