@@ -90,7 +90,7 @@ public interface BattleshipModel{
      * @return True if ship is placed on board, False if ship fails validation
      * and is not placed.
      */
-    boolean placeShip(String s, int headR, int headC, int tailR, int tailC);
+    boolean placeShip(ShipType s, int headR, int headC, int tailR, int tailC);
 
     /**
      * Returns an array of all the board Locations the designated player's
@@ -132,4 +132,10 @@ public interface BattleshipModel{
      * @return Boolean[] of players offensive shots.
     */
     Status[] getBoard(Player p);
+
+    ShipType[] getAvailableShips();
+
+    int getShipSize(ShipType st);
+
+    int getBoardSize();
 }

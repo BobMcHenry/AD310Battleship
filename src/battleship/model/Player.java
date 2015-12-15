@@ -14,15 +14,15 @@ class Player {
     ShotResult[] shotReport;
     Status[] offensiveBoard;
 
-    Player(String playerName) {
+    Player(String playerName, int numberOfShips, int boardSizeSquared) {
         this.name = playerName;
         turnCount = 0;
 
-        ships = new Ship[5];
+        ships = new Ship[numberOfShips];
         shipIndex = 0;
-        shotReport = new ShotResult[100];
+        shotReport = new ShotResult[boardSizeSquared];
 
-        offensiveBoard = new Status[100];
+        offensiveBoard = new Status[boardSizeSquared];
         java.util.Arrays.fill(offensiveBoard, Status.INITIAL);
         for(int i = 0; i < offensiveBoard.length; i++) {
             System.out.println(offensiveBoard[i]);

@@ -36,10 +36,10 @@ public class ConsoleSetupController {
 
     void placeShips(String playerName){
 
-        String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
+        ShipType[] ships = bg.getAvailableShips();
         System.out.println(playerName + " Ship Setup. \nEnter coordinates as Row letter followed by Column number. Ex. \"A3\"\n");
 
-        for (String s: ships){
+        for (ShipType s: ships){
             System.out.print(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: \n");
             String head = input.nextLine().toUpperCase();
 
@@ -137,7 +137,7 @@ public class ConsoleSetupController {
 
     BattleshipGame testSetup(){
         BattleshipGame bg = new BattleshipGame("P1", "P2");
-        String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
+        ShipType[] ships = bg.getAvailableShips();
         bg.placeShip(ships[0], 0,0,0,4);
         bg.placeShip(ships[1], 1,0,1,3);
         bg.placeShip(ships[2], 2,0,2,2);

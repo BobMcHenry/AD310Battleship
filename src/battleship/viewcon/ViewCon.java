@@ -110,7 +110,7 @@ public class ViewCon {
         int row2 = returnRow(loc[1].substring(0, 1));        
         int col1 = Integer.parseInt(loc[0].substring(1, 2));        
         int col2 = Integer.parseInt(loc[1].substring(1, 2));        
-        return gameConnection.placeShip(id, row1, col1, row2, col2);
+        return true;//gameConnection.placeShip(id, row1, col1, row2, col2);
     }
     
     public void saveP1Defense(String[] list, String str) {
@@ -198,13 +198,14 @@ public class ViewCon {
    }  
    
    public String[] changeButtonsSetup() {       
-       int[][] coords = gameConnection.getCurrentShipCoords();
-       String[] convertCoords = new String[coords.length];
-       for(int i = 0; i < coords.length; i++) {
-           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
-           convertCoords[i] = temp;
-       }
-       return convertCoords;
+//       int[][] coords = gameConnection.getCurrentShipCoords();
+//       String[] convertCoords = new String[coords.length];
+//       for(int i = 0; i < coords.length; i++) {
+//           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
+//           convertCoords[i] = temp;
+//       }
+//       return convertCoords;
+       return null;
    }
    
    public void callP2(ObservableList<Node> list) {

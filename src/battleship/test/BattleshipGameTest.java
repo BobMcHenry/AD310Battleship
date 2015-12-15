@@ -1,6 +1,8 @@
 package battleship.test;
 
 import battleship.model.BattleshipGame;
+import battleship.model.ShipType;
+import battleship.model.Status;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,35 +36,35 @@ public class BattleshipGameTest {
     private final int[] P2_MISS = new int[]{0, 0};
 
     private void placeP1ShipsValid() {
-        assertTrue("Placing player 1 aircraft carrier should return true.", game.placeShip("aircraft carrier", P1_AIRCRAFT_CARRIER[0][0], P1_AIRCRAFT_CARRIER[0][1], P1_AIRCRAFT_CARRIER[1][0], P1_AIRCRAFT_CARRIER[1][1]));
-        assertTrue("Placing player 1 destroyer 1 should return true.", game.placeShip("destroyer", P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
-        assertTrue("Placing player 1 destroyer 2 should return true.", game.placeShip("destroyer", P1_DESTROYER2_LOCATION[0][0], P1_DESTROYER2_LOCATION[0][1], P1_DESTROYER2_LOCATION[1][0], P1_DESTROYER2_LOCATION[1][1]));
-        assertTrue("Placing player 1 battleship should return true.", game.placeShip("battleship", P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
-        assertTrue("Placing player 1 cruiser should return true.", game.placeShip("cruiser", P1_CRUISER_LOCATION[0][0], P1_CRUISER_LOCATION[0][1], P1_CRUISER_LOCATION[1][0], P1_CRUISER_LOCATION[1][1]));
+        assertTrue("Placing player 1 aircraft carrier should return true.", game.placeShip(ShipType.AIRCRAFT_CARRIER, P1_AIRCRAFT_CARRIER[0][0], P1_AIRCRAFT_CARRIER[0][1], P1_AIRCRAFT_CARRIER[1][0], P1_AIRCRAFT_CARRIER[1][1]));
+        assertTrue("Placing player 1 destroyer 1 should return true.", game.placeShip(ShipType.DESTROYER, P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
+        assertTrue("Placing player 1 destroyer 2 should return true.", game.placeShip(ShipType.DESTROYER, P1_DESTROYER2_LOCATION[0][0], P1_DESTROYER2_LOCATION[0][1], P1_DESTROYER2_LOCATION[1][0], P1_DESTROYER2_LOCATION[1][1]));
+        assertTrue("Placing player 1 battleship should return true.", game.placeShip(ShipType.BATTLESHIP, P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
+        assertTrue("Placing player 1 cruiser should return true.", game.placeShip(ShipType.CRUISER, P1_CRUISER_LOCATION[0][0], P1_CRUISER_LOCATION[0][1], P1_CRUISER_LOCATION[1][0], P1_CRUISER_LOCATION[1][1]));
     }
 
     private void placeP1ShipsInvalid() {
         // Try to place two destroyers at same location
-        assertTrue("Placing player 1 destroyer 1 should return true.", game.placeShip("destroyer", P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
-        assertFalse("Placing player 1 destroyer 2 over destroyer 1 should return false.", game.placeShip("destroyer", P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
+        assertTrue("Placing player 1 destroyer 1 should return true.", game.placeShip(ShipType.DESTROYER, P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
+        assertFalse("Placing player 1 destroyer 2 over destroyer 1 should return false.", game.placeShip(ShipType.DESTROYER, P1_DESTROYER1_LOCATION[0][0], P1_DESTROYER1_LOCATION[0][1], P1_DESTROYER1_LOCATION[1][0], P1_DESTROYER1_LOCATION[1][1]));
 
         // Try to place two larger ships at same location
-        assertTrue("Placing player 1 battleship should return true.", game.placeShip("battleship", P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
-        assertFalse("Placing player 1 cruiser over battleship should return false.", game.placeShip("cruiser", P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
+        assertTrue("Placing player 1 battleship should return true.", game.placeShip(ShipType.BATTLESHIP, P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
+        assertFalse("Placing player 1 cruiser over battleship should return false.", game.placeShip(ShipType.CRUISER, P1_BATTLESHIP_LOCATION[0][0], P1_BATTLESHIP_LOCATION[0][1], P1_BATTLESHIP_LOCATION[1][0], P1_BATTLESHIP_LOCATION[1][1]));
 
 
         // Try to place intersecting ships
-        assertTrue("Placing player 1 aircraft carrier should return true.", game.placeShip("aircraft carrier", P1_AIRCRAFT_CARRIER[0][0], P1_AIRCRAFT_CARRIER[0][1], P1_AIRCRAFT_CARRIER[1][0], P1_AIRCRAFT_CARRIER[1][1]));
-        assertFalse("Placing player 1 destroyer 2 over aircraft carrier should return false.", game.placeShip("destroyer", 0, 1, 1, 0));
+        assertTrue("Placing player 1 aircraft carrier should return true.", game.placeShip(ShipType.AIRCRAFT_CARRIER, P1_AIRCRAFT_CARRIER[0][0], P1_AIRCRAFT_CARRIER[0][1], P1_AIRCRAFT_CARRIER[1][0], P1_AIRCRAFT_CARRIER[1][1]));
+        assertFalse("Placing player 1 destroyer 2 over aircraft carrier should return false.", game.placeShip(ShipType.DESTROYER, 0, 1, 1, 0));
     }
 
     private void placeP2ShipsValid() {
         //player 2
-        assertTrue("Placing player 2 aircraft carrier should return true.", game.placeShip("aircraft carrier", P2_AIRCRAFT_CARRIER[0][0], P2_AIRCRAFT_CARRIER[0][1], P2_AIRCRAFT_CARRIER[4][0], P2_AIRCRAFT_CARRIER[4][1]));
-        assertTrue("Placing player 2 destroyer 1 should return true.", game.placeShip("destroyer", P2_DESTROYER1_LOCATION[0][0], P2_DESTROYER1_LOCATION[0][1], P2_DESTROYER1_LOCATION[1][0], P2_DESTROYER1_LOCATION[1][1]));
-        assertTrue("Placing player 2 destroyer 2 should return true.", game.placeShip("destroyer", P2_DESTROYER2_LOCATION[0][0], P2_DESTROYER2_LOCATION[0][1], P2_DESTROYER2_LOCATION[1][0], P2_DESTROYER2_LOCATION[1][1]));
-        assertTrue("Placing player 2 battleship should return true.", game.placeShip("battleship", P2_BATTLESHIP_LOCATION[0][0], P2_BATTLESHIP_LOCATION[0][1], P2_BATTLESHIP_LOCATION[3][0], P2_BATTLESHIP_LOCATION[3][1]));
-        assertTrue("Placing player 2 cruiser should return true.", game.placeShip("cruiser", P2_CRUISER_LOCATION[0][0], P2_CRUISER_LOCATION[0][1], P2_CRUISER_LOCATION[2][0], P2_CRUISER_LOCATION[2][1]));
+        assertTrue("Placing player 2 aircraft carrier should return true.", game.placeShip(ShipType.AIRCRAFT_CARRIER, P2_AIRCRAFT_CARRIER[0][0], P2_AIRCRAFT_CARRIER[0][1], P2_AIRCRAFT_CARRIER[4][0], P2_AIRCRAFT_CARRIER[4][1]));
+        assertTrue("Placing player 2 destroyer 1 should return true.", game.placeShip(ShipType.DESTROYER, P2_DESTROYER1_LOCATION[0][0], P2_DESTROYER1_LOCATION[0][1], P2_DESTROYER1_LOCATION[1][0], P2_DESTROYER1_LOCATION[1][1]));
+        assertTrue("Placing player 2 destroyer 2 should return true.", game.placeShip(ShipType.DESTROYER, P2_DESTROYER2_LOCATION[0][0], P2_DESTROYER2_LOCATION[0][1], P2_DESTROYER2_LOCATION[1][0], P2_DESTROYER2_LOCATION[1][1]));
+        assertTrue("Placing player 2 battleship should return true.", game.placeShip(ShipType.BATTLESHIP, P2_BATTLESHIP_LOCATION[0][0], P2_BATTLESHIP_LOCATION[0][1], P2_BATTLESHIP_LOCATION[3][0], P2_BATTLESHIP_LOCATION[3][1]));
+        assertTrue("Placing player 2 cruiser should return true.", game.placeShip(ShipType.CRUISER, P2_CRUISER_LOCATION[0][0], P2_CRUISER_LOCATION[0][1], P2_CRUISER_LOCATION[2][0], P2_CRUISER_LOCATION[2][1]));
     }
 
     private void sinkP2AircraftCarrier() {
@@ -133,14 +135,14 @@ public class BattleshipGameTest {
         //assertTrue("Player 1 should not have ships", game.getShipLocations(game.getP1()).length == 0);
         //assertTrue("Player 2 should not have ships", game.getShipLocations(game.getP2()).length == 0);
 
-        boolean[] p1Board = game.getBoard(game.getP1());
-        for (boolean status : p1Board) {
-            assertFalse("Player1 board should be empty", status);
+        Status[] p1Board = game.getBoard(game.getP1());
+        for (Status status : p1Board) {
+            assertEquals("Player1 board should be empty", Status.INITIAL, status);
         }
 
-        boolean[] p2Board = game.getBoard(game.getP1());
-        for (boolean status : p2Board) {
-            assertFalse("Player1 board should be empty", status);
+        Status[] p2Board = game.getBoard(game.getP1());
+        for (Status status : p2Board) {
+            assertEquals("Player2 board should be empty",Status.INITIAL, status);
         }
     }
 

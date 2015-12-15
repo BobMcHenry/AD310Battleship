@@ -96,7 +96,7 @@ public class BattleshipMain extends Application {
     }
     
     public boolean placeShip(String id, int row1, int col1, int row2, int col2) {
-        return game.placeShip(id, row1, col1, row2, col2);
+        return true;//game.placeShip(id, row1, col1, row2, col2);
     }
     
     
