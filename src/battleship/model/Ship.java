@@ -66,4 +66,6 @@ class Ship {
         return out;
     }
 
+    Location getHead(){ return placement[0]; }
+    Location getTail(){ return placement[size-1];}
 }
