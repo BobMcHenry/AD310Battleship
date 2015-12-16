@@ -167,127 +167,61 @@ public class BattleshipMain extends Application {
         System.out.println("newId is: " + newId + ", id is: " + id);
         Node x = p1Scene.lookup(newId);        
         Button b = (Button)x;
-        if(shotP.acMapP1.containsKey(id)) {            
-            shotP.acMapP1.replace(id, true);            
-            img = new Image(getClass().getResourceAsStream("img/acHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.acMapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "ac");
+        for(int i = 0; i < shotP.mapList1.size();i++) {
+            if(shotP.mapList1.get(i).containsKey(id)) {
+                shotP.mapList1.get(i).replace(id, true);
+                String shipType = shotP.getShipTypeP1(id);
+                switch(shipType) {
+                    case "AIRCRAFT CARRIER" : img = new Image(getClass().getResourceAsStream("img/acHit.jpg"));
+                        break;
+                    case "BATTLESHIP" : img = new Image(getClass().getResourceAsStream("img/bsHit.jpg"));
+                        break;
+                    case "CRUISER" : img = new Image(getClass().getResourceAsStream("img/crHit.jpg"));
+                        break;
+                    case "SUBMARINE" : img = new Image(getClass().getResourceAsStream("img/sbHit.jpg"));
+                        break;
+                    case "DESTROYER" : img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
+                        break;
+                }
+                ImageView imgV = new ImageView(img);
+                b.setGraphic(imgV);
+                Status isSunk = vc.getStatus(id);
+                if(isSunk.equals(Status.SUNK)) {
+                    vc.showSunk("p1", shipType + "Label");
+                }
             }
-    } else if(shotP.bsMapP1.containsKey(id)) {
-            shotP.bsMapP1.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/bsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.bsMapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "bs");
-            }
-    } else if(shotP.crMapP1.containsKey(id)) {
-            shotP.crMapP1.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/crHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);            
-            boolean isSunk = shotP.checkSunk(shotP.crMapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "cr");
-            }
-    } else if(shotP.ds1MapP1.containsKey(id)) {
-            shotP.ds1MapP1.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.ds1MapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "ds1");
-            }
-    } else if(shotP.ds2MapP1.containsKey(id)) {
-            shotP.ds2MapP1.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.ds2MapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "ds2");
-            }
-    } else if(shotP.sbMapP1.containsKey(id)) {
-            shotP.sbMapP1.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/sbHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.sbMapP1);
-            if(isSunk) {
-                vc.showSunk("p1", "sb");
-            }
-    } else {
-        System.out.println("Something is wrong with your p1 map verification");
+        }
     }
-    }
-    
+
     public void processP2Hit(String id) {
         String newId = "#" + id;
         System.out.println("newId is: " + newId + ", id is: " + id);
         Node x = p2Scene.lookup(newId);
         Button b = (Button)x;
-        if(shotP.acMapP2.containsKey(id)) {
-            shotP.acMapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/acHit.jpg"));
-            ImageView imgV = new ImageView(img);
-            b.setGraphic(imgV);            
-            boolean isSunk = shotP.checkSunk(shotP.acMapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "ac");
+        for(int i = 0; i < shotP.mapList2.size();i++) {
+            if(shotP.mapList2.get(i).containsKey(id)) {
+                shotP.mapList2.get(i).replace(id, true);
+                String shipType = shotP.getShipTypeP2(id);
+                switch(shipType) {
+                    case "AIRCRAFT CARRIER" : img = new Image(getClass().getResourceAsStream("img/acHit.jpg"));
+                        break;
+                    case "BATTLESHIP" : img = new Image(getClass().getResourceAsStream("img/bsHit.jpg"));
+                        break;
+                    case "CRUISER" : img = new Image(getClass().getResourceAsStream("img/crHit.jpg"));
+                        break;
+                    case "SUBMARINE" : img = new Image(getClass().getResourceAsStream("img/sbHit.jpg"));
+                        break;
+                    case "DESTROYER" : img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
+                        break;
+                }
+                ImageView imgV = new ImageView(img);
+                b.setGraphic(imgV);
+                Status isSunk = vc.getStatus(id);
+                if(isSunk.equals(Status.SUNK)) {
+                    vc.showSunk("p1", shipType + "Label");
+                }
             }
-    } else if(shotP.bsMapP2.containsKey(id)) {
-            shotP.bsMapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/bsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.bsMapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "bs");
-            }
-    } else if(shotP.crMapP2.containsKey(id)) {
-            shotP.crMapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/crHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.crMapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "cr");
-            }
-    } else if(shotP.ds1MapP2.containsKey(id)) {
-            shotP.ds1MapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.ds1MapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "ds1");
-            }
-    } else if(shotP.ds2MapP2.containsKey(id)) {
-            shotP.ds2MapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/dsHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.ds2MapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "ds2");
-            }
-    } else if(shotP.sbMapP2.containsKey(id)) {
-            shotP.sbMapP2.replace(id, true);
-            img = new Image(getClass().getResourceAsStream("img/sbHit.jpg"));
-            ImageView imgV = new ImageView(img);            
-            b.setGraphic(imgV);
-            boolean isSunk = shotP.checkSunk(shotP.sbMapP2);
-            if(isSunk) {
-                vc.showSunk("p2", "sb");
-            }
-    } else {
-        System.out.println("Something went wrong with p2 map validation");
-    }
+        }
     }
     
     public void processP1Miss(String id) {

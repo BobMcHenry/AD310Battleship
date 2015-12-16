@@ -293,7 +293,13 @@ public class ViewCon {
                 break;
         }       
        return value;
-   }  
+   }
+
+    public Status getStatus(String id) {
+        int row = returnRow(id.substring(0, 1));
+        int col = Integer.valueOf(id.substring(1, 2));
+        return gameConnection.getStateFromXY(row, col);
+    }
    
    public String[] changeButtonsSetup() {       //<------------------------------ Readded method
        int[][] coords = gameConnection.getCurrentShipCoords();

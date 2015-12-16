@@ -5,10 +5,7 @@
  */
 package battleship.viewcon;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -16,9 +13,17 @@ import java.util.Map;
  */
 public class ShotProcessor {
     
-    public Map<String, Boolean> acMapP1, bsMapP1, crMapP1, ds1MapP1, ds2MapP1, sbMapP1, acMapP2, bsMapP2, crMapP2, ds1MapP2, ds2MapP2, sbMapP2; 
-    
+    //public Map<String, Boolean> acMapP1, bsMapP1, crMapP1, ds1MapP1, ds2MapP1, sbMapP1, acMapP2, bsMapP2, crMapP2, ds1MapP2, ds2MapP2, sbMapP2;
+    public ArrayList<HashMap<String, Boolean>> mapList1, mapList2;
+    public HashMap<String, String[]> p1ShipCoordsMap;
+    public HashMap<String, String[]> p2ShipCoordsMap;
+
     public ShotProcessor() {
+        mapList1 = new ArrayList<>();
+        mapList2 = new ArrayList<>();
+        p1ShipCoordsMap = new HashMap<>();
+        p2ShipCoordsMap = new HashMap<>();
+        /**
         acMapP1 = new HashMap<>();
         bsMapP1 = new HashMap<>();
         crMapP1 = new HashMap<>();
@@ -31,9 +36,20 @@ public class ShotProcessor {
         ds1MapP2 = new HashMap<>();
         ds2MapP2 = new HashMap<>();
         sbMapP2 = new HashMap<>();
+        */
     }
     
     public void saveP1Defense(String[] coordsList, String ship) {
+            p1ShipCoordsMap.put(ship, coordsList);
+            HashMap<String, Boolean> tempMap = new HashMap<>();
+            int count = 0;
+            for(int i = 0; i < coordsList.length; i++) {
+                tempMap.put(coordsList[count], false);
+
+                count++;
+            }
+            mapList1.add(tempMap);
+            /**
             System.out.println("coordinate list being passed into maps. size is: " + coordsList.length);
             switch(ship) {
                 case "AIRCRAFT CARRIER" : setP1AcMap(coordsList);
@@ -52,11 +68,20 @@ public class ShotProcessor {
                 break;
                 case "SUBMARINE" : setP1SbMap(coordsList);
                 break;
-                
-            }   
+            }
+             */
     }
     
     public void saveP2Defense(String[] coordsList, String ship) {
+            p2ShipCoordsMap.put(ship, coordsList);
+            HashMap<String, Boolean> tempMap = new HashMap<>();
+            int count = 0;
+            for(int i = 0; i < coordsList.length; i++) {
+                tempMap.put(coordsList[count], false);
+                count++;
+            }
+            mapList2.add(tempMap);
+            /**
             System.out.println("coordinate list being passed into maps. size is: " + coordsList.length);
              switch(ship) {
                 case "AIRCRAFT CARRIER" : setP2AcMap(coordsList);
@@ -74,10 +99,11 @@ public class ShotProcessor {
                 break;
                 case "SUBMARINE" : setP2SbMap(coordsList);
                 break;
-                
             }
+             */
     }
-    
+
+    /**
     public void setP1AcMap(String[] coords) {
         for(int i = 0; i < coords.length; i++) {
             acMapP1.put(coords[i], false);
@@ -151,7 +177,8 @@ public class ShotProcessor {
             sbMapP2.put(coords[i], false);
         }
     }
-    
+
+
     public boolean checkSunk(Map<String, Boolean> map) {
         System.out.println("Map received, checking " + map);
         int count = 0;
@@ -167,6 +194,32 @@ public class ShotProcessor {
             }
         }
         return sunk;
+    }
+     */
+    public String getShipTypeP1(String id) {
+        for(Map.Entry<String, String[]> entry: p1ShipCoordsMap.entrySet()) {
+            String[] temp = entry.getValue();
+            String ship = entry.getKey();
+            for(int i = 0; i < temp.length; i++) {
+                if(temp[i].equals(id)) {
+                    return ship;
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getShipTypeP2(String id) {
+        for(Map.Entry<String, String[]> entry: p2ShipCoordsMap.entrySet()) {
+            String[] temp = entry.getValue();
+            String ship = entry.getKey();
+            for(int i = 0; i < temp.length; i++) {
+                if(temp[i].equals(id)) {
+                    return ship;
+                }
+            }
+        }
+        return null;
     }
     
 }
