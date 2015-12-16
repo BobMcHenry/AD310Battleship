@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  *
@@ -64,7 +63,7 @@ public class PreBoard {
             @Override
             public void handle(ActionEvent e) {
                 // determine which player name to use to pass into which player board
-                if(turn == false) {            
+                if(!turn) {
                     String temp1 = userTextField.getText();
                         if(temp1.equals("")) {
                             player = "Player1";
@@ -77,6 +76,7 @@ public class PreBoard {
                         userText = new TextField();
                         userText.setId("text-field");
                         grid.add(userText, 0, 2);
+                        userText.requestFocus();
                         userName.setText("Enter Player2 username:");                        
                 } else {                    
                     String temp2 = userText.getText();

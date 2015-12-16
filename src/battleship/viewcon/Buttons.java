@@ -20,6 +20,7 @@ class Buttons {
     private P1Board p1;
     private P2Board p2;
     private Map<String, Integer> shipsAndSizes;
+    private int shipButtonLabelCounter;
 
     Buttons(String[] s, int[] size) {
         shipsAndSizes = new HashMap<>();
@@ -30,6 +31,7 @@ class Buttons {
         for(int i = 0; i < ships.length; i++) {
             shipsAndSizes.put(ships[i], sizes[i]);
         }
+        shipButtonLabelCounter = 0;
     }
 
     void setP1(P1Board p) {

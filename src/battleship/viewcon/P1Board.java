@@ -21,18 +21,18 @@ import java.util.Set;
  */
 public class P1Board {
     ViewCon viewLink;
-    String player;    
+    String player;
     boolean isShipClicked;
     boolean isSetupComplete;   
     GridPane gridInner;
     GridPane gridMain;
-    Button bs, ac, ds, sb, cr, hideBtn, showBtn, nextMove;
+    Button nextMove;
     Button[] shipBtns;
     Label[] shipLabels;
+    Label[] gameShipLabels;
     String[] ships;
     int[] sizes;
     Map<String, Integer> shipsAndSizes;
-    Label[] gameShipLabels;
     VBox shipButtons;
     Label playerLabel;
     Label shipStatsLabel;
@@ -43,11 +43,15 @@ public class P1Board {
     String[] twoLocations; // Field for two different string locations to pass to model for validation
     boolean[] shipsValidated; // Boolean array, when all ships are validated(true) and placed, move forward
     ObservableList<Node> innerChildList;
+    int shipButtonLabelCounter;
+    int shipValidationIndexCounter;
     
     
     
     
-    public void buildTheGrid() {        
+    public void buildTheGrid() {
+        shipValidationIndexCounter = 0;
+        shipButtonLabelCounter = 0;
         isShipClicked = true;
         isSetupComplete = false;
         twoLocations = new String[]{".", "."};       
@@ -72,6 +76,7 @@ public class P1Board {
     public void buildBoard() {
         Grid g = new Grid(8); //<---------------------- board size from XML config, will be a field
         g.setLink(viewLink);
+        g.setP1(this);
         // Setup the gridPane for all the children components/nodes       
         gridMain = new GridPane();
         gridMain.setHgap(0);
@@ -106,15 +111,15 @@ public class P1Board {
         shipStatsLabel.setPadding(new Insets(0, 0, 0, 140));
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
-        ships = new String[]{"BATTLESHIP", "AIRCRAFT_CARRIER", "SUBMARINE", "DESTROYER", "CRUISER"};
-        sizes = new int[]{4, 5, 3, 2, 3};
+        ships = new String[]{"BATTLESHIP", "AIRCRAFT CARRIER", "SUBMARINE", "DESTROYER", "CRUISER"}; //<---- from XML
+        sizes = new int[]{4, 5, 3, 2, 3}; //<---------------------------------------------------------------- from XML
         Buttons b = new Buttons(ships, sizes);
         b.setP1(this);
-        shipButtons = b.makeShipButtons1();
-        shipBtns = b.getShipBtns1();
-        shipsAndSizes = b.getShipMap();
+        shipButtons = b.makeShipButtons1(); // returns a vbox containing all the Ship Buttons
+        shipBtns = b.getShipBtns1(); // returns a Button[] containing all the actual ship buttons
+        shipsAndSizes = b.getShipMap(); // returns a hashmap containing ships as key, size as value
         gridMain.add(shipButtons, 2, 1);
-        gameShipLabels = new Label[ships.length];
+        gameShipLabels = new Label[ships.length]; // is an array to hold the actual labels after the button has been rem
         // Add the size label for players to notify player of ship size
         shipButtonSize = new Label("");
         shipButtonSize.setId("blueLabel");
@@ -165,77 +170,20 @@ public class P1Board {
         //  validating and removing the individual ship buttons in the following loop
         String currentShip = activeShip;
         ObservableList<Node> ship = shipButtons.getChildren();
-        for(int i = 0; i < ship.size(); i++) {
+        int shipListSize = ship.size();
+        for(int i = 0; i < shipListSize; i++) {
             ship.get(i).setDisable(false);
-            if(ship.get(i).toString().equals(currentShip)) {
-                ship.remove(ship.get(i));
+            String id = ship.get(i).getId();
+            if (id.equals(currentShip)) {
+                shipButtonLabelCounter = i;
             }
-            Label temp = new Label(currentShip);
+        }
+            ship.remove(ship.get(shipButtonLabelCounter));
+            Label temp = new Label(currentShip + "Label");
             temp.setId("sunkShips");
             shipButtons.getChildren().addAll(temp);
             temp.setVisible(false);
-            gameShipLabels[i] = temp;
-        }
-
-        /**
-        if(activeShip.equals("AIRCRAFT CARRIER")) {
-            bs.setDisable(false);
-            cr.setDisable(false);
-            ds.setDisable(false);
-            sb.setDisable(false);            
-            shipButtons.getChildren().remove(ac);
-            acL = new Label("Carrier");
-            acL.setId("sunkShips");
-            shipButtons.getChildren().addAll(acL);
-            acL.setVisible(false);
-        }
-        if(activeShip.equals("BATTLESHIP")) {
-            ac.setDisable(false);
-            cr.setDisable(false);
-            ds.setDisable(false);
-            sb.setDisable(false);
-            shipButtons.getChildren().remove(bs);
-            bsL = new Label("Battleship");
-            bsL.setId("sunkShips");
-            shipButtons.getChildren().addAll(bsL);
-            bsL.setVisible(false);
-        }
-        if(activeShip.equals("CRUISER")) {
-            bs.setDisable(false);
-            ac.setDisable(false);
-            ds.setDisable(false);
-            sb.setDisable(false);
-            shipButtons.getChildren().remove(cr);
-            crL = new Label("Cruiser");
-            crL.setId("sunkShips");
-            shipButtons.getChildren().addAll(crL);
-            crL.setVisible(false);
-        }
-        if(activeShip.equals("DESTROYER")) {
-            bs.setDisable(false);
-            cr.setDisable(false);
-            ac.setDisable(false);
-            sb.setDisable(false);
-            shipButtons.getChildren().remove(ds);
-            dsL = new Label("Destroyer");
-            dsL.setId("sunkShips");
-            shipButtons.getChildren().addAll(dsL);
-            dsL.setVisible(false);
-        }
-        if(activeShip.equals("SUBMARINE")) {
-            bs.setDisable(false);
-            cr.setDisable(false);
-            ds.setDisable(false);
-            ac.setDisable(false);
-            shipButtons.getChildren().remove(sb);
-            sbL = new Label("Submarine");
-            sbL.setId("sunkShips");
-            shipButtons.getChildren().addAll(sbL);
-            sbL.setVisible(false);
-        }
-        hideBoardButtons();        
-        isShipClicked = true;
-         */
+            gameShipLabels[shipButtonLabelCounter] = temp;
     }   
     
      /**
@@ -244,31 +192,7 @@ public class P1Board {
      * @param btn
      */
     public void handleGridBtnSetup(String btnId, Button btn) {                       
-        int index = 0;
-        int size;
-        switch(activeShip) {
-           // Establish placement of each ship in the validation array
-           case "AIRCRAFT CARRIER" : index = 0;
-                                     size = 5;
-                                     break;
-                                     
-           case "BATTLESHIP" : index = 1;
-                               size = 4;
-                               break;
-                               
-           case "CRUISER" : index = 2;
-                            size = 3;
-                            break;
-                            
-           case "DESTROYER" : index = 3;
-                               size = 2;
-                               break;
-                               
-           case "SUBMARINE" : index = 4;
-                               size = 3;
-                               break;           
-       }
-       // If there is no String location in the head/tail array, place the parameter in index 0
+
        if(twoLocations[0].equals(".")) {           
            twoLocations[0] = btnId;                             
            shipStatsLabel.setText("Place stern");          
@@ -289,11 +213,12 @@ public class P1Board {
                 // Reset the buttons and remove activeShip button
                 resetButtons();           
                 shipButtonSize.setText("");
-                shipsValidated[index] = true;           
+                shipsValidated[shipValidationIndexCounter] = true;
+                shipValidationIndexCounter++;
                 // Dummy conditional - If all ships have been validated, we are going to hide this window
                 //  and switch over to the player2 setup board
-                if(shipsValidated[0] && shipsValidated[1] && shipsValidated[2]
-                    && shipsValidated[3] && shipsValidated[4]) {
+                boolean checkValid = checkValidationArray(shipsValidated);
+                if(checkValid) {
                      viewLink.isP1SetupMode = false;           
                      gridMain.getChildren().remove(shipButtonSize);
                      shipStatsLabel.setText("Sunken ships:");
@@ -322,10 +247,19 @@ public class P1Board {
                shipStatsLabel.setText("Invalid: re-place bow");
                twoLocations[0] = ".";
                twoLocations[1] = ".";
-               shipsValidated[index] = false;
+               shipsValidated[shipValidationIndexCounter] = false;
            }           
        }
        
+    }
+
+    public boolean checkValidationArray(boolean[] ships) {
+        for(int i = 0; i < ships.length; i++) {
+            if(!ships[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void showBoardButtons() {
