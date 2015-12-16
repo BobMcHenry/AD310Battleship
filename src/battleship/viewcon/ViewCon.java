@@ -5,9 +5,9 @@
  */
 package battleship.viewcon;
 
-import battleship.model.*;
-import java.util.HashMap;
-import java.util.Map;
+import battleship.model.BattleshipGame;
+import battleship.model.BattleshipMain;
+import battleship.model.Status;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -252,7 +252,7 @@ public class ViewCon {
         p2Board.showBoardButtons();
         mainConnection.processP1Miss(id);
         }
-        else if(attack.equals(Status.HIT) || attack.equals(Status.MISS) || attack.equals(Status.SUNK)) {
+        else if(attack.equals(Status.SUNK) || attack.equals(Status.INVALID)) {
             p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
         }
         else {
@@ -262,7 +262,7 @@ public class ViewCon {
    
    public void handleGridBtnGameP2(String id) {
         boolean gameOver = gameConnection.isGameOver();
-        if(gameOver == true) {
+        if(gameOver) {
             // reset everything in view
             System.out.println("Adding view reset logic here soon");
         }
@@ -298,6 +298,51 @@ public class ViewCon {
         p2Board.nextMove.setVisible(false);
         p2Board.moveStatus.setText("");
         mainConnection.switchToP1();        
+    }
+
+    public void showSunk(String player, String ship) {
+        if(player.equals("p1")) {
+            ObservableList<Node> shipBs = p1Board.shipButtons.getChildren();
+            for(int i = 0; i < shipBs.size(); i++) {
+                if(shipBs.get(i).toString().equals(ship)) {
+                    shipBs.get(i).setVisible(true);
+                }
+            }
+            /**
+            switch(ship) {
+                for(int i = 0; i < p1Board.)
+                case "ac" : p1Board.acL.setVisible(true);
+                    break;
+                case "bs" : p1Board.bsL.setVisible(true);
+                    break;
+                case "cr" : p1Board.crL.setVisible(true);
+                    break;
+                case "ds1" : p1Board.dsL.setVisible(true);
+                    break;
+                case "sb" : p1Board.sbL.setVisible(true);
+            }
+             */
+        } else {
+            ObservableList<Node> shipBs = p2Board.shipButtons.getChildren();
+            for(int i = 0; i < shipBs.size(); i++) {
+                if(shipBs.get(i).toString().equals(ship)) {
+                    shipBs.get(i).setVisible(true);
+                }
+                /**
+            switch(ship) {
+                case "ac" : p2Board.acL.setVisible(true);
+                    break;
+                case "bs" : p2Board.bsL.setVisible(true);
+                    break;
+                case "cr" : p2Board.crL.setVisible(true);
+                    break;
+                case "ds1" : p2Board.dsL.setVisible(true);
+                    break;
+                case "sb" : p2Board.sbL.setVisible(true);
+                 */
+            }
+
+        }
     }
     
     
