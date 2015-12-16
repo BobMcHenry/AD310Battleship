@@ -7,7 +7,7 @@ package battleship.model;
  * @author Chris Wilson
  * @author Mario Rodriguez
  * @author Jesse Bernoudy
- * @version 11/28/2015 - WIP
+ * @version 12/06/2015 - WIP
  */
 public class BattleshipGame implements BattleshipModel {
     /**
@@ -106,7 +106,7 @@ public class BattleshipGame implements BattleshipModel {
 
         Location[] shipBody = new Location[shipSize]; //create the array for the size of ship we need
 
-        //verity that the head and tail are valid location
+        //verity that the head and tail are valid locations
         if (locationValid(headX, headY) && locationValid(tailX, tailY)) {
 
             //head and tail validated and built
@@ -120,6 +120,31 @@ public class BattleshipGame implements BattleshipModel {
             int highCol = Math.max(headY, tailY);
             int lowRow = Math.min(headX, tailX);
             int lowCol = Math.min(headY, tailY);
+
+            // Check for destroyer, validate head and tail.
+            if (st == ShipType.DESTROYER && locationValid(headX, headY) && locationValid(tailX, tailY)){
+                // check orientation
+                if (lowRow == highRow){
+                    //horizontal
+                    if (highCol - lowCol + 1 != shipSize){ // check length
+                        return false;
+                    }
+                } else if (lowCol == highCol){
+                    //vertical
+                    if (highRow - lowRow + 1 != shipSize){ //check length
+                        return false;
+                    }
+                } else {
+                    // diagonal
+                    // Check for intersections
+                    if (noIntersection(head, tail)){
+                        //Check length
+                        if (highRow - lowRow + 1 != highCol - lowCol + 1) {
+                            return false;
+                        }
+                    }
+                }
+            }
 
             // In case of destroyer, loop will not run since shipBody array is only length 2.
             for (int i = 1; i < shipBody.length - 1; i++) {
@@ -157,7 +182,8 @@ public class BattleshipGame implements BattleshipModel {
                                 return false;
                             }
                         }
-                    } else { //ship extends upwards from head
+                    } else {
+                        //ship extends upwards from head
                         if (headY < tailY) {
                             //Ship points up-right from head, row-, col+
                             if (locationValid(headX - i, headY + i)) {
@@ -188,7 +214,7 @@ public class BattleshipGame implements BattleshipModel {
 //            return false;
 //        }
         activePlayer.setShip(new Ship(st, shipBody));
-        System.out.println(st.toString() + " Created for " + activePlayer.getName());
+        //System.out.println(st.toString() + " Created for " + activePlayer.getName());
         if (activePlayer.shipIndex == 5) {
             switchActivePlayer();
         }
@@ -376,8 +402,38 @@ public class BattleshipGame implements BattleshipModel {
         return Math.abs(y2 - y1) / Math.abs(x2 - x1);
     }
 
+    private int yIntercept(int slope, int x){
+        return -1 * (slope * x);
+    }
+
+    private boolean hasIntersection(Location head1, Location head2, Location tail1, Location tail2){
+        int slope1 = mSlope(head1.getRow()+1, head1.getColumn()+1, tail1.getRow()+1, tail1.getColumn()+1);
+        int slope2 = mSlope(head2.getRow()+1, head2.getColumn()+1, tail2.getRow()+1, tail2.getColumn()+1);
+        int yInt1 = yIntercept(slope1, head1.getRow());
+        int yInt2 = yIntercept(slope2, head2.getRow());
+
+        if (slope1 == slope2){ return false; }
+        else {
+            return ( (head1.getColumn() - yInt1)/slope1) == ( (head2.getColumn() - yInt2)/slope2);
+        }
+    }
+
+    private boolean noIntersection(Location head, Location tail){
+        Ship[] ships = activePlayer.getShips();
+
+        for (Ship s:ships){
+            if (s != null) {
+                if (hasIntersection(head, s.getHead(), tail, s.getTail())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /*
-    * private helper method to validate location placement
+    * private helper method to validate locations.
+    * Only looks for collisions.
     */
     private boolean locationValid(int x, int y) {
         //validate location against activePlayer ships
@@ -417,8 +473,12 @@ public class BattleshipGame implements BattleshipModel {
                 return 4;
             case CRUISER:
                 return 3;
+            case SUBMARINE3:
+                return 3;
             case DESTROYER:
                 return 2;
+            case SUBMARINE1:
+                return 1;
         }
         return -1; //if anything goes wrong, return -1 to break placeShip method.
     }

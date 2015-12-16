@@ -31,8 +31,11 @@ class Ship {
             case DESTROYER:
                 size = 2;
                 break;
-            case SUBMARINE:
+            case SUBMARINE3:
                 size = 3;
+                break;
+            case SUBMARINE1:
+                size = 1;
                 break;
         }
         return size;
@@ -91,6 +94,13 @@ class Ship {
         }
 
         return out;
+    }
+
+    Location getHead(){
+        return placement[0];
+    }
+    Location getTail(){
+        return placement[size-1];
     }
 
 }

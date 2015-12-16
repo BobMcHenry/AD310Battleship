@@ -36,7 +36,7 @@ public class ConsoleSetupController {
 
     void placeShips(String playerName){
 
-        String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
+        String[] ships = {"destroyer","destroyer" , "cruiser", "aircraft carrier","battleship" };
         System.out.println(playerName + " Ship Setup. \nEnter coordinates as Row letter followed by Column number. Ex. \"A3\"\n");
 
         for (String s: ships){
