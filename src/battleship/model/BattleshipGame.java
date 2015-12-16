@@ -136,12 +136,15 @@ public class BattleshipGame implements BattleshipModel {
                     }
                 } else {
                     // diagonal
-                    // Check for intersections
-                    if (noIntersection(head, tail)){
-                        //Check length
-                        if (highRow - lowRow + 1 != highCol - lowCol + 1) {
-                            return false;
-                        }
+                    //Check slope |1| diagonal and ship size
+                    if ((highRow - lowRow + 1 != highCol - lowCol + 1) || (highRow - lowRow + 1 != shipSize)) {
+                        System.err.println(highRow - lowRow + 1);
+                        return false;
+                    }
+                        // Check for intersections
+                    if ( ! intersectsOther(head, tail)) {
+
+                        return false;
                     }
                 }
             }
@@ -165,6 +168,11 @@ public class BattleshipGame implements BattleshipModel {
                 } else if (Math.abs(highRow - lowRow + 1) == shipSize
                         && Math.abs(highCol - lowCol + 1) == shipSize) {
                     // diagonal ship. Increment row and col from low to high.
+                    //check for intersections
+                    if ( ! intersectsOther(head, tail)) {
+                        return false;
+                    }
+                    // If no intersections, build ship body
                     if (headX < tailX) {
                         // ship extends downward from head
                         if (headY > tailY) {
@@ -333,102 +341,64 @@ public class BattleshipGame implements BattleshipModel {
         return Status.INITIAL;
     }
 
-//    private boolean placementValid(ShipType st, Location[] shipPlace){
-//
-////        for (int i=0; i < shipPlace.length;i++){
-////            if (shipPlace[i] != null){
-////                System.out.println(shipPlace[i]);
-////            }
-////        }
-//
-//        // If player has no other ships, return true
-//        if (activePlayer.shipIndex == 0){
-//            return true;
-//        }
-//        // Get players ship array.
-//        Ship[] ships = activePlayer.getShips();
-//
-//        // Check for ShipType already placed.
-//        int destroyerCount = 0;
-//
-//        for (Ship s: ships){
-//            if (s != null){
-//                if (s.getShipType() == st && st != ShipType.DESTROYER){
-//                    return false;
-//                } else if (s.getShipType() == st && st == ShipType.DESTROYER){
-//                    if (destroyerCount != 2){
-//                        destroyerCount++;
-//                    } else {
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-//        //validate diagonal placement. No ships should cross the line of another ship.
-//        for (Ship s: ships) {
-//            if (s != null) {
-//                Location[] sl = s.getLocation();
-//                int newHeadRow, newHeadCol, oldHeadRow, oldHeadCol;
-//                int newTailRow, newTailCol, oldTailRow, oldTailCol;
-//                // Head location always added to index 0 of location[]
-//                // Tail Location always added to shiplength-1 index of location[]
-//                newHeadRow = shipPlace[0].getRow();
-//                newHeadCol = shipPlace[0].getColumn();
-//                oldHeadRow = sl[0].getRow();
-//                oldHeadCol = sl[0].getColumn();
-//                newTailRow = shipPlace[shipTypeToSize(st)-1].getRow();
-//                newTailCol = shipPlace[shipTypeToSize(st)-1].getColumn();
-//                oldTailRow = sl[s.getSize() - 1].getRow();
-//                oldTailCol = sl[s.getSize() - 1].getColumn();
-//
-//                if(sl[s.getSize()-1] != null && shipPlace[0] != null){
-//                    if (shipPlace[0].getRow() > sl[s.getSize() - 1].getRow()
-//                            && shipPlace[shipTypeToSize(st) - 1].getRow() < sl[0].getRow()) {
-//                        return false;
-//                    } else if (shipPlace[0].getRow() < sl[s.getSize() - 1].getRow()
-//                            && shipPlace[shipTypeToSize(st) - 1].getRow() > sl[0].getRow()) {
-//                        return false;
-//                    }
-//                } else {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
 
     private int mSlope(int x1, int y1, int x2, int y2) {
 
-        return Math.abs(y2 - y1) / Math.abs(x2 - x1);
+        return (y2 - y1) / (x2 - x1);
     }
 
-    private int yIntercept(int slope, int x){
-        return -1 * (slope * x);
+    private int yIntercept(int slope, int x, int y){
+        return -1 * (slope * x - y) ;
     }
 
     private boolean hasIntersection(Location head1, Location head2, Location tail1, Location tail2){
-        int slope1 = mSlope(head1.getRow()+1, head1.getColumn()+1, tail1.getRow()+1, tail1.getColumn()+1);
-        int slope2 = mSlope(head2.getRow()+1, head2.getColumn()+1, tail2.getRow()+1, tail2.getColumn()+1);
-        int yInt1 = yIntercept(slope1, head1.getRow());
-        int yInt2 = yIntercept(slope2, head2.getRow());
+        //head1
+        int h1x = head1.getRow();
+        int h1y = head1.getColumn();
+        //tail1
+        int t1x = tail1.getRow();
+        int t1y = tail1.getColumn();
+        //head2
+        int h2x = head2.getRow();
+        int h2y = head2.getColumn();
+        //tail2
+        int t2x = tail2.getRow();
+        int t2y = tail2.getColumn();
+
+        int slope1 = mSlope(h1x, h1y, t1x, t1y);
+        int slope2 = mSlope(h2x, h2y, t2x, t2y);
+        int yInt1 = yIntercept(slope1, h1x, h1y);
+        int yInt2 = yIntercept(slope2, h2x, h2y);
+
+        int highRow = Math.max( Math.max(h1x, t1x), Math.max(h2x, t2x) );
+        int lowRow = Math.min( Math.min(h1x, t1x), Math.min(h2x, t2x) );
 
         if (slope1 == slope2){ return false; }
         else {
-            return ( (head1.getColumn() - yInt1)/slope1) == ( (head2.getColumn() - yInt2)/slope2);
+            // check for intersection point
+            double intersection = (yInt1 - yInt2)/2.0;
+            return intersection > lowRow && intersection < highRow;
         }
     }
 
-    private boolean noIntersection(Location head, Location tail){
+    private boolean intersectsOther(Location head, Location tail){
         Ship[] ships = activePlayer.getShips();
 
         for (Ship s:ships){
-            if (s != null) {
-                if (hasIntersection(head, s.getHead(), tail, s.getTail())) {
+            if (s != null ) {
+                if (isDiagonal(s) && hasIntersection(head, s.getHead(), tail, s.getTail())) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    private boolean isDiagonal(Ship s) {
+        boolean isHorizontal = s.getHead().getRow() == s.getTail().getRow();
+        boolean isVertical = s.getHead().getColumn() == s.getTail().getColumn();
+
+        return !(isHorizontal) && !(isVertical);
     }
 
     /*
