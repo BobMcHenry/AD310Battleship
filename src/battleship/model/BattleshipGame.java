@@ -133,7 +133,7 @@ public class BattleshipGame implements BattleshipModel {
 
     public boolean placeShip(ShipType shipType, int headX, int headY, int tailX, int tailY) {
 
-        int shipSize = shipTypeToSize(shipType); //ship size for validation
+        int shipSize = getShipSize(shipType); //ship size for validation
 
         Location[] shipBody = new Location[shipSize]; //create the array for the size of ship we need
 
@@ -262,7 +262,8 @@ public class BattleshipGame implements BattleshipModel {
     }
 
     public Status makeShot(int row, int col) {
-        if (p1.shipIndex != 5 || p2.shipIndex != 5) {
+        int numShips = p1.getShips().length;
+        if (p1.shipIndex != numShips || p2.shipIndex != numShips) {
             String errorMessage = ("Players not setup for gameplay. "
                 + "Player 1 has " + p1.shipIndex + " ships, "
                 + "Player 2 has " + p2.shipIndex + " ships.");
@@ -298,7 +299,8 @@ public class BattleshipGame implements BattleshipModel {
 
     public boolean isGameOver() {
         // Still in setup mode
-        if (p1.shipIndex != 5 || p2.shipIndex != 5) {
+        int numShips = p1.getShips().length;
+        if (p1.shipIndex != numShips || p2.shipIndex != numShips) {
             return false;
         }
 
@@ -324,17 +326,17 @@ public class BattleshipGame implements BattleshipModel {
         return p.getOffensiveBoard();
     }
 
-    @Override
     public ShipType[] getAvailableShips() {
         return availableShips.toArray(new ShipType[availableShips.size()]);
     }
 
-    @Override
     public int getShipSize(ShipType st) {
-        return shipTypeToSize(st);
+        if (shipSizes.containsKey(st)) {
+            return shipSizes.get(st).intValue();
+        }
+        return -1;
     }
 
-    @Override
     public int getBoardSize() {
         return boardSize;
     }
@@ -510,13 +512,6 @@ public class BattleshipGame implements BattleshipModel {
         out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
 
         return out;
-    }
-
-    private int shipTypeToSize(ShipType st) {
-        if (shipSizes.containsKey(st)) {
-            return shipSizes.get(st).intValue();
-        }
-        return -1; //if anything goes wrong, return -1 to break placeShip method.
     }
 
     /*

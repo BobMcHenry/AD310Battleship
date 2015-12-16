@@ -44,23 +44,22 @@ public class ConsolePlayController {
 
     }
 
-    String getAttackGrid(boolean[] grid){
+    String getAttackGrid(Status[] grid){
         String out = "";
         for (int i = 0; i < 100; i++) {
             // Print Offensive Board
             if (i % 10 == 0) {
                 out += "\n" + (char) (65 + i / 10);
             }
-            if (!grid[i]) {
+            if (grid[i] == Status.INITIAL) {
                 // Status == INITIAL
                 out += "  .";
-            } else {
-                if (bg.getStateFromXY(i/10, i%10) == Status.HIT){
+            } else if (grid[i] == Status.HIT){
                     out+= "  H";
                 } else {
-                    out+= "  M";
-                }
+                out += "  M";
             }
+
         }
         out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
         return out;

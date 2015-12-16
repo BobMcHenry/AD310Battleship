@@ -38,9 +38,14 @@ class Ship {
     // Return true if all Locations received hits and ship is sunk.
     boolean isSunk() {
         for (int i = 0; i < size; i++) {
-            if (placement[i].getStatus() != Status.HIT) {
+            if (placement[i].getStatus() == Status.INITIAL) {
                 return false;
             }
+        }
+
+        // Flip status to sunk
+        for (int i = 0; i < size; i++) {
+            placement[i].setStatus(Status.SUNK);
         }
         return true;
     }
