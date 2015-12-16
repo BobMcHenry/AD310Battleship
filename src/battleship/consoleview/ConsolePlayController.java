@@ -44,19 +44,21 @@ public class ConsolePlayController {
 
     }
 
-    String getAttackGrid(boolean[] grid){
+    String getAttackGrid(Status[] grid){
         String out = "";
         for (int i = 0; i < 100; i++) {
             // Print Offensive Board
             if (i % 10 == 0) {
                 out += "\n" + (char) (65 + i / 10);
             }
-            if (!grid[i]) {
+            if (grid[i]==Status.INITIAL) {
                 // Status == INITIAL
                 out += "  .";
             } else {
-                if (bg.getStateFromXY(i/10, i%10) == Status.HIT){
+                if (grid[i] == Status.HIT){
                     out+= "  H";
+                } else if (grid[i] == Status.SUNK){
+                    out+= "  S";
                 } else {
                     out+= "  M";
                 }

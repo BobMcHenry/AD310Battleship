@@ -336,6 +336,10 @@ public class BattleshipGame implements BattleshipModel {
 
                         l.setStatus(Status.HIT);
                         activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
+                        activePlayer.offensiveBoard[row*boardSize + col] = Status.HIT;
+
+                        // Check for sunk. If sunk return Sunk, if Hit return hit.
+
                         if (switchPlayerOnHit) {
                             switchActivePlayer();
                         }
@@ -346,6 +350,7 @@ public class BattleshipGame implements BattleshipModel {
             // if not in location array, create a new location and shotresult,
             // flag as a miss and switch player
             activePlayer.addShot(new ShotResult(activePlayer, new Location(row, col, Status.MISS), Status.MISS));
+            activePlayer.offensiveBoard[row*boardSize + col] = Status.MISS;
             switchActivePlayer();
             return Status.MISS;
         }
