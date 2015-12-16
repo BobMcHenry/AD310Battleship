@@ -47,6 +47,9 @@ public class BattleshipGame implements BattleshipModel {
     private boolean diagonalsAllowed = true;
     private boolean switchPlayerOnHit = false;
 
+    // helper field for view
+    Location[] currentShipCoords;
+
     /**
      * BattleshipGame constructor creates 2 player classes from the provided
      * playerXName strings, p1 and p2.
@@ -80,6 +83,23 @@ public class BattleshipGame implements BattleshipModel {
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
 
+    }
+
+    // helper method for view
+    public void setCurrentShipCoords(Location[] coords) {
+        this.currentShipCoords = coords;
+    }
+
+    // helper method for view
+    public int[][] getCurrentShipCoords() {
+        int[][] intCoords = new int[currentShipCoords.length][2];
+        for(int i = 0; i < currentShipCoords.length; i++) {
+            int row = currentShipCoords[i].getRow();
+            int col = currentShipCoords[i].getColumn();
+            intCoords[i][0] = row;
+            intCoords[i][1] = col;
+        }
+        return intCoords;
     }
 
     public Player getActivePlayer() {
@@ -129,6 +149,10 @@ public class BattleshipGame implements BattleshipModel {
         this.p2 = new Player(p2Name, availableShips.size(), boardSizeSquared); // Player Two object creation
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
+    }
+
+    public boolean placeShip(String st, int headX, int headY, int tailX, int tailY) {
+        return placeShip(stringToShipType(st), headX, headY, tailX, tailY);
     }
 
     public boolean placeShip(ShipType shipType, int headX, int headY, int tailX, int tailY) {
@@ -231,6 +255,9 @@ public class BattleshipGame implements BattleshipModel {
 
         activePlayer.setShip(new Ship(shipType, shipBody));
         System.out.println(shipType.toString() + " Created for " + activePlayer.getName());
+        // added helper field and method for view
+        currentShipCoords = shipBody;
+        setCurrentShipCoords(currentShipCoords);
         if (activePlayer.shipIndex == availableShips.size()) {
             switchActivePlayer();
         }
@@ -512,6 +539,22 @@ public class BattleshipGame implements BattleshipModel {
         out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
 
         return out;
+    }
+
+    public ShipType stringToShipType(String s) {
+        if (s.toLowerCase().equals("aircraft carrier")
+            || s.toLowerCase().equals("aircraft_carrier")) {
+            return ShipType.AIRCRAFT_CARRIER;
+        } else if (s.toLowerCase().equals("battleship")) {
+            return ShipType.BATTLESHIP;
+        } else if (s.toLowerCase().equals("cruiser")) {
+            return ShipType.CRUISER;
+        } else if (s.toLowerCase().equals("destroyer")) {
+            return ShipType.DESTROYER;
+        } else if (s.toLowerCase().equals("submarine")) {
+            return ShipType.SUBMARINE;
+        }
+        throw new IllegalArgumentException("Not a valid ShipType");
     }
 
     /*

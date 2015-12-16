@@ -90,6 +90,24 @@ public interface BattleshipModel{
      * @return True if ship is placed on board, False if ship fails validation
      * and is not placed.
      */
+    boolean placeShip(String s, int headR, int headC, int tailR, int tailC);
+
+    /**
+     * Places a ship on the game board for the player designated as the
+     * activePlayer. Requires the type of ship being placed, as a String
+     * and the row and colum coordinates for the head and tail of the ship.
+     *
+     * Returns true on proper ship placement, false if the placement fails
+     * validation.
+     *
+     * @param s ShipType being placed.
+     * @param headR The row coordinate value for the head of the ship.
+     * @param headC The column coordinate value for the head of the ship.
+     * @param tailR The row coordinate value for the tail of the ship.
+     * @param tailC The column coordinate value for the tail of the ship.
+     * @return True if ship is placed on board, False if ship fails validation
+     * and is not placed.
+     */
     boolean placeShip(ShipType s, int headR, int headC, int tailR, int tailC);
 
     /**

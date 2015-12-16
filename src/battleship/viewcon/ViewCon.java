@@ -110,7 +110,7 @@ public class ViewCon {
         int row2 = returnRow(loc[1].substring(0, 1));        
         int col1 = Integer.parseInt(loc[0].substring(1, 2));        
         int col2 = Integer.parseInt(loc[1].substring(1, 2));        
-        return true;//gameConnection.placeShip(id, row1, col1, row2, col2);
+        return gameConnection.placeShip(id, row1, col1, row2, col2);
     }
     
     public void saveP1Defense(String[] list, String str) {

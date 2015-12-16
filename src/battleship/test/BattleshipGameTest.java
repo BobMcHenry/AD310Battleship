@@ -55,7 +55,7 @@ public class BattleshipGameTest {
 
         // Try to place intersecting ships
         assertTrue("Placing player 1 aircraft carrier should return true.", game.placeShip(ShipType.AIRCRAFT_CARRIER, P1_AIRCRAFT_CARRIER[0][0], P1_AIRCRAFT_CARRIER[0][1], P1_AIRCRAFT_CARRIER[1][0], P1_AIRCRAFT_CARRIER[1][1]));
-        assertFalse("Placing player 1 destroyer 2 over aircraft carrier should return false.", game.placeShip(ShipType.DESTROYER, 0, 1, 1, 0));
+        assertFalse("Placing player 1 destroyer 2 over aircraft carrier (diagonally) should return false.", game.placeShip(ShipType.DESTROYER, 0, 1, 1, 0));
     }
 
     private void placeP2ShipsValid() {
