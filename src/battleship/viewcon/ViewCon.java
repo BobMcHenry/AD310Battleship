@@ -152,7 +152,56 @@ public class ViewCon {
                 value = 8;
                 break;
             case "J":
-                value = 8;
+                value = 9;
+                break;
+            case "K":
+                value = 10;
+                break;
+            case "L":
+                value = 11;
+                break;
+            case "M":
+                value = 12;
+                break;
+            case "N":
+                value = 13;
+                break;
+            case "O":
+                value = 14;
+                break;
+            case "P":
+                value = 15;
+                break;
+            case "Q":
+                value = 16;
+                break;
+            case "R":
+                value = 17;
+                break;
+            case "S":
+                value = 18;
+                break;
+            case "T":
+                value = 19;
+                break;
+            case "U":
+                value = 20;
+                break;
+            case "V":
+                value = 21;
+                break;
+            case "W":
+                value = 22;
+                break;
+            case "X":
+                value = 23;
+                break;
+            case "Y":
+                value = 24;
+                break;
+            case "Z":
+                value = 25;
+                break;
             default:
                 break;
         }       
@@ -191,21 +240,69 @@ public class ViewCon {
                 break;
             case 9:
                 value = "J";
+                break;
+            case 10:
+                value = "K";
+                break;
+            case 11:
+                value = "L";
+                break;
+            case 12:
+                value = "M";
+                break;
+            case 13:
+                value = "N";
+                break;
+            case 14:
+                value = "O";
+                break;
+            case 15:
+                value = "P";
+                break;
+            case 16:
+                value = "Q";
+                break;
+            case 17:
+                value = "R";
+                break;
+            case 18:
+                value = "S";
+                break;
+            case 19:
+                value = "T";
+                break;
+            case 20:
+                value = "U";
+                break;
+            case 21:
+                value = "V";
+                break;
+            case 22:
+                value = "W";
+                break;
+            case 23:
+                value = "X";
+                break;
+            case 24:
+                value = "Y";
+                break;
+            case 25:
+                value = "Z";
+                break;
             default:
                 break;
         }       
        return value;
    }  
    
-   public String[] changeButtonsSetup() {       
-//       int[][] coords = gameConnection.getCurrentShipCoords();
-//       String[] convertCoords = new String[coords.length];
-//       for(int i = 0; i < coords.length; i++) {
-//           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
-//           convertCoords[i] = temp;
-//       }
-//       return convertCoords;
-       return null;
+   public String[] changeButtonsSetup() {       //<------------------------------ Readded method
+       int[][] coords = gameConnection.getCurrentShipCoords();
+       String[] convertCoords = new String[coords.length];
+       for(int i = 0; i < coords.length; i++) {
+           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
+           convertCoords[i] = temp;
+       }
+       return convertCoords;
    }
    
    public void callP2(ObservableList<Node> list) {
@@ -234,7 +331,7 @@ public class ViewCon {
    
    public void handleGridBtnGameP1(String id) {
         boolean gameOver = gameConnection.isGameOver();
-        if(gameOver == true) {
+        if(gameOver) {
             // reset everything in view, then get the PreBoard functioning to call reset in model
             System.out.println("Adding view reset logic here soon");
         }
@@ -256,7 +353,7 @@ public class ViewCon {
             p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
         }
         else {
-            System.out.println("something fucked up with handleGridBtn method");
+            System.out.println("something messed up with handleGridBtn method");
         }
     }
    
@@ -304,42 +401,19 @@ public class ViewCon {
         if(player.equals("p1")) {
             ObservableList<Node> shipBs = p1Board.shipButtons.getChildren();
             for(int i = 0; i < shipBs.size(); i++) {
-                if(shipBs.get(i).toString().equals(ship)) {
+                String id = shipBs.get(i).getId();
+                if(id.equals(ship)) {
                     shipBs.get(i).setVisible(true);
                 }
             }
-            /**
-            switch(ship) {
-                for(int i = 0; i < p1Board.)
-                case "ac" : p1Board.acL.setVisible(true);
-                    break;
-                case "bs" : p1Board.bsL.setVisible(true);
-                    break;
-                case "cr" : p1Board.crL.setVisible(true);
-                    break;
-                case "ds1" : p1Board.dsL.setVisible(true);
-                    break;
-                case "sb" : p1Board.sbL.setVisible(true);
-            }
-             */
+
         } else {
             ObservableList<Node> shipBs = p2Board.shipButtons.getChildren();
             for(int i = 0; i < shipBs.size(); i++) {
-                if(shipBs.get(i).toString().equals(ship)) {
+                String id = shipBs.get(i).getId();
+                if(id.equals(ship)) {
                     shipBs.get(i).setVisible(true);
                 }
-                /**
-            switch(ship) {
-                case "ac" : p2Board.acL.setVisible(true);
-                    break;
-                case "bs" : p2Board.bsL.setVisible(true);
-                    break;
-                case "cr" : p2Board.crL.setVisible(true);
-                    break;
-                case "ds1" : p2Board.dsL.setVisible(true);
-                    break;
-                case "sb" : p2Board.sbL.setVisible(true);
-                 */
             }
 
         }

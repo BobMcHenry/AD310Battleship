@@ -38,6 +38,14 @@ class Grid {
         this.viewLink = v;
     }
 
+    void setP1(P1Board p) {
+        this.p1 = p;
+    }
+
+    void setP2(P2Board p) {
+        this.p2 = p;
+    }
+
     /**
      * Method to build the gameboard letters next to the grid
      * @return boardLetters
@@ -114,7 +122,6 @@ class Grid {
             }
             counter++;
         }
-        System.out.println(gridInner.getChildren());
         return gridInner;
     }
 

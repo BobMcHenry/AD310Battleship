@@ -6,7 +6,11 @@ import battleship.model.Status;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Write a description of class BattleshipGameTest here.
