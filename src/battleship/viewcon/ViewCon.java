@@ -295,15 +295,14 @@ public class ViewCon {
        return value;
    }  
    
-   public String[] changeButtonsSetup() {       
-//       int[][] coords = gameConnection.getCurrentShipCoords();
-//       String[] convertCoords = new String[coords.length];
-//       for(int i = 0; i < coords.length; i++) {
-//           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
-//           convertCoords[i] = temp;
-//       }
-//       return convertCoords;
-       return null;
+   public String[] changeButtonsSetup() {       //<------------------------------ Readded method
+       int[][] coords = gameConnection.getCurrentShipCoords();
+       String[] convertCoords = new String[coords.length];
+       for(int i = 0; i < coords.length; i++) {
+           String temp = returnStringRow(coords[i][0]) + String.valueOf(coords[i][1]);
+           convertCoords[i] = temp;
+       }
+       return convertCoords;
    }
    
    public void callP2(ObservableList<Node> list) {
