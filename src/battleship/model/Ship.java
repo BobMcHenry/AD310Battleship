@@ -12,30 +12,8 @@ class Ship {
 
     Ship(ShipType st, Location[] place) {
         type = st;
-        size = SizeFromShipType(st);
+        size = place.length;
         placement = place;
-    }
-
-    private static int SizeFromShipType(ShipType st){
-        int size = 0;
-        switch (st) {
-            case AIRCRAFT_CARRIER:
-                size = 5;
-                break;
-            case BATTLESHIP:
-                size = 4;
-                break;
-            case CRUISER:
-                size = 3;
-                break;
-            case DESTROYER:
-                size = 2;
-                break;
-            case SUBMARINE:
-                size = 3;
-                break;
-        }
-        return size;
     }
 
     // Return ShipType enum value
@@ -60,9 +38,14 @@ class Ship {
     // Return true if all Locations received hits and ship is sunk.
     boolean isSunk() {
         for (int i = 0; i < size; i++) {
-            if (placement[i].getStatus() != Status.HIT) {
+            if (placement[i].getStatus() == Status.INITIAL) {
                 return false;
             }
+        }
+
+        // Flip status to sunk
+        for (int i = 0; i < size; i++) {
+            placement[i].setStatus(Status.SUNK);
         }
         return true;
     }
@@ -70,16 +53,6 @@ class Ship {
     // Return size of ship.
     int getSize() {
         return size;
-    }
-
-    int[][] getAllXY(){
-        int[][] out = new int[size][];
-
-        for (int i = 0; i < placement.length; i++){
-            out[i] = placement[i].getXY();
-        }
-
-        return out;
     }
 
     @Override

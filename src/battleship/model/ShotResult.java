@@ -14,18 +14,6 @@ class ShotResult {
         this.shootingPlayer = p;
         this.shotCoords = coords;
         type = shot;
-
-        switch(type){
-
-        	case MISS:
-        	type = Status.MISS;
-        	break;
-
-        	case HIT:
-        	type = Status.HIT;
-        	break;
-
-    	}
     }
 
     @Override
