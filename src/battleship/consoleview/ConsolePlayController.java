@@ -39,7 +39,12 @@ public class ConsolePlayController {
         int row = ConsoleSetupController.stringToRow(coords);
         int col = ConsoleSetupController.stringToCol(coords);
 
-        System.out.println(bg.makeShot(row, col));
+        Status status = bg.makeShot(row, col);
+        if (status != Status.SUNK) {
+            System.out.println(status);
+        } else {
+            System.out.println(bg.getShipFromLocation(bg.getDefensePlayer(), row, col) + " " + status);
+        }
 
 
     }

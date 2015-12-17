@@ -403,6 +403,19 @@ public class BattleshipGame implements BattleshipModel {
         return null;
     }
 
+    public Ship getShipFromLocation(Player p, int row, int col){
+        Ship[] ships = p.getShips();
+        for (Ship s: ships){
+            Location[] sl = s.getLocation();
+            for (Location loc: sl){
+                if (loc.getRow() == row && loc.getColumn() == col){
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
     public int getBoardSize() {
         return battleshipConfig.getBoardSize();
     }
