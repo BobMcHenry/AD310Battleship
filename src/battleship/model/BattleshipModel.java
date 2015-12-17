@@ -6,7 +6,7 @@ package battleship.model;
  * @author Chris Wilson
  * @author Jesse Bernoudy
  * @author Mario Rodriguez
- * @version 11/28/2015
+ * @version 12/16/2015
  */
 public interface BattleshipModel{
 
@@ -150,27 +150,88 @@ public interface BattleshipModel{
     */
     Status[] getBoard(Player p);
 
-
+    /**
+     * Gits the list of ships available to players for the current game mode
+     *
+     * @return an array of available ShipTypes
+     */
     ShipType[] getAvailableShips();
 
+    /**
+     * Given a ship, this method returns the size of that ship, showing how many grid spaces it uses.
+     *
+     * @param st The ship type in question
+     * @return Size of the ship as an integer
+     */
     int getShipSize(ShipType st);
 
+    /**
+     * Returns the board dimensions of the game grid. All grids are square
+     *
+     * @return the width/height of the game board.
+     */
     int getBoardSize();
 
+    /**
+     *Set the coordinates of the current ship during placement
+     *
+     * @param coords validated location array added to ship
+     */
     void setCurrentShipCoords(Location[] coords);
 
+    /**
+     * return the xy coordinates of current ship
+     * @return xy pairs as a 2d array
+     */
     int[][] getCurrentShipCoords();
 
+    /**
+     *Get State of grid space from it's XY coordinates
+     *
+     * @param row Row coordinate
+     * @param col Column Coordinate
+     *
+     * @return Status of (row, col) on the game grid
+     */
     Status getStateFromXY(int row, int col);
 
+    /**
+     * Given a string, return the appropriate shiptype.
+     * AIRCRAFT_CARRIER, BATTLESHIP, CRUISER, DESTROYER, SUBMARINE are the only valid inputs
+     *
+     * @param s String representing desired ship
+     * @return ShipType that matches the string entered
+     * @throws IllegalArgumentException if given string does not have a corresponding shiptype
+     */
     ShipType stringToShipType(String s);
 
+    /**
+     * Given an XY coordinate pair, return a Ship that occupies it.
+     *
+     * @param p Player whose ship is being requested
+     * @param row Row on game grid of desired ship
+     * @param col Column on game grid of desired ship
+     *
+     * @return Ship at (row, col) on game grid. Returns null if location is empty.
+     */
     Ship getShipFromLocation(Player p, int row, int col);
+
+    /**
+     *Given a Location object, return a Ship that occupies it.
+     *
+     * @param p Player whose ship is being requested
+     * @param l Location of desired ship
+     * @return Ship at (row, col) on game grid. Returns null if location is empty.
+     */
     Ship getShipFromLocation(Player p, Location l);
 
+    /**
+     *Special case placement method for size 1 submarines. Only requires one location for placement.
+     *
+     * @param shipType Type of ship being placed
+     * @param headX Desired X coordinate of ship
+     * @param headY Desired Y coordinate of ship
+     * @return True if ship is validated and placed on the grid. False is returned when validation fails.
+     */
     boolean placeShip(ShipType shipType, int headX, int headY);
-
-
-
-
 }
