@@ -130,6 +130,16 @@ public class BattleshipGame implements BattleshipModel {
         return placeShip(stringToShipType(st), headX, headY, tailX, tailY);
     }
 
+    public boolean placeShip(ShipType shipType, int headX, int headY) {
+        if (getShipSize(shipType) == 1 && locationValid(headX, headY)) {
+            Location loc = new Location(headX, headY);
+            Ship sub = new Ship(shipType, new Location[]{loc});
+            activePlayer.setShip(sub);
+            return true;
+        }
+
+        return false;
+    }
     public boolean placeShip(ShipType shipType, int headX, int headY, int tailX, int tailY) {
 
         int shipSize = getShipSize(shipType); //ship size for validation
