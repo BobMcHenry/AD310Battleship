@@ -3,14 +3,8 @@ package battleship.test;
 import battleship.model.BattleshipGame;
 import battleship.model.ShipType;
 import battleship.model.Status;
-import org.junit.Before;
-import org.junit.Test;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.*;
+import static org.junit.Assert.*;
 
 /**
  * Write a description of class BattleshipGameTest here.

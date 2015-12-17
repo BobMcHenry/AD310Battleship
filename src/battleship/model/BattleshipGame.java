@@ -1,8 +1,5 @@
 package battleship.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  * Implementation of the BattleshipModel interface
  *
@@ -38,15 +35,7 @@ public class BattleshipGame implements BattleshipModel {
      */
     private Player defensePlayer;
 
-    private int boardSize;
-    private int boardSizeSquared;
-
-    private ArrayList<ShipType> availableShips;
-    private HashMap<ShipType, Integer> shipSizes;
-
-    private boolean diagonalsAllowed;
-    private boolean switchPlayerOnHit;
-
+    private final BattleshipConfig battleshipConfig;
     // helper field for view
     Location[] currentShipCoords;
 
@@ -61,28 +50,11 @@ public class BattleshipGame implements BattleshipModel {
      * @param player2Name String for Player class, p2, instantiation.
      */
     public BattleshipGame(String player1Name, String player2Name) {
-        boardSize = 10;
-        boardSizeSquared = boardSize * boardSize;
 
-        diagonalsAllowed = true;
-        switchPlayerOnHit = false;
+        battleshipConfig = new BattleshipConfig();
 
-        // Default configuration is 1 Aircraft Carrier, 1 BattleShip, 1 Cruiser, 2 Destroyers
-        availableShips = new ArrayList<>();
-        availableShips.add(ShipType.AIRCRAFT_CARRIER);
-        availableShips.add(ShipType.BATTLESHIP);
-        availableShips.add(ShipType.CRUISER);
-        availableShips.add(ShipType.DESTROYER);
-        availableShips.add(ShipType.DESTROYER);
-
-        shipSizes = new HashMap<>();
-        shipSizes.put(ShipType.AIRCRAFT_CARRIER, 5);
-        shipSizes.put(ShipType.BATTLESHIP, 4);
-        shipSizes.put(ShipType.CRUISER, 3);
-        shipSizes.put(ShipType.DESTROYER, 2);
-
-        this.p1 = new Player(player1Name, availableShips.size(), boardSizeSquared); // Player One object creation
-        this.p2 = new Player(player2Name, availableShips.size(), boardSizeSquared); // Player Two object creation
+        this.p1 = new Player(player1Name, battleshipConfig.getAvailableShips().size(), battleshipConfig.getBoardSizeSquared()); // Player One object creation
+        this.p2 = new Player(player2Name, battleshipConfig.getAvailableShips().size(), battleshipConfig.getBoardSizeSquared()); // Player Two object creation
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
 
@@ -148,8 +120,8 @@ public class BattleshipGame implements BattleshipModel {
     }
 
     public void resetGame(String p1Name, String p2Name) {
-        this.p1 = new Player(p1Name, availableShips.size(), boardSizeSquared); // Player One object creation
-        this.p2 = new Player(p2Name, availableShips.size(), boardSizeSquared); // Player Two object creation
+        this.p1 = new Player(p1Name, battleshipConfig.getAvailableShips().size(), battleshipConfig.getBoardSizeSquared()); // Player One object creation
+        this.p2 = new Player(p2Name, battleshipConfig.getAvailableShips().size(), battleshipConfig.getBoardSizeSquared()); // Player Two object creation
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
     }
@@ -192,7 +164,7 @@ public class BattleshipGame implements BattleshipModel {
                     if (highRow - lowRow + 1 != shipSize){ //check length
                         return false;
                     }
-                } else if(diagonalsAllowed){
+                } else if(battleshipConfig.getDiagonalsAllowed()){
                     // diagonal
                     //Check slope |1| diagonal and ship size
                     if ((highRow - lowRow + 1 != highCol - lowCol + 1) || (highRow - lowRow + 1 != shipSize)) {
@@ -228,7 +200,7 @@ public class BattleshipGame implements BattleshipModel {
                 } else if (Math.abs(highRow - lowRow + 1) == shipSize
                     && Math.abs(highCol - lowCol + 1) == shipSize) {
                     // Diagonal ship
-                    if (diagonalsAllowed) {
+                    if (battleshipConfig.getDiagonalsAllowed()) {
 
                         // Check for intersections
                         if ( ! intersectsOther(head, tail)) {
@@ -288,7 +260,7 @@ public class BattleshipGame implements BattleshipModel {
         // added helper field and method for view
         currentShipCoords = shipBody;
         setCurrentShipCoords(currentShipCoords);
-        if (activePlayer.shipIndex == availableShips.size()) {
+        if (activePlayer.shipIndex == battleshipConfig.getAvailableShips().size()) {
             switchActivePlayer();
         }
         return true;
@@ -327,8 +299,8 @@ public class BattleshipGame implements BattleshipModel {
             throw new IllegalStateException(errorMessage);
         } else {
             // Flip flag on players offensiveBoard array
-            if (activePlayer.offensiveBoard[row * boardSize + col] != Status.INITIAL) {
-                return activePlayer.getOffensiveBoardIndex(row * boardSize + col);
+            if (activePlayer.offensiveBoard[row * battleshipConfig.getBoardSize() + col] != Status.INITIAL) {
+                return activePlayer.getOffensiveBoardIndex(row * battleshipConfig.getBoardSize() + col);
             } else {
                 // get defending players locations
                 Location[] sl = getShipLocations(defensePlayer);
@@ -339,11 +311,11 @@ public class BattleshipGame implements BattleshipModel {
 
                         l.setStatus(Status.HIT);
                         activePlayer.addShot(new ShotResult(activePlayer, l, Status.HIT));
-                        activePlayer.offensiveBoard[row*boardSize + col] = Status.HIT;
+                        activePlayer.offensiveBoard[row*battleshipConfig.getBoardSize() + col] = Status.HIT;
 
                         // Check for sunk. If sunk return Sunk, if Hit return hit.
 
-                        if (switchPlayerOnHit) {
+                        if (battleshipConfig.getSwitchPlayerOnHit()) {
                             switchActivePlayer();
                         }
                         return Status.HIT;
@@ -353,7 +325,7 @@ public class BattleshipGame implements BattleshipModel {
             // if not in location array, create a new location and shotresult,
             // flag as a miss and switch player
             activePlayer.addShot(new ShotResult(activePlayer, new Location(row, col, Status.MISS), Status.MISS));
-            activePlayer.offensiveBoard[row*boardSize + col] = Status.MISS;
+            activePlayer.offensiveBoard[row*battleshipConfig.getBoardSize() + col] = Status.MISS;
             switchActivePlayer();
             return Status.MISS;
         }
@@ -389,18 +361,18 @@ public class BattleshipGame implements BattleshipModel {
     }
 
     public ShipType[] getAvailableShips() {
-        return availableShips.toArray(new ShipType[availableShips.size()]);
+        return battleshipConfig.getAvailableShips().toArray(new ShipType[battleshipConfig.getAvailableShips().size()]);
     }
 
     public int getShipSize(ShipType st) {
-        if (shipSizes.containsKey(st)) {
-            return shipSizes.get(st).intValue();
+        if (battleshipConfig.getShipSizes().containsKey(st)) {
+            return battleshipConfig.getShipSizes().get(st).intValue();
         }
         return -1;
     }
 
     public int getBoardSize() {
-        return boardSize;
+        return battleshipConfig.getBoardSize();
     }
 
     public Status getStateFromXY(int row, int col) {
@@ -423,10 +395,10 @@ public class BattleshipGame implements BattleshipModel {
         // P1 Offensive grid
         String out = p1.getName() + "\nOffense";
 
-        for (int i = 0; i < boardSizeSquared; i++) {
+        for (int i = 0; i < battleshipConfig.getBoardSizeSquared(); i++) {
             // Print Offensive Board
-            if (i % boardSize == 0) {
-                out += "\n" + (char) (65 + i / boardSize);
+            if (i % battleshipConfig.getBoardSize() == 0) {
+                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
             }
             if (p1Off[i].equals(Status.INITIAL)) {
                 // Status == INITIAL
@@ -435,11 +407,11 @@ public class BattleshipGame implements BattleshipModel {
                 //change token to HIT(H) or MISS(M), or sunk(S)
                 boolean isMarked = false;
                 for (int j = 0; j < p2Ships.length; j++) {
-                    if (p2Ships[j].getLocFromCoords(i / boardSize, i % boardSize) != null) {
+                    if (p2Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()) != null) {
                         if (p2Ships[j].isSunk()) {
                             out += "  S";
                             isMarked = true;
-                        } else if (p2Ships[j].getLocFromCoords(i / boardSize, i % boardSize).getStatus() == Status.HIT) {
+                        } else if (p2Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()).getStatus() == Status.HIT) {
                             out += "  H";
                             isMarked = true;
                         }
@@ -456,7 +428,7 @@ public class BattleshipGame implements BattleshipModel {
         //P1 Defensive Grid
         out += "\nDefense";
 
-        char[] p1DGrid = new char[boardSizeSquared];
+        char[] p1DGrid = new char[battleshipConfig.getBoardSizeSquared()];
 
         for (Ship s : p1Ships) {
             char type = 0;
@@ -484,8 +456,8 @@ public class BattleshipGame implements BattleshipModel {
         }
 
         for (int i = 0; i < p1DGrid.length; i++) {
-            if (i % boardSize == 0) {
-                out += "\n" + (char) (65 + i / boardSize);
+            if (i % battleshipConfig.getBoardSize() == 0) {
+                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
             }
 
             if (p1DGrid[i] == 0) {
@@ -499,10 +471,10 @@ public class BattleshipGame implements BattleshipModel {
         //P2 Offensive Grid
         out += "\n" + p2.getName() + "\nOffense";
 
-        for (int i = 0; i < boardSizeSquared; i++) {
+        for (int i = 0; i < battleshipConfig.getBoardSizeSquared(); i++) {
             // Print Offensive Board
-            if (i % boardSize == 0) {
-                out += "\n" + (char) (65 + i / boardSize);
+            if (i % battleshipConfig.getBoardSize() == 0) {
+                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
             }
             if (p2Off[i].equals(Status.INITIAL)) {
                 // Status == INITIAL
@@ -511,11 +483,11 @@ public class BattleshipGame implements BattleshipModel {
                 //change token to HIT(H) or MISS(M), or sunk(S)
                 boolean isMarked = false;
                 for (int j = 0; j < p1Ships.length; j++) {
-                    if (p1Ships[j].getLocFromCoords(i / boardSize, i % boardSize) != null) {
+                    if (p1Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()) != null) {
                         if (p1Ships[j].isSunk()) {
                             out += "  S";
                             isMarked = true;
-                        } else if (p1Ships[j].getLocFromCoords(i / boardSize, i % boardSize).getStatus() == Status.HIT) {
+                        } else if (p1Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()).getStatus() == Status.HIT) {
                             out += "  H";
                             isMarked = true;
                         }
@@ -531,7 +503,7 @@ public class BattleshipGame implements BattleshipModel {
         //P2 Defensive Grid
         out += "\nDefense";
 
-        char[] p2DGrid = new char[boardSizeSquared];
+        char[] p2DGrid = new char[battleshipConfig.getBoardSizeSquared()];
 
         for (Ship s : p2Ships) {
             //For each ship get type and assign a representative char
@@ -561,8 +533,8 @@ public class BattleshipGame implements BattleshipModel {
         }
         // Loop through char[] and print characters as assigned.
         for (int i = 0; i < p2DGrid.length; i++) {
-            if (i % boardSize == 0) {
-                out += "\n" + (char) (65 + i / boardSize);
+            if (i % battleshipConfig.getBoardSize() == 0) {
+                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
             }
 
             if (p2DGrid[i] == 0) {
