@@ -1,10 +1,13 @@
 package battleship.consoleview;
 
 import battleship.model.*;
-
-
 import java.util.*;
 
+/**
+ * Console user-interface to facilitate setup mode.
+ * Walks players through ship placement via text-input and validates and
+ * places Ships for gameplay.
+ */
 public class ConsoleSetupController {
 
     Scanner input;
@@ -26,6 +29,12 @@ public class ConsoleSetupController {
 
     }
 
+    /**
+     * Runs the setup mode prompting player 1 to place all ships, then
+     * Player 2 places all ships.
+     *
+     * @return Returns the updated game object, ready for play mode.
+     */
     public BattleshipGame runSetup(){
         placeShips(p1);
 
