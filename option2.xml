@@ -1,9 +1,9 @@
-<BattleShipGame BoardSize="10" IsDiagonalAllowed="True" SwitchPlayerOnHit="False">
-
+<BattleShipGame BoardSize="8" IsDiagonalAllowed="True" SwitchPlayerOnHit="True">
       <Ship ShipType="AIRCRAFT_CARRIER" Size="5"/>
       <Ship ShipType="BATTLESHIP" Size="4"/>
       <Ship ShipType="CRUISER" Size="3"/>
       <Ship ShipType="DESTROYER" Size="2"/>
       <Ship ShipType="DESTROYER" Size="2"/>
-
+      <Ship ShipType="SUBMARINE" Size="1"/>
+      <Ship ShipType="SUBMARINE" Size="1"/>
 </BattleShipGame>
