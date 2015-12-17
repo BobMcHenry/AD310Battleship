@@ -39,7 +39,13 @@ class Location {
         this.column = c;
         state = Status.INITIAL;
     }
-
+    /**
+     * Class constructor constructs a location with int r, int c, and state
+     * hit, miss or initial value.
+     * @param r
+     * @param c
+     * @param state 
+     */
     Location(int r, int c, Status state){
         this(r,c);
         this.state = state;
@@ -85,7 +91,10 @@ class Location {
     void setStatus(Status value) {
         state = value;
     }
-
+    /**
+     * Returns the xy-coordinates of the location
+     * @return xy-coordinates
+     */
     int[] getXY(){
         int[] out = new int[2];
         out[0] = getRow();

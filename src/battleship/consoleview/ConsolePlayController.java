@@ -25,7 +25,7 @@ public class ConsolePlayController {
         String ap = bg.getActivePlayerName();
         String dp = bg.getDefensePlayerName();
 
-        System.out.println(getAttackGrid(bg.getBoard(bg.getActivePlayer())));
+    //    System.out.println(getAttackGrid(bg.getBoard(bg.getActivePlayer())));
 
         System.out.println(ap + " attacking " + dp + ". Enter attack coordinates: ");
         String coords = input.nextLine().toUpperCase();
