@@ -38,14 +38,14 @@ public class BattleshipGame implements BattleshipModel {
      */
     private Player defensePlayer;
 
-    private int boardSize = 10;
+    private int boardSize;
     private int boardSizeSquared;
 
     private ArrayList<ShipType> availableShips;
     private HashMap<ShipType, Integer> shipSizes;
 
-    private boolean diagonalsAllowed = true;
-    private boolean switchPlayerOnHit = false;
+    private boolean diagonalsAllowed;
+    private boolean switchPlayerOnHit;
 
     // helper field for view
     Location[] currentShipCoords;
@@ -61,8 +61,11 @@ public class BattleshipGame implements BattleshipModel {
      * @param player2Name String for Player class, p2, instantiation.
      */
     public BattleshipGame(String player1Name, String player2Name) {
-
+        boardSize = 10;
         boardSizeSquared = boardSize * boardSize;
+
+        diagonalsAllowed = true;
+        switchPlayerOnHit = false;
 
         // Default configuration is 1 Aircraft Carrier, 1 BattleShip, 1 Cruiser, 2 Destroyers
         availableShips = new ArrayList<>();
@@ -83,6 +86,17 @@ public class BattleshipGame implements BattleshipModel {
         activePlayer = p1; // Offensive player assignment. p1 Starts
         defensePlayer = p2; // Defensive player assignment.
 
+    }
+
+    public BattleshipGame(String player1Name, String player2Name, BattleshipConfig bc) {
+        boardSize = bc.boardSize;
+        boardSizeSquared = boardSize * boardSize;
+
+        diagonalsAllowed = bc.isDiagonalAllowed;
+        switchPlayerOnHit = bc.switchPlayerOnHit;
+
+        availableShips = bc.availableShips;
+        shipSizes = bc.shipSizes;
     }
 
     // helper method for view
