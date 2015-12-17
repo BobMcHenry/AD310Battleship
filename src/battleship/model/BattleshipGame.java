@@ -339,6 +339,9 @@ public class BattleshipGame implements BattleshipModel {
                                 l.setStatus(Status.SUNK);
                                 activePlayer.offensiveBoard[hl.getRow()*battleshipConfig.getBoardSize() + hl.getColumn()] = Status.SUNK;
                             }
+                            if (battleshipConfig.getSwitchPlayerOnHit()) {
+                                switchActivePlayer();
+                            }
                             return Status.SUNK;
                         }
 
