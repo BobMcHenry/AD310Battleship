@@ -101,4 +101,5 @@ class Location {
     public String toString(){
         return "Row: " + row + " | Column: " + column + " | State: " + state.toString() ;
     }
+
 }

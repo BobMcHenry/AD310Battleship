@@ -46,10 +46,10 @@ public class ConsolePlayController {
 
     String getAttackGrid(Status[] grid){
         String out = "";
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < bg.getBoardSize()*bg.getBoardSize(); i++) {
             // Print Offensive Board
-            if (i % 10 == 0) {
-                out += "\n" + (char) (65 + i / 10);
+            if (i % bg.getBoardSize() == 0) {
+                out += "\n" + (char) (65 + i / bg.getBoardSize());
             }
             if (grid[i]==Status.INITIAL) {
                 // Status == INITIAL
@@ -64,7 +64,15 @@ public class ConsolePlayController {
                 }
             }
         }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
+        String nums = "\n ";
+        for (int i = 1; i <= bg.getBoardSize(); i++){
+            if (i < 10){
+                nums += " 0" + i;
+            } else {
+                nums += " " + i;
+            }
+        }
+        out += nums + "\n";
         return out;
 
     }

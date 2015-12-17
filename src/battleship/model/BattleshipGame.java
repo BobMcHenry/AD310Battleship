@@ -324,6 +324,15 @@ public class BattleshipGame implements BattleshipModel {
                         activePlayer.offensiveBoard[row*battleshipConfig.getBoardSize() + col] = Status.HIT;
 
                         // Check for sunk. If sunk return Sunk, if Hit return hit.
+                        Ship hitShip = getShipFromLocation(defensePlayer,l);
+                        Location[] hitLocs = hitShip.getLocation();
+                        if (hitShip.isSunk()){
+                            for (Location hl: hitLocs){
+                                l.setStatus(Status.SUNK);
+                                activePlayer.offensiveBoard[hl.getRow()*battleshipConfig.getBoardSize() + hl.getColumn()] = Status.SUNK;
+                            }
+                            return Status.SUNK;
+                        }
 
                         if (battleshipConfig.getSwitchPlayerOnHit()) {
                             switchActivePlayer();
@@ -381,6 +390,19 @@ public class BattleshipGame implements BattleshipModel {
         return -1;
     }
 
+    public Ship getShipFromLocation(Player p, Location l){
+        Ship[] ships = p.getShips();
+        for (Ship s: ships){
+            Location[] sl = s.getLocation();
+            for (Location loc: sl){
+                if (l.equals(loc)){
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
+
     public int getBoardSize() {
         return battleshipConfig.getBoardSize();
     }
@@ -393,169 +415,6 @@ public class BattleshipGame implements BattleshipModel {
             }
         }
         return Status.INITIAL;
-    }
-
-    @Override
-    public String toString() {
-        Status[] p1Off = getBoard(p1);
-        Status[] p2Off = getBoard(p2);
-        Ship[] p1Ships = p1.getShips();
-        Ship[] p2Ships = p2.getShips();
-
-        // P1 Offensive grid
-        String out = p1.getName() + "\nOffense";
-
-        for (int i = 0; i < battleshipConfig.getBoardSizeSquared(); i++) {
-            // Print Offensive Board
-            if (i % battleshipConfig.getBoardSize() == 0) {
-                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
-            }
-            if (p1Off[i].equals(Status.INITIAL)) {
-                // Status == INITIAL
-                out += "  .";
-            } else {
-                //change token to HIT(H) or MISS(M), or sunk(S)
-                boolean isMarked = false;
-                for (int j = 0; j < p2Ships.length; j++) {
-                    if (p2Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()) != null) {
-                        if (p2Ships[j].isSunk()) {
-                            out += "  S";
-                            isMarked = true;
-                        } else if (p2Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()).getStatus() == Status.HIT) {
-                            out += "  H";
-                            isMarked = true;
-                        }
-                    }
-                }
-                if (!isMarked) {
-                    out += "  M";
-                }
-            }
-        }
-
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P1 Defensive Grid
-        out += "\nDefense";
-
-        char[] p1DGrid = new char[battleshipConfig.getBoardSizeSquared()];
-
-        for (Ship s : p1Ships) {
-            char type = 0;
-            switch (s.getShipType()) {
-                case AIRCRAFT_CARRIER:
-                    type = 'A';
-                    break;
-                case BATTLESHIP:
-                    type = 'B';
-                    break;
-                case CRUISER:
-                    type = 'C';
-                    break;
-                case DESTROYER:
-                    type = 'D';
-                    break;
-                case SUBMARINE:
-                    type = 'S';
-                    break;
-            }
-
-            for (Location l : s.getLocation()) {
-                p1DGrid[l.getIndex()] = type;
-            }
-        }
-
-        for (int i = 0; i < p1DGrid.length; i++) {
-            if (i % battleshipConfig.getBoardSize() == 0) {
-                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
-            }
-
-            if (p1DGrid[i] == 0) {
-                out += "  .";
-            } else {
-                out += "  " + p1DGrid[i];
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P2 Offensive Grid
-        out += "\n" + p2.getName() + "\nOffense";
-
-        for (int i = 0; i < battleshipConfig.getBoardSizeSquared(); i++) {
-            // Print Offensive Board
-            if (i % battleshipConfig.getBoardSize() == 0) {
-                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
-            }
-            if (p2Off[i].equals(Status.INITIAL)) {
-                // Status == INITIAL
-                out += "  .";
-            } else {
-                //change token to HIT(H) or MISS(M), or sunk(S)
-                boolean isMarked = false;
-                for (int j = 0; j < p1Ships.length; j++) {
-                    if (p1Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()) != null) {
-                        if (p1Ships[j].isSunk()) {
-                            out += "  S";
-                            isMarked = true;
-                        } else if (p1Ships[j].getLocFromCoords(i / battleshipConfig.getBoardSize(), i % battleshipConfig.getBoardSize()).getStatus() == Status.HIT) {
-                            out += "  H";
-                            isMarked = true;
-                        }
-                    }
-                }
-                if (!isMarked) {
-                    out += "  M";
-                }
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        //P2 Defensive Grid
-        out += "\nDefense";
-
-        char[] p2DGrid = new char[battleshipConfig.getBoardSizeSquared()];
-
-        for (Ship s : p2Ships) {
-            //For each ship get type and assign a representative char
-            char type = 0;
-
-            switch (s.getShipType()) {
-                case AIRCRAFT_CARRIER:
-                    type = 'A';
-                    break;
-                case BATTLESHIP:
-                    type = 'B';
-                    break;
-                case CRUISER:
-                    type = 'C';
-                    break;
-                case DESTROYER:
-                    type = 'D';
-                    break;
-                case SUBMARINE:
-                    type = 'S';
-                    break;
-            }
-            // Get char from above and assign to appropriate index
-            for (Location l : s.getLocation()) {
-                p2DGrid[l.getIndex()] = type;
-            }
-        }
-        // Loop through char[] and print characters as assigned.
-        for (int i = 0; i < p2DGrid.length; i++) {
-            if (i % battleshipConfig.getBoardSize() == 0) {
-                out += "\n" + (char) (65 + i / battleshipConfig.getBoardSize());
-            }
-
-            if (p2DGrid[i] == 0) {
-                out += "  .";
-            } else {
-                out += "  " + p2DGrid[i];
-            }
-        }
-        out += "\n  01 02 03 04 05 06 07 08 09 10 \n";
-
-        return out;
     }
 
     public ShipType stringToShipType(String s) {

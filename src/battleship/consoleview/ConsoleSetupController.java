@@ -36,62 +36,66 @@ public class ConsoleSetupController {
 
     void placeShips(String playerName){
 
-        String[] ships = {"aircraft carrier", "battleship", "cruiser", "destroyer", "destroyer"};
+        ShipType[] ships = bg.getAvailableShips();
         System.out.println(playerName + " Ship Setup. \nEnter coordinates as Row letter followed by Column number. Ex. \"A3\"\n");
 
-        for (String s: ships){
+        for (ShipType s: ships){
             System.out.print(playerName + " placing " + s + "\nEnter Coordinates for Ship Head: \n");
             String head = input.nextLine().toUpperCase();
 
+            if (s == ShipType.SUBMARINE && bg.getShipSize(s) == 1){
+                //Submarine validate and place
+            } else {
 
-            //validate coords and parse to int pair.
-            while (!validateCoords(head)){
-                System.out.println("INVALID COORDINATES");
-                System.out.println("Enter Coordinates for Ship Head: ");
-                head = input.nextLine().toUpperCase();
-            }
-            int headx = stringToRow(head);
-            int heady = stringToCol(head);
-
-
-            System.out.print("\nEnter Coordinates for Ship Tail: \n");
-            String tail = input.nextLine().toUpperCase();
-
-            //validate coords and parse to int pair.
-            while (!validateCoords(tail)){
-                System.out.println("INVALID COORDINATES");
-                System.out.println("Enter Coordinates for Ship Head: ");
-                tail = input.nextLine().toUpperCase();
-            }
-            int tailx = stringToRow(tail);
-            int taily = stringToCol(tail);
-
-            //validate placement in the model, reprompt for coords if fails
-            while ( !(bg.placeShip(s, headx, heady, tailx, taily)) ) {
-                System.out.println("Invalid placement. Check coordinates and re-enter");
-
-                System.out.println(playerName + " placing " + s);
-                System.out.println("Enter Coordinates for Ship Head: ");
-                head = input.nextLine().toUpperCase();
-
+                //validate coords and parse to int pair.
                 while (!validateCoords(head)){
                     System.out.println("INVALID COORDINATES");
                     System.out.println("Enter Coordinates for Ship Head: ");
                     head = input.nextLine().toUpperCase();
                 }
-                headx = stringToRow(head);
-                heady = stringToCol(head);
+                int headx = stringToRow(head);
+                int heady = stringToCol(head);
 
-                System.out.print("Enter Coordinates for Ship Tail: ");
-                tail = input.nextLine().toUpperCase();
 
+                System.out.print("\nEnter Coordinates for Ship Tail: \n");
+                String tail = input.nextLine().toUpperCase();
+
+                //validate coords and parse to int pair.
                 while (!validateCoords(tail)){
                     System.out.println("INVALID COORDINATES");
                     System.out.println("Enter Coordinates for Ship Head: ");
                     tail = input.nextLine().toUpperCase();
                 }
-                tailx = stringToRow(tail);
-                taily = stringToCol(tail);
+                int tailx = stringToRow(tail);
+                int taily = stringToCol(tail);
+
+                //validate placement in the model, reprompt for coords if fails
+                while ( !(bg.placeShip(s, headx, heady, tailx, taily)) ) {
+                    System.out.println("Invalid placement. Check coordinates and re-enter");
+
+                    System.out.println(playerName + " placing " + s);
+                    System.out.println("Enter Coordinates for Ship Head: ");
+                    head = input.nextLine().toUpperCase();
+
+                    while (!validateCoords(head)) {
+                        System.out.println("INVALID COORDINATES");
+                        System.out.println("Enter Coordinates for Ship Head: ");
+                        head = input.nextLine().toUpperCase();
+                    }
+                    headx = stringToRow(head);
+                    heady = stringToCol(head);
+
+                    System.out.print("Enter Coordinates for Ship Tail: ");
+                    tail = input.nextLine().toUpperCase();
+
+                    while (!validateCoords(tail)) {
+                        System.out.println("INVALID COORDINATES");
+                        System.out.println("Enter Coordinates for Ship Head: ");
+                        tail = input.nextLine().toUpperCase();
+                    }
+                    tailx = stringToRow(tail);
+                    taily = stringToCol(tail);
+            }
             }
         System.out.println(s + " has been placed.");
         }
