@@ -135,11 +135,19 @@ public class BattleshipGame implements BattleshipModel {
             Location loc = new Location(headX, headY);
             Ship sub = new Ship(shipType, new Location[]{loc});
             activePlayer.setShip(sub);
+            System.out.println(shipType.toString() + " Created for " + activePlayer.getName());
+            // added helper field and method for view
+            currentShipCoords = new Location[]{loc};
+            setCurrentShipCoords(currentShipCoords);
+            if (activePlayer.shipIndex == battleshipConfig.getAvailableShips().size()) {
+                switchActivePlayer();
+            }
             return true;
         }
 
         return false;
     }
+
     public boolean placeShip(ShipType shipType, int headX, int headY, int tailX, int tailY) {
 
         int shipSize = getShipSize(shipType); //ship size for validation
