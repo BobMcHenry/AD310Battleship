@@ -1,9 +1,12 @@
 package battleship.consoleview;
 
 import battleship.model.*;
-
 import java.util.Scanner;
 
+/**
+ *  Console user-interface to facilitate play mode.
+ *  Prompts players to fire shots on defending players grid.
+ */
 public class ConsolePlayController {
 
     Scanner input;
@@ -14,6 +17,9 @@ public class ConsolePlayController {
         this.bg = bg;
     }
 
+    /**
+     * Main game loop. Runs until a win condition is met.
+     */
     public void beginPlay(){
         while( !(bg.isGameOver()) ){
             fireShot();
@@ -21,6 +27,10 @@ public class ConsolePlayController {
         System.out.println("GAME OVER! " + bg.getActivePlayerName() + " Wins!");
     }
 
+    /**
+     * Shot mechanic method. Takes player input, validates their coordinates
+     * and makes a shot on opponents board.
+     */
     public void fireShot(){
         String ap = bg.getActivePlayerName();
         String dp = bg.getDefensePlayerName();
