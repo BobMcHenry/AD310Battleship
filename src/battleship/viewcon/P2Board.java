@@ -25,7 +25,7 @@ public class P2Board {
     boolean isSetupComplete;
     GridPane gridInner;
     GridPane gridMain;
-    Button nextMove;
+    Button nextMove, reset, exit;
     Button[] shipBtns;
     Label[] shipLabels;
     Label[] gameShipLabels;
@@ -119,7 +119,7 @@ public class P2Board {
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
         ships = new String[]{"BATTLESHIP", "AIRCRAFT CARRIER", "SUBMARINE", "DESTROYER", "CRUISER"}; //<---- from XML
-        sizes = new int[]{4, 5, 3, 2, 3}; //<---------------------------------------------------------------- from XML
+        sizes = new int[]{4, 5, 1, 2, 3}; //<---------------------------------------------------------------- from XML
         Buttons b = new Buttons(ships, sizes);
         b.setP2(this);
         shipButtons = b.makeShipButtons2(); // returns a vbox containing all the Ship Buttons
@@ -200,8 +200,13 @@ public class P2Board {
      * @param btnId
      * @param btn
      */
-    public void handleGridBtnSetup(String btnId, Button btn) {                       
-
+    public void handleGridBtnSetup(String btnId, Button btn) {
+        if(activeShip.equals("SUBMARINE")) {
+            int size = shipsAndSizes.get("SUBMARINE");
+            if(size == 1) {
+                twoLocations[0] = btnId;
+            }
+        }
        // If there is no String location in the head/tail array, place the parameter in index 0
        if(twoLocations[0].equals(".")) {           
            twoLocations[0] = btnId;
@@ -232,21 +237,41 @@ public class P2Board {
                         viewLink.isP2SetupMode = false;           
                         gridMain.getChildren().remove(shipButtonSize);
                         shipStatsLabel.setText("Sunken ships:");
-                        nextMove = new Button("Switch Players");
-                        nextMove.setId("moveBtn");
-                        nextMove.setOnAction(new EventHandler<ActionEvent>() { 
-                         @Override
-                         public void handle(ActionEvent e) {
-                            Object source = e.getSource();
-                                 if (source instanceof Button) { 
-                                     Button clickedBtn = (Button) source; 
-                                     String shipBtnId = clickedBtn.getId();
-                                     viewLink.handlePlayerSwitchBtnP2(shipBtnId);
-                                 }
-                         }
-                     });
-                        gridMain.add(nextMove, 2, 1);
-                        nextMove.setVisible(false);                       
+                       VBox allButtons = new VBox();
+                       nextMove = new Button("Switch Players");
+                       nextMove.setId("moveBtn");
+                       nextMove.setVisible(false);
+                       nextMove.setOnAction(new EventHandler<ActionEvent>() {
+                           @Override
+                           public void handle(ActionEvent e) {
+                               Object source = e.getSource();
+                               if (source instanceof Button) {
+                                   Button clickedBtn = (Button) source;
+                                   String shipBtnId = clickedBtn.getId();
+                                   viewLink.handlePlayerSwitchBtnP2(shipBtnId);
+                               }
+                           }
+                       });
+                       reset = new Button("Reset Game");
+                       reset.setId("moveBtn");
+                       reset.setVisible(false);
+                       reset.setOnAction(new EventHandler<ActionEvent>() {
+                           @Override
+                           public void handle(ActionEvent e) {
+                               viewLink.handleReset();
+                           }
+                       });
+                       exit = new Button("Exit Game");
+                       exit.setId("moveBtn");
+                       exit.setVisible(false);
+                       exit.setOnAction(new EventHandler<ActionEvent>() {
+                           @Override
+                           public void handle(ActionEvent e) {
+                               viewLink.handleExit();
+                           }
+                       });
+                       allButtons.getChildren().addAll(nextMove, reset, exit);
+                       gridMain.add(allButtons, 2, 1);
                         viewLink.startGame(innerChildList);
 
              } else {

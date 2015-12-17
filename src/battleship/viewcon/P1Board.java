@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * P1Board class
@@ -26,7 +25,7 @@ public class P1Board {
     boolean isSetupComplete;   
     GridPane gridInner;
     GridPane gridMain;
-    Button nextMove;
+    Button nextMove, reset, exit;
     Button[] shipBtns;
     Label[] shipLabels;
     Label[] gameShipLabels;
@@ -112,7 +111,7 @@ public class P1Board {
         gridMain.add(shipStatsLabel, 2, 0);
         // VBox to hold the ship buttons for user selection of ship to place
         ships = new String[]{"BATTLESHIP", "AIRCRAFT CARRIER", "SUBMARINE", "DESTROYER", "CRUISER"}; //<---- from XML
-        sizes = new int[]{4, 5, 3, 2, 3}; //<---------------------------------------------------------------- from XML
+        sizes = new int[]{4, 5, 1, 2, 3}; //<---------------------------------------------------------------- from XML
         Buttons b = new Buttons(ships, sizes);
         b.setP1(this);
         shipButtons = b.makeShipButtons1(); // returns a vbox containing all the Ship Buttons
@@ -191,8 +190,16 @@ public class P1Board {
      * @param btnId
      * @param btn
      */
-    public void handleGridBtnSetup(String btnId, Button btn) {                       
-
+    public void handleGridBtnSetup(String btnId, Button btn) {
+        if(activeShip.equals("SUBMARINE")) {
+            System.out.println("Submarine picked!");
+            int size = shipsAndSizes.get("SUBMARINE");
+            if(size == 1) {
+                System.out.println("Size is 1!!!");
+                twoLocations[0] = btnId;
+                System.out.println("Array is: " + twoLocations[0] + ", " + twoLocations[1]);
+            }
+        }
        if(twoLocations[0].equals(".")) {           
            twoLocations[0] = btnId;                             
            shipStatsLabel.setText("Place stern");          
@@ -222,8 +229,10 @@ public class P1Board {
                      viewLink.isP1SetupMode = false;           
                      gridMain.getChildren().remove(shipButtonSize);
                      shipStatsLabel.setText("Sunken ships:");
+                     VBox allButtons = new VBox();
                      nextMove = new Button("Switch Players");
                      nextMove.setId("moveBtn");
+                     nextMove.setVisible(false);
                      nextMove.setOnAction(new EventHandler<ActionEvent>() { 
                       @Override
                       public void handle(ActionEvent e) {
@@ -235,8 +244,26 @@ public class P1Board {
                               }
                       }
                   });
-                     gridMain.add(nextMove, 2, 1);
-                     nextMove.setVisible(false);                     
+                    reset = new Button("Reset Game");
+                    reset.setId("moveBtn");
+                    reset.setVisible(false);
+                    reset.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                                viewLink.handleReset();
+                            }
+                    });
+                    exit = new Button("Exit Game");
+                    exit.setId("moveBtn");
+                    exit.setVisible(false);
+                    exit.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            viewLink.handleExit();
+                        }
+                    });
+                    allButtons.getChildren().addAll(nextMove, reset, exit);
+                     gridMain.add(allButtons, 2, 1);
                      viewLink.callP2(innerChildList);
             } else {
          // Reset ship label
