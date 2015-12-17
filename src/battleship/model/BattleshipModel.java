@@ -142,18 +142,35 @@ public interface BattleshipModel{
     boolean isGameOver();
 
     /**
-     * Returns an array of True/False values that can be mapped to the gamegrid.
-     * Use Row# * 10 + Column# to get row index. False values are cells that
-     * have not yet been attacked. True values are previously attacked cells.
+     * Returns an array of Status values that can be mapped to the gamegrid.
+     * Use Row# * boardSize + Column# to get row index.
      *
      * @param p Designates which player's offense grid will be returned
-     * @return Boolean[] of players offensive shots.
+     * @return Status[] of players offensive shots.
     */
     Status[] getBoard(Player p);
+
 
     ShipType[] getAvailableShips();
 
     int getShipSize(ShipType st);
 
     int getBoardSize();
+
+    void setCurrentShipCoords(Location[] coords);
+
+    int[][] getCurrentShipCoords();
+
+    Status getStateFromXY(int row, int col);
+
+    ShipType stringToShipType(String s);
+
+    Ship getShipFromLocation(Player p, int row, int col);
+    Ship getShipFromLocation(Player p, Location l);
+
+    boolean placeShip(ShipType shipType, int headX, int headY);
+
+
+
+
 }
