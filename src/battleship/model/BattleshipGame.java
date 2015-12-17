@@ -191,7 +191,7 @@ public class BattleshipGame implements BattleshipModel {
                 }
             }
 
-            // In case of destroyer, loop will not run since shipBody array is only length 2.
+            // In case of destroyer, loop will not run since shipBody array is only length 2
             for (int i = 1; i < shipBody.length - 1; i++) {
                 if (highRow == lowRow) {
                     //horizontal ship. Increment columns from low to high
