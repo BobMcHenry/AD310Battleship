@@ -166,9 +166,9 @@ public class BattleshipMain extends Application {
         }
     }
 
-    public void processP1Hit(String id) {
+    public void processP2Hit(String id) {
         String newId = "#" + id;
-        Node x = p1Scene.lookup(newId);
+        Node x = p2Scene.lookup(newId);
         Button b = (Button)x;
         for(int i = 0; i < shotP.mapList1.size();i++) {
             if(shotP.mapList1.get(i).containsKey(id)) {
@@ -196,9 +196,9 @@ public class BattleshipMain extends Application {
         }
     }
 
-    public void processP2Hit(String id) {
+    public void processP1Hit(String id) {
         String newId = "#" + id;
-        Node x = p2Scene.lookup(newId);
+        Node x = p1Scene.lookup(newId);
         Button b = (Button)x;
         for(int i = 0; i < shotP.mapList2.size();i++) {
             if(shotP.mapList2.get(i).containsKey(id)) {

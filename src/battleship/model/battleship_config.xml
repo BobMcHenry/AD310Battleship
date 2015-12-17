@@ -1,0 +1,27 @@
+<BattleShipGame>
+  <BoardSize>10</BoardSize>
+  <IsDiagonalAllowed>False</IsDiagonalAllowed>
+  <SwitchPlayerOnHit>True</SwitchPlayerOnHit>
+    <Ships>
+      <Ship>
+        <ShipType>AIRCRAFT_CARRIER</ShipType>
+        <Size>5</Size>
+      </Ship>
+      <Ship>
+        <ShipType>BATTLESHIP</ShipType>
+        <Size>4</Size>
+      </Ship>
+      <Ship>
+        <ShipType>CRUISER</ShipType>
+        <Size>3</Size>
+      </Ship>
+      <Ship>
+        <ShipType>DESTROYER</ShipType>
+        <Size>2</Size>
+      </Ship>
+      <Ship>
+        <ShipType>SUBMARINE</ShipType>
+        <Size>3</Size>
+      </Ship>
+    </Ships>
+</BattleShipGame>
