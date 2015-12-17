@@ -20,26 +20,22 @@ class Location {
 
     /**
      * Class constructor, constructs a Location from a char, int pair.
-     * @param r The row of this location, valid values are 0-9.
-     * @param c The column of this location, valid values are 0-9.
-     * @throws IllegalArgumentException if either r or c are out of range.
+     * @param r The row of this location
+     * @param c The column of this location
      */
     Location(int r, int c) {
-        //Validation
-        if (r < 0 || r > 9) {
-            throw new IllegalArgumentException(
-                "Row out of range: " + r + ", expected range 0 through 9 ");
-        }
-        if (c < 0 || c > 9) {
-            throw new IllegalArgumentException(
-                "Column out of range: " + c + ", expected range 0 through 9 ");
-        }
         //Assignment
         this.row = r;
         this.column = c;
         state = Status.INITIAL;
     }
 
+    /**
+     * Class constructor, constructs a Location from a char, int pair.
+     * @param r The row of this location
+     * @param c The column of this location
+     * @param state The Status of this location
+     */
     Location(int r, int c, Status state){
         this(r,c);
         this.state = state;
@@ -62,12 +58,6 @@ class Location {
     }
 
     /**
-     * Returns the calculated index value of the location.
-     * @return int equal to (row * width + column)
-     */
-    int getIndex(){ return row*10 + column; }
-
-    /**
      * Returns the Status of this location. HIT, MISS, or INITIAL
      * @return Status enum type assigned to location.
      * HIT if fired on and is in a Ship's Location[]
@@ -84,13 +74,6 @@ class Location {
      */
     void setStatus(Status value) {
         state = value;
-    }
-
-    int[] getXY(){
-        int[] out = new int[2];
-        out[0] = getRow();
-        out[1] = getColumn();
-        return out;
     }
 
     /**
