@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 public class TestApp {
 
     public static void main(String[] args) throws FileNotFoundException {
-        BattleshipConfig bc = new BattleshipConfig("/home/bob/IdeaProjects/AD310Battleship/src/battleship/model/battleship.conf");
+
         //Scanner input = new Scanner(System.in);
         ConsoleSetupController setup = new ConsoleSetupController();
         //BattleshipGame bg = setup.runSetup();

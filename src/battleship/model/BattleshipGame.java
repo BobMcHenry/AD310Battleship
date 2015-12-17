@@ -88,17 +88,6 @@ public class BattleshipGame implements BattleshipModel {
 
     }
 
-    public BattleshipGame(String player1Name, String player2Name, BattleshipConfig bc) {
-        boardSize = bc.boardSize;
-        boardSizeSquared = boardSize * boardSize;
-
-        diagonalsAllowed = bc.isDiagonalAllowed;
-        switchPlayerOnHit = bc.switchPlayerOnHit;
-
-        availableShips = bc.availableShips;
-        shipSizes = bc.shipSizes;
-    }
-
     // helper method for view
     public void setCurrentShipCoords(Location[] coords) {
         this.currentShipCoords = coords;
