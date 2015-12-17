@@ -31,7 +31,8 @@ class Location {
     }
 
     /**
-     * Class constructor, constructs a Location from a char, int pair.
+     * Class constructor constructs a location with int r, int c, and state
+     * hit, miss or initial value.
      * @param r The row of this location
      * @param c The column of this location
      * @param state The Status of this location

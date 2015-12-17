@@ -16,12 +16,14 @@ class Ship {
         placement = place;
     }
 
-    // Return ShipType enum value
     ShipType getShipType() {
         return type;
     }
 
-    // Return array of locations occupied by ship
+    /**
+     * Returns an array of locations occupied by the ship
+     * @return 
+     */
     Location[] getLocation() {
         return placement;
     }
@@ -35,7 +37,10 @@ class Ship {
         return null;
     }
 
-    // Return true if all Locations received hits and ship is sunk.
+    /**
+     * Returns true if all Locations received hits and ship is sunk.
+     * @return 
+     */
     boolean isSunk() {
         for (int i = 0; i < size; i++) {
             if (placement[i].getStatus() == Status.INITIAL) {
@@ -50,14 +55,17 @@ class Ship {
         return true;
     }
 
-    // Return size of ship.
-    int getSize() {
-        return size;
-    }
-
-    @Override
+    /**
+     * Returns a string describing the ship, it's size and it's location
+     * @return 
+     */
     public String toString(){
-        return  type.toString() ;
+        String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";
+
+        for (Location l : placement){
+            out += l.toString() +"\n";
+        }
+        return out;
     }
 
     Location getHead(){ return placement[0]; }
