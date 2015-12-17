@@ -437,6 +437,10 @@ public class BattleshipGame implements BattleshipModel {
      * private helper method to validate location placement
      */
     private boolean locationValid(int x, int y) {
+        // verify location is on the board
+        if(x < 0 || x > battleshipConfig.getBoardSize() || y < 0 || y > battleshipConfig.getBoardSize()){
+            return false;
+        }
         //validate location against activePlayer ships
         Location[] playerShips = getShipLocations(activePlayer);
 
