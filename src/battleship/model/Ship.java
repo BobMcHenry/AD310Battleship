@@ -57,13 +57,7 @@ class Ship {
 
     @Override
     public String toString(){
-        String out = "Type: " + type.toString() + " Size: " + size + " At Locations: \n";
-
-        for (Location l : placement){
-            out += l.toString() +"\n";
-        }
-
-        return out;
+        return  type.toString() ;
     }
 
     Location getHead(){ return placement[0]; }

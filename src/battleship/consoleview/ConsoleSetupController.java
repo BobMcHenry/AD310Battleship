@@ -45,6 +45,30 @@ public class ConsoleSetupController {
 
             if (s == ShipType.SUBMARINE && bg.getShipSize(s) == 1){
                 //Submarine validate and place
+                while (!validateCoords(head)){
+                    System.out.println("INVALID COORDINATES");
+                    System.out.println("Enter Coordinates for Ship Head: ");
+                    head = input.nextLine().toUpperCase();
+                }
+                int headx = stringToRow(head);
+                int heady = stringToCol(head);
+
+                while ( !(bg.placeShip(s, headx, heady)) ) {
+                    System.out.println("Invalid placement. Check coordinates and re-enter");
+
+                    System.out.println(playerName + " placing " + s);
+                    System.out.println("Enter Coordinates for Ship Head: ");
+                    head = input.nextLine().toUpperCase();
+
+                    while (!validateCoords(head)) {
+                        System.out.println("INVALID COORDINATES");
+                        System.out.println("Enter Coordinates for Ship Head: ");
+                        head = input.nextLine().toUpperCase();
+                    }
+                    headx = stringToRow(head);
+                    heady = stringToCol(head);
+                }
+
             } else {
 
                 //validate coords and parse to int pair.

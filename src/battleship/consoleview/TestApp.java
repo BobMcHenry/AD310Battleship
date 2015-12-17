@@ -10,8 +10,8 @@ public class TestApp {
 
         //Scanner input = new Scanner(System.in);
         ConsoleSetupController setup = new ConsoleSetupController();
-        //BattleshipGame bg = setup.runSetup();
-        BattleshipGame bg = setup.testSetup();
+        BattleshipGame bg = setup.runSetup();
+        //BattleshipGame bg = setup.testSetup();
         //System.out.print(bg);
 
         ConsolePlayController play = new ConsolePlayController(bg);
