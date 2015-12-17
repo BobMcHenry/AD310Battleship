@@ -151,7 +151,7 @@ class Grid {
                             Button clickedBtn = (Button) source;
                             String shipBtnId = clickedBtn.getId();
                             // Event handler method for either setup mode or game mode
-                            if(viewLink.isP2SetupMode) {       // possible fuckup, add true back................
+                            if(viewLink.isP2SetupMode) {
                                 p2.handleGridBtnSetup(shipBtnId, clickedBtn);
                             } else {
                                 viewLink.handleGridBtnGameP2(shipBtnId);

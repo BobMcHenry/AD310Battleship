@@ -6,7 +6,6 @@
 package battleship.viewcon;
 
 import battleship.model.BattleshipGame;
-import battleship.model.BattleshipMain;
 import battleship.model.Status;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -293,7 +292,13 @@ public class ViewCon {
                 break;
         }       
        return value;
-   }  
+   }
+
+    public Status getStatus(String id) {
+        int row = returnRow(id.substring(0, 1));
+        int col = Integer.valueOf(id.substring(1, 2));
+        return gameConnection.getStateFromXY(row, col);
+    }
    
    public String[] changeButtonsSetup() {       //<------------------------------ Readded method
        int[][] coords = gameConnection.getCurrentShipCoords();
@@ -330,11 +335,6 @@ public class ViewCon {
    }
    
    public void handleGridBtnGameP1(String id) {
-        boolean gameOver = gameConnection.isGameOver();
-        if(gameOver) {
-            // reset everything in view, then get the PreBoard functioning to call reset in model
-            System.out.println("Adding view reset logic here soon");
-        }
         int row = returnRow(id.substring(0, 1));
         int col = Integer.parseInt(id.substring(1, 2));
         Status attack = gameConnection.makeShot(row, col);
@@ -355,19 +355,21 @@ public class ViewCon {
         else {
             System.out.println("something messed up with handleGridBtn method");
         }
+       boolean gameOver = gameConnection.isGameOver();
+       if(gameOver) {
+           p1Board.reset.setVisible(true);
+           p1Board.exit.setVisible(true);
+           p1Board.moveStatus.setText(p1Board.player + "wins!!");
+           p1Board.hideBoardButtons();
+       }
     }
    
    public void handleGridBtnGameP2(String id) {
-        boolean gameOver = gameConnection.isGameOver();
-        if(gameOver) {
-            // reset everything in view
-            System.out.println("Adding view reset logic here soon");
-        }
         int row = returnRow(id.substring(0, 1));
         int col = Integer.parseInt(id.substring(1, 2));
         Status attack = gameConnection.makeShot(row, col);
         if(attack.equals(Status.HIT)) {
-            p1Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
+            p2Board.moveStatus.setText("HIT!!! KEEP ATTACKING");
             mainConnection.processP2Hit(id);
         }        
         else if(attack.equals(Status.MISS)) {
@@ -378,11 +380,18 @@ public class ViewCon {
         mainConnection.processP2Miss(id);
         }
         else if(attack.equals(Status.SUNK) || attack.equals(Status.INVALID)) {
-            p1Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
+            p2Board.moveStatus.setText("WASTING AMMO? GO AGAIN...");
         }
         else {
             System.out.println("Something went horribly wrong with the handleGridBtn method");
         }
+       boolean gameOver = gameConnection.isGameOver();
+       if(gameOver) {
+           p2Board.reset.setVisible(true);
+           p2Board.exit.setVisible(true);
+           p2Board.hideBoardButtons();
+           p2Board.moveStatus.setText(p2Board.player + "wins!!");
+       }
     }
     
     public void handlePlayerSwitchBtnP1(String id) {
@@ -418,6 +427,21 @@ public class ViewCon {
 
         }
     }
+
+    public void resetAll() {
+        isP1SetupMode = true;
+        isP2SetupMode = true;
+    }
+
+    public void handleReset() {
+        System.out.println("Resetting");
+    }
+
+    public void handleExit() {
+        mainConnection.exitApp();
+    }
+
+
     
     
       

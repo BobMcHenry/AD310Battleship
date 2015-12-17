@@ -77,6 +77,7 @@ public class BattleshipGame implements BattleshipModel {
         shipSizes.put(ShipType.BATTLESHIP, 4);
         shipSizes.put(ShipType.CRUISER, 3);
         shipSizes.put(ShipType.DESTROYER, 2);
+        shipSizes.put(ShipType.SUBMARINE, 1);
 
         this.p1 = new Player(player1Name, availableShips.size(), boardSizeSquared); // Player One object creation
         this.p2 = new Player(player2Name, availableShips.size(), boardSizeSquared); // Player Two object creation
@@ -84,6 +85,8 @@ public class BattleshipGame implements BattleshipModel {
         defensePlayer = p2; // Defensive player assignment.
 
     }
+
+
 
     // helper method for view
     public void setCurrentShipCoords(Location[] coords) {
@@ -158,10 +161,10 @@ public class BattleshipGame implements BattleshipModel {
     public boolean placeShip(ShipType shipType, int headX, int headY, int tailX, int tailY) {
 
         int shipSize = getShipSize(shipType); //ship size for validation
-
+        System.out.println("Ship size being put into the method to create location array......" + shipSize);
         Location[] shipBody = new Location[shipSize]; //create the array for the size of ship we need
 
-        //verity that the head and tail are valid location
+        //verify that the head and tail are valid location
         if (locationValid(headX, headY) && locationValid(tailX, tailY)) {
 
             //head and tail validated and built
